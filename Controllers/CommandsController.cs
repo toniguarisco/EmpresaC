@@ -34,6 +34,17 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(_mapper.Map<IEnumerable<ComandRead>>(commandItems));
         }
 
+        //get 
+        [HttpGet("Estado200")]
+        public ActionResult<usuario> Estado200(string algo)
+        {
+            //usuario usuario = new usuario() { nombre = algo, clave ="5" , id = 0};
+            if (algo == null) {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
         //get api/commands/{5}
         [HttpGet("{id}")]
         public ActionResult<ComandRead> GetComandById(int Id)
