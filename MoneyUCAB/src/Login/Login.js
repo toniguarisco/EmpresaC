@@ -87,9 +87,6 @@ export default class Login extends Component<Props> {
   }
 }
 
-  handleRegisterPress = () =>{
-  //Action para ir al Registro
- }
 
  handleLoginPress = () =>{
   if ((this.state.correo!="") && (this.state.contraseña!="")){
@@ -100,7 +97,7 @@ export default class Login extends Component<Props> {
  }
 
  handleForgot = () =>{
-   //Action al boton de Olvidé Contraseña
+   Actions.forgot();
  }
 
  setModalVisible = (Text1, Text2) => {
@@ -159,16 +156,6 @@ export default class Login extends Component<Props> {
                <Text style={styles.forgot}>
                 ¿Olvidaste tu contraseña?
                </Text>
-              </TouchableOpacity>
-             </View>
-             <View style={styles.texts}>
-              <TouchableOpacity style={{flexDirection:"row"}} onPress={this.handleRegisterPress}>
-                <Text style={styles.text}>
-                 ¿No tienes una cuenta?
-                </Text>
-                <Text style={styles.text2}>
-                 ¡REGÍSTRATE!
-                </Text>
               </TouchableOpacity>
              </View>
              <View style={styles.developer}>
