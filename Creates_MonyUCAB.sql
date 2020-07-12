@@ -255,3 +255,16 @@ CREATE TABLE OPERACION_TARJETA(
     CONSTRAINT fk_id_usuario_receptor FOREIGN KEY (id_usuario_receptor) REFERENCES USUARIO(id_usuario),
     CONSTRAINT fk_id_tarjeta FOREIGN KEY (id_tarjeta) REFERENCES TARJETA(id_tarjeta)
 );
+
+CREATE TABLE PAGO(
+    id_pago integer not null,
+    fecha_solicitud varchar(45) not null,
+    monto varchar(45) not null,
+    estatus varchar(45) not null,
+    referencia varchar(45),
+    id_usuario_solicitante integer not null,
+    id_usuario_receptor integer not null,
+    CONSTRAINT pk_id_pago PRIMARY KEY (id_pago),
+    CONSTRAINT fk_id_usuario_solicitante FOREIGN KEY (id_usuario_solicitante) REFERENCES USUARIO(id_usuario),
+    CONSTRAINT fk_id_usuario_receptor FOREIGN KEY (id_usuario_receptor) REFERENCES USUARIO(id_usuario)
+);
