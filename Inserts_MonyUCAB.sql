@@ -5,11 +5,11 @@ INSERT INTO tipo_usuario VALUES (2,'persona',1);
 INSERT INTO tipo_usuario VALUES (3,'ambos',1);
 
 /* Tabla TIPO_IDENTIFICACION */
-INSERT INTO tipo_identificacion VALUES (0,'0','administrador');
-INSERT INTO tipo_identificacion VALUES (1,'1','comercio');
-INSERT INTO tipo_identificacion VALUES (2,'2','persona');
-INSERT INTO tipo_identificacion VALUES (3,'3','ambos');
-INSERT INTO tipo_identificacion VALUES (4,'4','subusuario');
+INSERT INTO tipo_identificacion VALUES (0,'0','administrador',0);
+INSERT INTO tipo_identificacion VALUES (1,'1','comercio',0);
+INSERT INTO tipo_identificacion VALUES (2,'2','persona',0);
+INSERT INTO tipo_identificacion VALUES (3,'3','ambos',0);
+INSERT INTO tipo_identificacion VALUES (4,'4','subusuario',0);
 
 /* Tabla USUARIO */
 INSERT INTO usuario VALUES (0,'toniguarisco',to_date('12/07/2020','dd/mm/yyyy'),123456789,'toniguarisco@gmail.com','42424892850','el valle',1,0,0);
@@ -19,7 +19,7 @@ INSERT INTO usuario VALUES (3,'gregorybustamante',to_date('14/07/2020','dd/mm/yy
 
 /* Tabla COMERCIO */
 INSERT INTO comercio VALUES (0,'somos una empresa destinada al desarrollo de software','dexter','ramos',1);
-INSERT INTO comercio VALUES (0,'somos una empresa destinada a la seguridad computacional','gregory','bustamante',3);
+INSERT INTO comercio VALUES (1,'somos una empresa destinada a la seguridad computacional','gregory','bustamante',3);
 
 /* Tabla CONTRASENA */
 INSERT INTO contrasena VALUES (0,'12345678',0,1,0);
