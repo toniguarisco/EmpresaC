@@ -36,7 +36,7 @@ namespace ApiRestDesarrollo.Controllers
 
         //get 
         [HttpGet("Estado200")]
-        public ActionResult<usuario> Estado200(string algo)
+        public ActionResult<Usuario> Estado200(string algo)
         {
             //usuario usuario = new usuario() { nombre = algo, clave ="5" , id = 0};
             if (algo == null) {
@@ -60,7 +60,7 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost]
         public ActionResult<ComandRead> CreateUsuario(ComaandCreateDto usuarioIn)
         {
-            var comandModel = _mapper.Map<usuario>(usuarioIn);
+            var comandModel = _mapper.Map<Usuario>(usuarioIn);
             _repository.CreateUsuario(comandModel);
             _repository.saveChanges();
             return Ok();
