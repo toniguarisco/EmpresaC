@@ -258,8 +258,8 @@ CREATE TABLE OPERACION_TARJETA(
 
 CREATE TABLE PAGO(
     id_pago integer not null,
-    fecha_solicitud varchar(45) not null,
-    monto varchar(45) not null,
+    fecha_solicitud date not null,
+    monto decimal not null,
     estatus varchar(45) not null,
     referencia varchar(45),
     id_usuario_solicitante integer not null,
