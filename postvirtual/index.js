@@ -1,11 +1,5 @@
-import { Navigation } from "react-native-navigation";
-import registerScreens from 'postvirtual/src/screens/registerScreens';
-import setNavigationRoot from "./src/services/setNavigationRoot";
+import 'react-native-gesture-handler';
+import {AppRegistry} from 'react-native';
+import App from './src/App';
 
-registerScreens();
-
-const onRegisterAppLaunchedListener = async () => {
-    setNavigationRoot();
-};
-
-Navigation.events().registerAppLaunchedListener(onRegisterAppLaunchedListener);
+AppRegistry.registerComponent('postvirtual1', () => App);
