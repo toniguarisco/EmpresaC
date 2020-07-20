@@ -36,7 +36,8 @@ namespace ApiRestDesarrollo.Data
 
         public IEnumerable<usuario> GetAppCommands()
         {
-            return _context.usuario.ToList();
+            var a = _context.usuario.ToList();
+            return a;
         }
 
         public usuario GetCommanderById(int id)
