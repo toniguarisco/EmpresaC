@@ -13,6 +13,6 @@ namespace ApiRestDesarrollo.Data
         {
         }
 
-        public DbSet<usuario> usuario { get; set; }
+        public DbSet<Usuario> usuario { get; set; }
     }
 }

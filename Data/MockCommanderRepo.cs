@@ -8,32 +8,51 @@ namespace ApiRestDesarrollo.Data
 {
     public class MockCommanderRepo : IcommanderRepo
     {
-        public void CreateUsuario(usuario usuario)
+        public void CreateUsuario(Usuario usuario)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteUsuario(usuario usuario)
+        public void DeleteUsuario(Usuario usuario)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<usuario> GetAppCommands()
+        public IEnumerable<Usuario> GetAppCommands()
         {
-            var commands = new List<usuario>()
+            var commands = new List<Usuario>()
             {
-                new usuario { id = 3, clave = "d", nombre = "dexter3" },
-                new usuario { id = 2, clave = "e", nombre = "dexter2" },
-                new usuario { id = 1, clave = "x", nombre = "dexter1" }
+                new Usuario {
+                    id_usuario = 4, 
+                    usuario = "usuario_prueba", 
+                    fecha_registro = new DateTime(2020,7,16), 
+                    num_identificacion = 555444666, 
+                    email = " anttogutierrez98@gmail.com ", 
+                    telefono = "123456789012",
+                    direccion = "Antimano",
+                    estatus = 1,
+                    id_tipo_usuario = 0,
+                    id_tipo_identificacion = 0
+                },
             };
             return commands;
         }
         
     
 
-        public usuario GetCommanderById(int id)
+        public Usuario GetCommanderById(int id)
         {
-            return new usuario { id = 1, clave = "d", nombre = "dexter" };
+            return new Usuario {
+                usuario = "usuario_prueba", 
+                fecha_registro = new DateTime(2020,7,16), 
+                num_identificacion = 555444666, 
+                email = " anttogutierrez98@gmail.com ", 
+                telefono = "123456789012",
+                direccion = "Antimano",
+                estatus = 1,
+                id_tipo_usuario = 0,
+                id_tipo_identificacion = 0
+            };
         }
 
         public bool saveChanges()
@@ -41,7 +60,7 @@ namespace ApiRestDesarrollo.Data
             throw new NotImplementedException();
         }
 
-        public void UpdateUsuario(usuario usuario)
+        public void UpdateUsuario(Usuario usuario)
         {
             throw new NotImplementedException();
         }
