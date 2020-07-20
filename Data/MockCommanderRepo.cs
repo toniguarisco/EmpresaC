@@ -8,31 +8,25 @@ namespace ApiRestDesarrollo.Data
 {
     public class MockCommanderRepo : IcommanderRepo
     {
-        public void CreateUsuario(Usuario usuario)
+        public void CreateClass(Class usuario)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteUsuario(Usuario usuario)
+        public void DeleteUsuario(Class usuario)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Usuario> GetAppCommands()
+        public IEnumerable<Class> GetAppCommands()
         {
-            var commands = new List<Usuario>()
+            var commands = new List<Class>()
             {
-                new Usuario {
-                    id_usuario = 4, 
-                    usuario = "usuario_prueba", 
-                    fecha_registro = new DateTime(2020,7,16), 
-                    num_identificacion = 555444666, 
-                    email = " anttogutierrez98@gmail.com ", 
-                    telefono = "123456789012",
-                    direccion = "Antimano",
-                    estatus = 1,
-                    id_tipo_usuario = 0,
-                    id_tipo_identificacion = 0
+                new Class {
+                    id = 1,
+                    clave = "2",
+                    nombre = "1"
+
                 },
             };
             return commands;
@@ -40,18 +34,14 @@ namespace ApiRestDesarrollo.Data
         
     
 
-        public Usuario GetCommanderById(int id)
+        public Class GetCommanderById(int id)
         {
-            return new Usuario {
-                usuario = "usuario_prueba", 
-                fecha_registro = new DateTime(2020,7,16), 
-                num_identificacion = 555444666, 
-                email = " anttogutierrez98@gmail.com ", 
-                telefono = "123456789012",
-                direccion = "Antimano",
-                estatus = 1,
-                id_tipo_usuario = 0,
-                id_tipo_identificacion = 0
+            return new Class
+            {
+                id = 1,
+                clave = "2",
+                nombre = "1"
+
             };
         }
 
@@ -60,7 +50,7 @@ namespace ApiRestDesarrollo.Data
             throw new NotImplementedException();
         }
 
-        public void UpdateUsuario(Usuario usuario)
+        public void UpdateUsuario(Class usuario)
         {
             throw new NotImplementedException();
         }

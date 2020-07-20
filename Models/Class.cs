@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using ApiRestDesarrollo.Models;
 
-namespace ApiRestDesarrollo.Dtos
+namespace ApiRestDesarrollo.Models
 {
-    public class ComandRead
+    public class Class
     {
         public int id { get; set; }
-     
 
         public string nombre { get; set; }
-      
+        [MaxLength(45)]
 
-      
+        public string clave { get; set; }
         
 
     }

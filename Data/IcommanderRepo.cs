@@ -8,11 +8,11 @@ namespace ApiRestDesarrollo.Data
 {
     public interface IcommanderRepo
     {
-        IEnumerable<Usuario> GetAppCommands();
-        Usuario GetCommanderById(int id);
-        void CreateUsuario(Usuario usuario);
+        IEnumerable<Class> GetAppCommands();
+        Class GetCommanderById(int id);
+        void CreateClass(Class usuario);
         bool saveChanges();
-        void UpdateUsuario(Usuario usuario);
-        void DeleteUsuario(Usuario usuario);
+        void UpdateUsuario(Class usuario);
+        void DeleteUsuario(Class usuario);
     }
 }

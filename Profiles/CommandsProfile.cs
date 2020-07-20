@@ -12,8 +12,11 @@ namespace ApiRestDesarrollo.Profiles
         public CommandsProfile() 
         {
             CreateMap<Usuario, ComandRead>();
+            CreateMap<Class, ComandRead>();
             CreateMap<ComaandCreateDto, Usuario>();
+            CreateMap<ComaandCreateDto, Class>();
             CreateMap<UpdateUsuaarioDto, Usuario>();
+            CreateMap<UpdateUsuaarioDto, Class>();
         }
 
     }

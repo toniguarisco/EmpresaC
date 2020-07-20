@@ -16,17 +16,17 @@ namespace ApiRestDesarrollo.Data
         }
 
 
-        public void CreateUsuario(Usuario usuario)
+        public void CreateClass(Class usuario)
         {
             if (usuario == null) 
             {
                 throw new ArgumentNullException(nameof(usuario));
             }
-            _context.usuario.Add(usuario);
+            _context.Class.Add(usuario);
 
         }
 
-        public void DeleteUsuario(Usuario usuario)
+        public void DeleteUsuario(Class usuario)
         {
             if (usuario == null)
             {
@@ -35,15 +35,15 @@ namespace ApiRestDesarrollo.Data
             _context.Remove(usuario);
         }
 
-        public IEnumerable<Usuario> GetAppCommands()
+        public IEnumerable<Class> GetAppCommands()
         {
-            var a = _context.usuario.ToList();
+            var a = _context.Class.ToList();
             return a;
         }
 
-        public Usuario GetCommanderById(int id)
+        public Class GetCommanderById(int id)
         {
-            return _context.usuario.FirstOrDefault(p => p.id_usuario == id);
+            return _context.Class.FirstOrDefault(p => p.id == id);
         }
 
         public bool saveChanges()
@@ -51,7 +51,7 @@ namespace ApiRestDesarrollo.Data
             return _context.SaveChanges() >= 0;
         }
 
-        public void UpdateUsuario(Usuario usuario)
+        public void UpdateUsuario(Class usuario)
         {
             //nothing
         }

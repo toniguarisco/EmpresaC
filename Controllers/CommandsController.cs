@@ -31,7 +31,8 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ComandRead>> GetAllCommands()
         {
             var commandItems = _repository.GetAppCommands();
-            return Ok(_mapper.Map<IEnumerable<ComandRead>>(commandItems));
+            var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
+            return Ok(a);
         }
 
         //get 
@@ -39,7 +40,8 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<Usuario> Estado200(string algo)
         {
             //usuario usuario = new usuario() { nombre = algo, clave ="5" , id = 0};
-            if (algo == null) {
+            if (algo == null)
+            {
                 return BadRequest();
             }
             return Ok();
@@ -50,7 +52,8 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<ComandRead> GetComandById(int Id)
         {
             var commanItem = _repository.GetCommanderById(Id);
-            if (commanItem != null) {
+            if (commanItem != null)
+            {
                 return Ok(_mapper.Map<ComandRead>(commanItem));
             }
             return NotFound();
@@ -60,8 +63,8 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost]
         public ActionResult<ComandRead> CreateUsuario(ComaandCreateDto usuarioIn)
         {
-            var comandModel = _mapper.Map<Usuario>(usuarioIn);
-            _repository.CreateUsuario(comandModel);
+            var comandModel = _mapper.Map<Class>(usuarioIn);
+            _repository.CreateClass(comandModel);
             _repository.saveChanges();
             return Ok();
         }
@@ -83,7 +86,8 @@ namespace ApiRestDesarrollo.Controllers
 
         //delete
         [HttpDelete("{id}")]
-        public ActionResult DeleteUsuario(int id) {
+        public ActionResult DeleteUsuario(int id)
+        {
             var commanItem = _repository.GetCommanderById(id);
             if (commanItem == null)
             {
