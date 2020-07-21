@@ -2,4 +2,4 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import App from './src/App';
 
-AppRegistry.registerComponent('postvirtual1', () => App);
+AppRegistry.registerComponent('postvirtual', () => App);

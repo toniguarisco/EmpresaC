@@ -27,7 +27,7 @@ export default class Login extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      correo: "",
+      usuario: "",
       contraseña: "",
       data: null,
       modalVisible: false,
@@ -36,9 +36,9 @@ export default class Login extends Component<Props> {
     }
   }
 
-  handleCorreoChange = (Text) =>{
+  handleUsuarioChange = (Text) =>{
     this.setState({
-      correo: Text
+      usuario: Text
     })
   }
 
@@ -61,7 +61,7 @@ export default class Login extends Component<Props> {
        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-      email: this.state.correo,
+      email: this.state.usuario,
       pass: this.state.contraseña
       })
      }
@@ -89,15 +89,15 @@ export default class Login extends Component<Props> {
 
 
  handleLoginPress = () =>{
-  if ((this.state.correo!="") && (this.state.contraseña!="")){
+  if ((this.state.usuario!="") && (this.state.contraseña!="")){
    this.loginApp();
   }else{
     this.setModalVisible("Error","Algún campo se encuentra vacío.");
   }
  }
 
- handleForgot = () =>{
-   Actions.forgot();
+ handleOlvido = () =>{
+   Actions.olvido();
  }
 
  setModalVisible = (Text1, Text2) => {
@@ -116,16 +116,24 @@ export default class Login extends Component<Props> {
         <ImageBackground resizeMode={'stretch'} style={{flex: 1}} source={require(background)}>
            <View style={{flex: 1, marginBottom: 15, marginTop: 100}}>
             <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}>
+              <View
+                style={{
+                flexDirection: "row",
+                height: 100,
+                }}> 
+                <Text style={{ fontSize: 40, color: "#FFFFFF" }}> PostVirtual</Text>
+                <Text style={{ fontSize: 20, color: "#FFFFFF" }}> para comercios</Text>
+              </View>
               <View style={styles.inputContainer}>
               <TextInput style={styles.input}
-                  placeholder="Correo"
+                  placeholder="Usuario"
                   inlineImageLeft='user'
                   inlineImagePadding={10}
                   placeholderTextColor="#A1A1A1"
                   underlineColorAndroid="#C39515"
                   selectionColor="#C39515"
-                  onChangeText={this.handleCorreoChange}
-                  value={this.state.correo} />
+                  onChangeText={this.handleUsuarioChange}
+                  value={this.state.usuario} />
               </View>
              <View style={styles.inputContainer}>
               <TextInput
@@ -145,14 +153,14 @@ export default class Login extends Component<Props> {
               <View style={styles.button}>
                <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
                 <Text style={styles.buttonText}>
-                 ENTRA AQUÍ
+                 ENTRAR
                 </Text>
                </LinearGradient>
               </View>
              </View>
             </TouchableOpacity>
             <View style={styles.forgotContainer}>
-              <TouchableOpacity onPress={this.handleForgot}>
+              <TouchableOpacity onPress={this.handleOlvido}>
                <Text style={styles.forgot}>
                 ¿Olvidaste tu contraseña?
                </Text>
