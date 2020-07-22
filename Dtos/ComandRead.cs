@@ -10,13 +10,6 @@ namespace ApiRestDesarrollo.Dtos
     public class ComandRead
     {
         public int id { get; set; }
-     
-
         public string nombre { get; set; }
-      
-
-      
-        
-
     }
 }

@@ -2,6 +2,8 @@
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace ApiRestDesarrollo.Controllers
     //api/comands
     [Route("api/commands")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CommandsController : ControllerBase
     {
         private readonly IcommanderRepo _repository;

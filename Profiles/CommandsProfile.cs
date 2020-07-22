@@ -17,6 +17,7 @@ namespace ApiRestDesarrollo.Profiles
             CreateMap<ComaandCreateDto, Class>();
             CreateMap<UpdateUsuaarioDto, Usuario>();
             CreateMap<UpdateUsuaarioDto, Class>();
+            CreateMap<Usuario, UsuarioRead>();
         }
 
     }

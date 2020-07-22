@@ -14,5 +14,6 @@ namespace ApiRestDesarrollo.Data
         }
 
         public DbSet<Class> Class { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
     }
 }
