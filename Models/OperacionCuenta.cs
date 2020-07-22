@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace ApiRestDesarrollo.Models
 {
-    public partial class Pago
+    public partial class OperacionCuenta
     {
-        public int IdPago { get; set; }
-        public DateTime FechaSolicitud { get; set; }
+        public int IdOperacionCuenta { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeSpan Hora { get; set; }
         public decimal Monto { get; set; }
-        public string Estatus { get; set; }
         public string Referencia { get; set; }
-        public int IdUsuarioSolicitante { get; set; }
+        public int IdCuenta { get; set; }
         public int IdUsuarioReceptor { get; set; }
 
+        public virtual Cuenta IdCuentaNavigation { get; set; }
         public virtual Usuario IdUsuarioReceptorNavigation { get; set; }
-        public virtual Usuario IdUsuarioSolicitanteNavigation { get; set; }
     }
 }

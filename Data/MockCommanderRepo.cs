@@ -20,15 +20,16 @@ namespace ApiRestDesarrollo.Data
 
         public IEnumerable<Class> GetAppCommands()
         {
-            var commands = new List<Class>()
-            {
-                new Class {
-                    id = 1,
-                    clave = "2",
-                    nombre = "1"
+            var commands = new List<Class>();
+            //{
+            //    new Class
+            //    {
+            //        id = 1,
+            //        clave = "2",
+            //        nombre = "1"
 
-                },
-            };
+            //    },
+            //};
             return commands;
         }
         
@@ -36,13 +37,13 @@ namespace ApiRestDesarrollo.Data
 
         public Class GetCommanderById(int id)
         {
-            return new Class
-            {
-                id = 1,
-                clave = "2",
-                nombre = "1"
+            return new Class { };
+            //{
+            //    id = 1,
+            //    clave = "2",
+            //    nombre = "1"
 
-            };
+            //};
         }
 
         public bool saveChanges()

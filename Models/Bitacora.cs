@@ -1,28 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Bitacora
+    public partial class Bitacora
     {
+        public int IdAuditoria { get; set; }
+        public DateTime FechaBitacora { get; set; }
+        public string DatosOperacion { get; set; }
+        public string CausaError { get; set; }
+        public int IdEvento { get; set; }
+        public int IdUsuario { get; set; }
 
-        public int id_auditoria { get; set; }
-        [Key]
-
-        public DateTime fecha_bitacora { get; set; }
-
-        public string datos_operacion { get; set; }
-        [MaxLength(2500)]
-
-        public string causa_error { get; set; }
-        [MaxLength(2500)]
-
-        public int id_evento { get; set; }
-
-        public int id_usuario { get; set; }
-
+        public virtual Evento IdEventoNavigation { get; set; }
+        public virtual Usuario IdUsuarioNavigation { get; set; }
     }
 }

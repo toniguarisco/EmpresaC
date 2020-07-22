@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace ApiRestDesarrollo.Models
 {
-    public partial class Contrasena
+    public partial class UsuarioParametro
     {
-        public int IdContrasena { get; set; }
-        public string Contrasena1 { get; set; }
-        public int IntentosFallidos { get; set; }
+        public string Validacion { get; set; }
         public int Estatus { get; set; }
         public int IdUsuario { get; set; }
+        public int IdParametros { get; set; }
 
+        public virtual Parametro IdParametrosNavigation { get; set; }
         public virtual Usuario IdUsuarioNavigation { get; set; }
     }
 }

@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Evento
+    public partial class Evento
     {
+        public Evento()
+        {
+            Bitacora = new HashSet<Bitacora>();
+        }
 
-        public int id_evento { get; set; }
-        [Key]
+        public int IdEvento { get; set; }
+        public string CodigoEvento { get; set; }
+        public string Evento1 { get; set; }
+        public int? Estatus { get; set; }
 
-        public string codigo_evento { get; set; }
-        [MaxLength(4)]
-
-        public string evento { get; set; }
-        [MaxLength(45)]
-
-        public int estatus { get; set; }
-
+        public virtual ICollection<Bitacora> Bitacora { get; set; }
     }
 }

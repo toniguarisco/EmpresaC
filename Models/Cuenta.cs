@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Cuenta
+    public partial class Cuenta
     {
+        public Cuenta()
+        {
+            OperacionCuenta = new HashSet<OperacionCuenta>();
+        }
 
-        public int id_cuenta { get; set; }
-        [Key]
+        public int IdCuenta { get; set; }
+        public string NumeroCuenta { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdTipoCuenta { get; set; }
+        public int IdBanco { get; set; }
 
-        public string numero_cuenta { get; set; }
-        [MaxLength(20)]
-
-        public int id_usuario { get; set; }
-
-        public int id_tipo_cuenta { get; set; }
-
-        public int id_banco { get; set; }
-
+        public virtual Banco IdBancoNavigation { get; set; }
+        public virtual TipoCuenta IdTipoCuentaNavigation { get; set; }
+        public virtual Usuario IdUsuarioNavigation { get; set; }
+        public virtual ICollection<OperacionCuenta> OperacionCuenta { get; set; }
     }
 }

@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Aplicacion
+    public partial class Aplicacion
     {
-        public int id_aplicacion { get; set; }
-        [Key]
+        public Aplicacion()
+        {
+            OpcionMenu = new HashSet<OpcionMenu>();
+        }
 
-        public string nombre { get; set; }
-        [MaxLength(45)]
+        public int IdAplicacion { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Estatus { get; set; }
 
-        public string descripcion { get; set; }
-        [MaxLength(45)]
-
-        public string estatus { get; set; }
-        //[MaxLength(45)]                                   No me permite utilizar esta funcion si pongo estatus de ultimo. 
-
+        public virtual ICollection<OpcionMenu> OpcionMenu { get; set; }
     }
 }

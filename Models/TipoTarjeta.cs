@@ -3,19 +3,17 @@ using System.Collections.Generic;
 
 namespace ApiRestDesarrollo.Models
 {
-    public partial class Banco
+    public partial class TipoTarjeta
     {
-        public Banco()
+        public TipoTarjeta()
         {
-            Cuenta = new HashSet<Cuenta>();
             Tarjeta = new HashSet<Tarjeta>();
         }
 
-        public int IdBanco { get; set; }
-        public string Nombre { get; set; }
+        public int IdTipoTarjeta { get; set; }
+        public string Descripcion { get; set; }
         public int Estatus { get; set; }
 
-        public virtual ICollection<Cuenta> Cuenta { get; set; }
         public virtual ICollection<Tarjeta> Tarjeta { get; set; }
     }
 }

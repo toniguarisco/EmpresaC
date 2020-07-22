@@ -37,10 +37,12 @@ namespace ApiRestDesarrollo
         public void ConfigureServices(IServiceCollection services)
         {
             byte[] llave = Encoding.UTF8.GetBytes("PASAREMODEARROLLOCAPAZQUIENABE");
-            services.AddDbContextPool<CommanderContext>(options =>
-            {
-                options.UseNpgsql(Configuration["Data:ConnectionString"]);
-            });
+            //services.AddDbContextPool<postgresContext>(options =>
+            //{
+            //    options.UseNpgsql(Configuration["Data:ConnectionString"]);
+            //});
+            services.AddDbContext<postgresContext>(options =>
+            options.UseNpgsql(Configuration["Data:ConnectionString"]));
             services.AddControllers();
             services.AddScoped<IcommanderRepo, SqlComander>();
             services.AddScoped<IUsuarios, UsuarioImplementation>();

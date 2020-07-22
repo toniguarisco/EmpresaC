@@ -15,7 +15,7 @@ namespace ApiRestDesarrollo.Controllers
     //api/comands
     [Route("api/commands")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    
     public class CommandsController : ControllerBase
     {
         private readonly IcommanderRepo _repository;
@@ -31,6 +31,7 @@ namespace ApiRestDesarrollo.Controllers
 
         //get api/commands
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<IEnumerable<ComandRead>> GetAllCommands()
         {
             var commandItems = _repository.GetAppCommands();

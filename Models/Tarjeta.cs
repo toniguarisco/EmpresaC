@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Tarjeta
+    public partial class Tarjeta
     {
-        public int id_tarjeta { get; set; }
-        [Key]
+        public Tarjeta()
+        {
+            OperacionTarjeta = new HashSet<OperacionTarjeta>();
+        }
 
-        public int numero_tarjeta { get; set; }
+        public int IdTarjeta { get; set; }
+        public int NumeroTarjeta { get; set; }
+        public DateTime FechaVencimiento { get; set; }
+        public int Cvc { get; set; }
+        public int Estatus { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdTipoTarjeta { get; set; }
+        public int IdBanco { get; set; }
 
-        public DateTime fecha_vencimiento { get; set; }
-
-        public int cvc { get; set; }
-
-        public int estatus { get; set; }
-
-        public int id_usuario { get; set; }
-
-        public int id_tipo_tarjeta { get; set; }
-
-        public int id_banco { get; set; }
-
+        public virtual Banco IdBancoNavigation { get; set; }
+        public virtual TipoTarjeta IdTipoTarjetaNavigation { get; set; }
+        public virtual Usuario IdUsuarioNavigation { get; set; }
+        public virtual ICollection<OperacionTarjeta> OperacionTarjeta { get; set; }
     }
 }

@@ -8,9 +8,9 @@ namespace ApiRestDesarrollo.Data
 {
     public class SqlComander : IcommanderRepo
     {
-        private readonly CommanderContext _context;
+        private readonly postgresContext _context;
 
-        public SqlComander(CommanderContext context)
+        public SqlComander(postgresContext context)
         {
             _context = context;
         }
@@ -43,7 +43,7 @@ namespace ApiRestDesarrollo.Data
 
         public Class GetCommanderById(int id)
         {
-            return _context.Class.FirstOrDefault(p => p.id == id);
+            return _context.Class.FirstOrDefault(p => p.Id == id);
         }
 
         public bool saveChanges()

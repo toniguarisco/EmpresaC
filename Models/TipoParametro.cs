@@ -3,15 +3,14 @@ using System.Collections.Generic;
 
 namespace ApiRestDesarrollo.Models
 {
-    public partial class Frecuencia
+    public partial class TipoParametro
     {
-        public Frecuencia()
+        public TipoParametro()
         {
             Parametro = new HashSet<Parametro>();
         }
 
-        public int IdFrecuencia { get; set; }
-        public char Codigo { get; set; }
+        public int IdTipoParametro { get; set; }
         public string Descripcion { get; set; }
         public int Estatus { get; set; }
 

@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Class
+    public partial class Class
     {
-        public int id { get; set; }
-
-        public string nombre { get; set; }
-        [MaxLength(45)]
-
-        public string clave { get; set; }
-        
-
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Clave { get; set; }
     }
 }

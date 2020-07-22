@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Parametro
+    public partial class Parametro
     {
+        public int IdParametro { get; set; }
+        public string Nombre { get; set; }
+        public int Estatus { get; set; }
+        public int IdTipoParametro { get; set; }
+        public int IdFrecuencia { get; set; }
 
-        public int id_parametro { get; set; }
-        [Key]
-
-        public string nombre { get; set; }
-        [MaxLength(45)]
-
-        public int estatus { get; set; }
-
-        public int id_tipo_parametro { get; set; }
-
-        public int id_frecuencia { get; set; }
-
+        public virtual Frecuencia IdFrecuenciaNavigation { get; set; }
+        public virtual TipoParametro IdTipoParametroNavigation { get; set; }
     }
 }

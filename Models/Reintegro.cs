@@ -1,28 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
-    public class Reintegro
+    public partial class Reintegro
     {
+        public int IdReintegro { get; set; }
+        public string FechaSolicitud { get; set; }
+        public string Referencia { get; set; }
+        public string Estatus { get; set; }
+        public int IdUsuarioSolicitante { get; set; }
+        public int IdUsuarioReceptor { get; set; }
 
-        public int id_reintegro { get; set; }
-        [Key]
-
-        public DateTime fecha_solicitud { get; set; }
-
-        public string referencia { get; set; }
-        [MaxLength(45)]
-
-        public string estatus { get; set; }
-        [MaxLength(45)]
-
-        public int _id_usuario_solicitante { get; set; }
-
-        public int id_usuario_receptor { get; set; }
-
+        public virtual Usuario IdUsuarioReceptorNavigation { get; set; }
+        public virtual Usuario IdUsuarioSolicitanteNavigation { get; set; }
     }
 }

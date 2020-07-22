@@ -11,9 +11,9 @@ namespace ApiRestDesarrollo.Business.Implementations
 {
     public class UsuarioImplementation: IUsuarios
     {
-        private readonly CommanderContext _context;
+        private readonly postgresContext _context;
 
-        public UsuarioImplementation(CommanderContext context)
+        public UsuarioImplementation(postgresContext context)
         {
             _context = context;
         }
