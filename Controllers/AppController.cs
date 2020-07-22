@@ -56,7 +56,7 @@ namespace ApiRestDesarrollo.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Llave_Secreta"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PASAREMODEARROLLOCAPAZQUIENABE"));
             var Creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiration = DateTime.UtcNow.AddHours(1);
             JwtSecurityToken Token = new JwtSecurityToken(

@@ -36,7 +36,7 @@ namespace ApiRestDesarrollo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            byte[] llave = Encoding.UTF8.GetBytes(Configuration["Llave_Secreta"]);
+            byte[] llave = Encoding.UTF8.GetBytes("PASAREMODEARROLLOCAPAZQUIENABE");
             services.AddDbContextPool<CommanderContext>(options =>
             {
                 options.UseNpgsql(Configuration["Data:ConnectionString"]);
