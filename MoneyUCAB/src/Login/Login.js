@@ -54,7 +54,7 @@ export default class Login extends Component<Props> {
   })
   try {
     let response = await fetch(
-      'URL DE LA API',{
+      'http://ec2-52-90-180-87.compute-1.amazonaws.com/api/App/login',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
@@ -62,22 +62,23 @@ export default class Login extends Component<Props> {
       },
       body: JSON.stringify({
       email: this.state.correo,
-      pass: this.state.contraseña
+      clave: this.state.contraseña
       })
      }
     );
     let responseJson = await response.json();
-    if (responseJson.success==1){
+    if (responseJson.statusCode==200){
     	this.setState({
   	     data: null
         })
-        let usuarioResponse = responseJson.data[0];
+        this.setModalVisible("Exito", "Haz ingresado al sistema");
+        //let usuarioResponse = responseJson.data[0];
         //Action al Home Page de la APP
     }else{
       this.setState({
   	   data: null
       })
-      this.setModalVisible("Error", responseJson.message);
+      this.setModalVisible("Error", "Usuario y/o contraseña incorrecta");
     }
   } catch (error) {
    this.setState({
@@ -118,7 +119,7 @@ export default class Login extends Component<Props> {
             <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}>
               <View style={styles.inputContainer}>
               <TextInput style={styles.input}
-                  placeholder="Correo"
+                  placeholder="Usuario"
                   inlineImageLeft='user'
                   inlineImagePadding={10}
                   placeholderTextColor="#A1A1A1"
