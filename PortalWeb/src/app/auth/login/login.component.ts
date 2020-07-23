@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(private authSrevice: AuthService,
               private router: Router) { }
 
+              private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
   ngOnInit(): void {
   }
 
@@ -26,7 +27,10 @@ export class LoginComponent implements OnInit {
     console.log('Form -> ',this.loginForm.value);
     console.log('Form -> ',this.loginForm.value.email);
     console.log('Form -> ',this.loginForm.value.password);
-    /* this.authSrevice.login(this.loginForm)
+    localStorage.setItem('token', 
+                          this.token);
+    console.log(localStorage.getItem('token'));
+                          /* this.authSrevice.login(this.loginForm)
     .subscribe(
       res => {
         console.log(res);
@@ -37,6 +41,7 @@ export class LoginComponent implements OnInit {
         console.log(err);
       }
     ) */
+    this.router.navigate(["/home"]);
   }
 
  /*  get email() {

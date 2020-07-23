@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule, CanActivate, Router } from '@angular/router';
 
 import { AuthGuard } from "./auth.guard";
 
@@ -25,6 +25,7 @@ const routes: Routes = [
     path: 'registroComercio', 
     loadChildren: () => import('./auth/registro-comercio/registro-comercio.module').then(m => m.RegistroComercioModule) 
   }
+  
 ];
 
 @NgModule({

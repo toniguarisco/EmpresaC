@@ -7,9 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+ /*  fecha :string; */
+ 
+
   constructor() { }
 
   ngOnInit(): void {
+  /*   if (this.fecha != null) {
+      this.formatFecha();      
+    } */
   }
+/* 
+  formatFecha(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
+    this.fecha = dd + '/' + mm + '/' + yyyy;
+    document.write(this.fecha);
+  } */
 }

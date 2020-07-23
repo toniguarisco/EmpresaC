@@ -8,13 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" >Home </a>
+          <a class="nav-link" [routerLink]="['/home']" routerLinkActive="router-link-active" >Home </a>
         </li>       
       </ul>
       
       <ul class="navbar-nav ml-auto">
          
-        <li class="nav-item " *ngIf="isLogged">
+        <li class="nav-item " style = "cursor: pointer" *ngIf="!isLogged">
             <a class="nav-link" >Logout</a>
           </li> 
           <div class="ng-container" >  </div><!-- *ngIf="!authService.LoggedIn()" --> 
