@@ -12,36 +12,41 @@ import { Routes, Router } from '@angular/router'
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    email: new FormControl('',[Validators.email,Validators.required]),
-    password: new FormControl('',[Validators.required, Validators.minLength(2)])
-  })
+    username: new FormControl('Aron', [Validators.required]),
+    password: new FormControl(123, [Validators.required, Validators.minLength(2)])
+  });
 
+  hasError: boolean;
   constructor(private authSrevice: AuthService,
               private router: Router) { }
 
-              private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
+              //private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
   ngOnInit(): void {
+    this.hasError=false;
   }
 
-  login(){
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+  async login(){
     console.log('Form -> ',this.loginForm.value);
-    console.log('Form -> ',this.loginForm.value.email);
-    console.log('Form -> ',this.loginForm.value.password);
-    localStorage.setItem('token', 
-                          this.token);
+    //localStorage.setItem('token', this.token);
     console.log(localStorage.getItem('token'));
-                          /* this.authSrevice.login(this.loginForm)
+    
+    this.authSrevice.login(this.f.username.value,  this.f.password.value.toString())
     .subscribe(
       res => {
-        console.log(res);
-        //localStorage.setItem('token', res.token);
+        console.log('RESPUESTA Value =>' , res.value);
+        console.log('RESPUESTA token =>' , res.value.token);
+        localStorage.setItem('token', res.value.token);
         this.router.navigate(['/home']);
       }
       ,err => {
-        console.log(err);
+        console.log('ERROR =>',err);
+        this.hasError=true;
       }
-    ) */
-    this.router.navigate(["/home"]);
+    );
+    console.log('de nuevo en el login');
   }
 
  /*  get email() {
@@ -50,4 +55,10 @@ export class LoginComponent implements OnInit {
   get pass() {
     return this.loginForm.get('email'); 
   } */
+
+
+  hideAlert(){
+    this.hasError=false;
+  }
+
 }

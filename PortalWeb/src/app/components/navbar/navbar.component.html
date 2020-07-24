@@ -14,11 +14,12 @@
       
       <ul class="navbar-nav ml-auto">
          
-        <li class="nav-item " style = "cursor: pointer" *ngIf="!isLogged">
-            <a class="nav-link" >Logout</a>
-          </li> 
-          <div class="ng-container" >  </div><!-- *ngIf="!authService.LoggedIn()" --> 
-            <li class="nav-item" *ngIf="!isLogged">
+        <li class="nav-item " style = "cursor: pointer" >
+            <a class="nav-link" (click)="this.logout()" >Logout</a>
+            <!-- <button type="button" class="btn btn-primary" (click)="this.logout()">Logout</button> -->
+        </li> 
+        
+           <!--  <li class="nav-item" *ngIf="!isLogged">
               <a class="nav-link" [routerLink]="['/login']" >Login</a>
             </li>   
             <li class="nav-item  dropdown" *ngIf="!isLogged">
@@ -26,16 +27,8 @@
               <div class="dropdown-content">
                 <a class="dropdown-item" [routerLink]="['/registroPersona']">Persona</a>
                 <a class="dropdown-item" [routerLink]="['/registroComercio']">Comercio</a>
-                
-                <!-- <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Administrador</a> --> <!-- En caso de necesitar Admin -->
-               
               </div>
-            </li>
-
-         
-          
-
+            </li> -->
       </ul>
       
     </div>
