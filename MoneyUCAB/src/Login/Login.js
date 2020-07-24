@@ -71,9 +71,8 @@ export default class Login extends Component<Props> {
     	this.setState({
   	     data: null
         })
-        this.setModalVisible("Exito", "Haz ingresado al sistema");
-        //let usuarioResponse = responseJson.data[0];
-        //Action al Home Page de la APP
+        Actions.pop();
+        Actions.home({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
     }else{
       this.setState({
   	   data: null
