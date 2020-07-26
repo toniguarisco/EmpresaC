@@ -27,7 +27,7 @@ export default class Login extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      usuario: "",
+      correo: "",
       contraseña: "",
       data: null,
       modalVisible: false,
@@ -38,7 +38,7 @@ export default class Login extends Component<Props> {
 
   handleUsuarioChange = (Text) =>{
     this.setState({
-      usuario: Text
+      correo: Text
     })
   }
 
@@ -54,30 +54,30 @@ export default class Login extends Component<Props> {
   })
   try {
     let response = await fetch(
-      'URL DE LA API',{
+      'http://ec2-52-90-180-87.compute-1.amazonaws.com/api/App/login',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-      email: this.state.usuario,
+      email: this.state.correo,
       pass: this.state.contraseña
       })
      }
     );
     let responseJson = await response.json();
-    if (responseJson.success==1){
+    if (responseJson.statusCode==200){
     	this.setState({
   	     data: null
         })
-        let usuarioResponse = responseJson.data[0];
-        //Action al Home Page de la APP
+        Actions.pop();
+        Actions.home({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
     }else{
       this.setState({
   	   data: null
       })
-      this.setModalVisible("Error", responseJson.message);
+      this.setModalVisible("Error", "Usuario y/o contraseña incorrecta");
     }
   } catch (error) {
    this.setState({
@@ -89,7 +89,7 @@ export default class Login extends Component<Props> {
 
 
  handleLoginPress = () =>{
-  if ((this.state.usuario!="") && (this.state.contraseña!="")){
+  if ((this.state.correo!="") && (this.state.contraseña!="")){
    this.loginApp();
   }else{
     this.setModalVisible("Error","Algún campo se encuentra vacío.");
@@ -133,7 +133,7 @@ export default class Login extends Component<Props> {
                   underlineColorAndroid="#C39515"
                   selectionColor="#C39515"
                   onChangeText={this.handleUsuarioChange}
-                  value={this.state.usuario} />
+                  value={this.state.correo} />
               </View>
              <View style={styles.inputContainer}>
               <TextInput

@@ -106,7 +106,7 @@ export default class Forgot extends Component<Props> {
  }
 
   render() {
-    const background = "../resources/ImageBackground.jpg";
+    const background = "./resources/ImageBackground.jpg";
     if (!this.state.data){
     return (
       <View style={{flex: 1}}>

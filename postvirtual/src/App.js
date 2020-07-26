@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {Scene, Router, Stack} from 'react-native-router-flux';
 import Login from './Login.js';
 import Olvido from './Olvido.js';
+import Principal from './Principal.js';
 
 import {
   Platform,
@@ -22,6 +23,7 @@ export default class App extends Component<Props> {
        <Stack key="root">
         <Scene key="login" component={Login} title="Login" type="reset" hideNavBar/>
         <Scene key="olvido" component={Olvido} title="Reestablacer contraseña" hideNavBar={false}/>
+        <Scene key="principal" component={Principal} title="Principal" type="reset" hideNavBar/>
        </Stack>
       </Router>
     );
