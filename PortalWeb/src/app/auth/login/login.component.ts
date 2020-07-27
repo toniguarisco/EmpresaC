@@ -19,10 +19,9 @@ export class LoginComponent implements OnInit {
   hasError: boolean;
   constructor(private authSrevice: AuthService,
               private router: Router) { }
-
-              //private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
+// private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
   ngOnInit(): void {
-    this.hasError=false;
+    this.hasError = false;
   }
 
   // convenience getter for easy access to form fields
@@ -32,7 +31,6 @@ export class LoginComponent implements OnInit {
     console.log('Form -> ',this.loginForm.value);
     //localStorage.setItem('token', this.token);
     console.log(localStorage.getItem('token'));
-    
     this.authSrevice.login(this.f.username.value,  this.f.password.value.toString())
     .subscribe(
       res => {
@@ -57,8 +55,8 @@ export class LoginComponent implements OnInit {
   } */
 
 
-  hideAlert(){
-    this.hasError=false;
+  hideAlert(): void {
+    this.hasError = false;
   }
 
 }

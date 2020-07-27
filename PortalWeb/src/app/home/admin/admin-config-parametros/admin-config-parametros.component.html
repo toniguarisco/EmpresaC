@@ -1,1 +1,62 @@
-<p>admin-config-parametros works!</p>
+
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card ">
+            <div class="card-header">
+                <legend class="text-center">Configuracion de Parametros</legend>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="parametrosForm" (ngSubmit)="actualizarParametros()">
+                    <fieldset>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Monto maximo por transaccion</label>
+                        <input type="text" class="form-control" id="exampleInputMaxTransacciones" placeholder="Introduzca Monto maximo por transaccion permitido" 
+                                formControlName="montoMaxTransacciones">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Cantidad máxima de operaciones por día</label>
+                        <input type="text" class="form-control" id="exampleInputMaxOperacionesDiarias" placeholder="Introduzca cantidad máxima de operaciones por día permitidas" 
+                                formControlName="maxOperacionesDiarias">
+                      </div>
+                     
+                                          
+                      <div class="form-group">
+                        <label for="exampleInputTelefono">Monto maximo diario</label>
+                        <input type="phone" class="form-control" id="exampleInputTelefono"  placeholder="Introduza moto maximo diario permitido" 
+                                formControlName="montoMaxDiario">
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar Parametros</button>
+                    </fieldset>
+                  </form>  
+                  <div class="form-group mt-3">
+                    <p>Ya tienes una cuenta?<a [routerLink]="['/login']" routerLinkActive="router-link-active" > Login</a></p>
+                    <p>Deseo registrarme como<a [routerLink]="['/registroComercio']" routerLinkActive="router-link-active" > Comercio</a></p>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card">
+            <div class="card-header">
+                <legend class="text-center">Establecer porcentaje de comision</legend>
+            </div>
+            <div class="card-body">
+
+                <form [formGroup]="comisionForm" (ngSubmit)="actualizarComision()">
+                    <fieldset>
+                     <!--  <legend class="text-center">Establecer porcentaje de comision</legend> -->
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Porcentaje de comision</label>
+                        <input type="text" class="form-control" id="exampleInputComision" placeholder="Introduzca nuevo porcentaje de comision" 
+                                formControlName="comision">
+                      </div>
+                    <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar</button>
+                  </fieldset>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+

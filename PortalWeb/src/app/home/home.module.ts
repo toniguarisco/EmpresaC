@@ -20,6 +20,7 @@ import { AdminRecaudoComisionComponent } from './admin/admin-recaudo-comision/ad
 import { AdminOperacionesFallidasComponent } from './admin/admin-operaciones-fallidas/admin-operaciones-fallidas.component';
 import { AdminOperacionesCobroComponent } from './admin/admin-operaciones-cobro/admin-operaciones-cobro.component';
 import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retiro/admin-operaciones-retiro.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -33,6 +34,7 @@ import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retir
     CommonModule,
     
     HomeRoutingModule,
+    ReactiveFormsModule
 
   ]
 })

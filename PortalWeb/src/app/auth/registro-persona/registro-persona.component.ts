@@ -24,7 +24,7 @@ export class RegistroPersonaComponent implements OnInit {
     //genero : new FormControl(''),    
     //numId : new FormControl('', Validators.required)
 
-  })
+  });
 
 
   constructor() {

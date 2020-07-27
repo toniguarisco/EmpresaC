@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +12,18 @@ export class HomeComponent implements OnInit {
  /*  fecha :string; */
  
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private location: Location) { }
 
   ngOnInit(): void {
   /*   if (this.fecha != null) {
       this.formatFecha();      
     } */
   }
-/* 
+  backClicked(): void {
+    this.location.back();
+  }
+/*
   formatFecha(){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
