@@ -12,12 +12,23 @@ import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retir
 import { AdminRecaudoComisionComponent } from './admin/admin-recaudo-comision/admin-recaudo-comision.component';
 import { AdministrarUsuariosComponent } from './admin/administrar-usuarios/administrar-usuarios.component';
 import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/admin-modificar-usuario.component';
+import { ComercioDashboardComponent } from './comercio/comercio-dashboard/comercio-dashboard.component';
+import { ComercioAjustesPerfilComponent } from './comercio/comercio-ajustes-perfil/comercio-ajustes-perfil.component';
+import { ComercioConsultarSaldoComponent } from './comercio/comercio-consultar-saldo/comercio-consultar-saldo.component';
+import { ComercioConsultarSolicitudesRetiroComponent } from './comercio/comercio-consultar-solicitudes-retiro/comercio-consultar-solicitudes-retiro.component';
+import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-retiro/comercio-solicitud-retiro.component';
+import { AjustesPerfilComponent } from './pages/ajustes-perfil/ajustes-perfil.component';
+import { BloqueoOperacionesComponent } from './pages/bloqueo-operaciones/bloqueo-operaciones.component';
+import { ConfigParametrosComponent } from './pages/config-parametros/config-parametros.component';
+import { ConsultarSaldoComponent } from './pages/consultar-saldo/consultar-saldo.component';
+import { RecargaComponent } from './pages/recarga/recarga.component';
+import { SubUsuariosComponent } from './pages/sub-usuarios/sub-usuarios.component';
 
 const routes: Routes = [{
                           path: '',
                           component: HomeComponent,
                           children: [
-                            { path: 'dashboard', component: DashboardComponent },
+                        
                             /* ADMIN */
                             { path: 'admin-dashboard', component: AdminDashboardComponent },
                             { path: 'admin-cantidad-operaciones', component: AdminCantidadOperacionesComponent },
@@ -28,6 +39,20 @@ const routes: Routes = [{
                             { path: 'admin-recaudo-comision', component: AdminRecaudoComisionComponent },
                             { path: 'administrar-usuarios', component: AdministrarUsuariosComponent },
                             { path: 'admin-modificar-usuario', component: AdminModificarUsuarioComponent },
+                            // COMERCIO
+                            { path: 'comercio-dashboard', component: ComercioDashboardComponent },
+                            { path: 'comercio-ajustes-perfil', component: ComercioAjustesPerfilComponent },
+                            { path: 'comercio-consultar-saldo', component: ComercioConsultarSaldoComponent },
+                            { path: 'comercio-consultar-solicitudes-retiro', component: ComercioConsultarSolicitudesRetiroComponent },
+                            { path: 'comercio-solicitud-retiro', component: ComercioSolicitudRetiroComponent },
+                            //PAGES (Persona)
+                            { path: 'ajustes-perfil', component: AjustesPerfilComponent },
+                            { path: 'bloqueo-operaciones', component: BloqueoOperacionesComponent },
+                            { path: 'config-parametros', component: ConfigParametrosComponent },
+                            { path: 'consultar-saldo', component: ConsultarSaldoComponent },
+                            { path: 'dashboard', component: DashboardComponent },
+                            { path: 'recarga', component: RecargaComponent },
+                            { path: 'sub-usuarios', component: SubUsuariosComponent },
                           ]
                         },
                         ];

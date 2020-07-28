@@ -23,6 +23,11 @@ import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retir
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/admin-modificar-usuario.component';
+import { ComercioDashboardComponent } from './comercio/comercio-dashboard/comercio-dashboard.component';
+import { ComercioAjustesPerfilComponent } from './comercio/comercio-ajustes-perfil/comercio-ajustes-perfil.component';
+import { ComercioConsultarSaldoComponent } from './comercio/comercio-consultar-saldo/comercio-consultar-saldo.component';
+import { ComercioConsultarSolicitudesRetiroComponent } from './comercio/comercio-consultar-solicitudes-retiro/comercio-consultar-solicitudes-retiro.component';
+import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-retiro/comercio-solicitud-retiro.component';
 
 
 
@@ -47,7 +52,12 @@ import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/
                 AdminOperacionesFallidasComponent,
                 AdminOperacionesCobroComponent,
                 AdminOperacionesRetiroComponent,
-                AdminModificarUsuarioComponent ],
+                AdminModificarUsuarioComponent,
+                ComercioDashboardComponent,
+                ComercioAjustesPerfilComponent,
+                ComercioConsultarSaldoComponent,
+                ComercioConsultarSolicitudesRetiroComponent,
+                ComercioSolicitudRetiroComponent ],
   exports: [HomeComponent, DataTablesModule] ,
   imports: [
     CommonModule,
