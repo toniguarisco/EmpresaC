@@ -21,20 +21,39 @@ import { AdminOperacionesFallidasComponent } from './admin/admin-operaciones-fal
 import { AdminOperacionesCobroComponent } from './admin/admin-operaciones-cobro/admin-operaciones-cobro.component';
 import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retiro/admin-operaciones-retiro.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { DataTablesModule } from 'angular-datatables';
+import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/admin-modificar-usuario.component';
 
 
 
 
 
 @NgModule({
-  declarations: [HomeComponent, SidebarComponent, NavbarComponent, DashboardComponent, RecargaComponent, ConfigParametrosComponent, BloqueoOperacionesComponent, AjustesPerfilComponent, ConsultarSaldoComponent, SubUsuariosComponent, AdminDashboardComponent, AdministrarUsuariosComponent, AdminConfigParametrosComponent, AdminCantidadOperacionesComponent, AdminRecaudoComisionComponent, AdminOperacionesFallidasComponent, AdminOperacionesCobroComponent, AdminOperacionesRetiroComponent ],
-  exports:[HomeComponent] ,
+  declarations: [HomeComponent,
+                SidebarComponent,
+                NavbarComponent,
+                DashboardComponent,
+                RecargaComponent,
+                ConfigParametrosComponent,
+                BloqueoOperacionesComponent,
+                AjustesPerfilComponent,
+                ConsultarSaldoComponent,
+                SubUsuariosComponent,
+                AdminDashboardComponent,
+                AdministrarUsuariosComponent,
+                AdminConfigParametrosComponent,
+                AdminCantidadOperacionesComponent,
+                AdminRecaudoComisionComponent,
+                AdminOperacionesFallidasComponent,
+                AdminOperacionesCobroComponent,
+                AdminOperacionesRetiroComponent,
+                AdminModificarUsuarioComponent ],
+  exports: [HomeComponent, DataTablesModule] ,
   imports: [
     CommonModule,
-    
     HomeRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
 
   ]
 })

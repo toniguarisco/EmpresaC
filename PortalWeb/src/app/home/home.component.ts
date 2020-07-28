@@ -16,8 +16,9 @@ export class HomeComponent implements OnInit {
               private location: Location) { }
 
   ngOnInit(): void {
-  /*   if (this.fecha != null) {
-      this.formatFecha();      
+    // Fecha por si hace falta
+    /*   if (this.fecha != null) {
+      this.formatFecha();
     } */
   }
   backClicked(): void {

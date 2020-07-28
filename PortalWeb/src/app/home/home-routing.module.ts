@@ -11,6 +11,7 @@ import { AdminOperacionesFallidasComponent } from './admin/admin-operaciones-fal
 import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retiro/admin-operaciones-retiro.component';
 import { AdminRecaudoComisionComponent } from './admin/admin-recaudo-comision/admin-recaudo-comision.component';
 import { AdministrarUsuariosComponent } from './admin/administrar-usuarios/administrar-usuarios.component';
+import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/admin-modificar-usuario.component';
 
 const routes: Routes = [{
                           path: '',
@@ -26,6 +27,7 @@ const routes: Routes = [{
                             { path: 'admin-operaciones-retiro', component: AdminOperacionesRetiroComponent },
                             { path: 'admin-recaudo-comision', component: AdminRecaudoComisionComponent },
                             { path: 'administrar-usuarios', component: AdministrarUsuariosComponent },
+                            { path: 'admin-modificar-usuario', component: AdminModificarUsuarioComponent },
                           ]
                         },
                         ];
