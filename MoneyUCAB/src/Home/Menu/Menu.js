@@ -47,10 +47,10 @@ export default class Menu extends Component<Props>{
  handleConfiguration = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     //Actions.configuration({title:"Configuración", idioma: this.state.idioma});
+     Actions.configuration({title:"Configuración", idioma: this.state.idioma, correo: this.state.correo});
    }else{
      this.props.onHandle();
-     //Actions.configuration({title:"Configuration", idioma: this.state.idioma});
+     Actions.configuration({title:"Configuration", idioma: this.state.idioma, correo: this.state.correo});
    }
   }
   
