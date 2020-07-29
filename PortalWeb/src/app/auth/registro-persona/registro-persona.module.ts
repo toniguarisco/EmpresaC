@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RegistroPersonaRoutingModule } from './registro-persona-routing.module';
 import { RegistroPersonaComponent } from './registro-persona.component';
 
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 

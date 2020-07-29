@@ -28,6 +28,7 @@ import { ComercioAjustesPerfilComponent } from './comercio/comercio-ajustes-perf
 import { ComercioConsultarSaldoComponent } from './comercio/comercio-consultar-saldo/comercio-consultar-saldo.component';
 import { ComercioConsultarSolicitudesRetiroComponent } from './comercio/comercio-consultar-solicitudes-retiro/comercio-consultar-solicitudes-retiro.component';
 import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-retiro/comercio-solicitud-retiro.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 
@@ -63,7 +64,8 @@ import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-
     CommonModule,
     HomeRoutingModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    BsDatepickerModule.forRoot()
 
   ]
 })

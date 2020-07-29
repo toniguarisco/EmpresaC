@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { BsDatepickerConfig, BsDatepickerModule, DateFormatter } from 'ngx-bootstrap/datepicker';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administrar-usuarios',
@@ -28,40 +28,9 @@ export class AdministrarUsuariosComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
  // dtTrigger: Subject = new Subject();
 
-//*** PARA OTRO COMPONENTE */
-
-datePickerConfig : Partial<BsDatepickerConfig>;
-
-registerForm = new FormGroup({
-  usuario : new FormControl('', Validators.required),
-  email : new FormControl('', [Validators.required, Validators.email]),
-  password : new FormControl('', Validators.required),
-  nombre : new FormControl('', Validators.required),
-  apellido: new FormControl('', Validators.required),
-  fechaNacimiento : new FormControl(null, Validators.required),
-  telefono : new FormControl('', Validators.required),
-  
-  //genero : new FormControl(''),    
-  //numId : new FormControl('', Validators.required)
-});
-
-
-  constructor() {
-
-    this.datePickerConfig = Object.assign({},
-      {
-        containerClass: 'theme-blue',
-        dateInputFormat:'DD/MM/YYYY',
-        isAnimated: true,
-        adaptivePosition: true
-        /* minDate : new Date(2018,0,1),
-        maxDate : new Date(2018,11,31), */
-      });
-   }
-
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -92,31 +61,8 @@ registerForm = new FormGroup({
 
   someClickHandler(info: any): void {
     this.message = info.id + ' - ' + info.nombre;
+    console.log('a navegar');
+    this.router.navigate(['/home/admin-modificar-usuario'], { state: { info} });
   }
-
-
-
-
-  //******OTRO COMPONENTE */
-  formatDate(){
-    let day = this.registerForm.value.fechaNacimiento.getDate()
-    let month = this.registerForm.value.fechaNacimiento.getMonth() + 1
-    let year = this.registerForm.value.fechaNacimiento.getFullYear()
-    
-    if (day<10) {
-      day=`0${day}`
-      
-    }
-    if (month<10) {
-      month=`0${month}`
-    }
-    return (`${day}/${month}/${year}`)
-  }
-  
-    registrarPersona(){
-      console.log('registrar');
-      console.log('Form -> ',this.registerForm.value);
-  
-    }
 
 }
