@@ -1,1 +1,42 @@
-<p>recarga works!</p>
+
+<div class="row row-cols-1 row-cols-md-2">
+  <div class="col-md-6 mx-auto mt-5">
+      <div class="card ">
+          <div class="card-header">
+              <legend class="text-center">Recargar Saldo</legend>
+          </div>
+          <div class="card-body">
+              <form [formGroup]="recargaForm" (ngSubmit)="recargarSaldo()">
+                  <fieldset>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Monto Recarga</label>
+                      <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca Monto a recargar" 
+                              formControlName="monto">
+                    </div>
+
+                    <div class="row">
+                      <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                          <button class="btn btn-outline-primary" id="dropdownbilletera" ngbDropdownToggle>Seleccionar Billetera</button>
+                          <div ngbDropdownMenu aria-labelledby="dropdownbilletera">
+                            <button ngbDropdownItem>Billetera 1</button>
+                            <button ngbDropdownItem>Billetera 2</button>
+                            <button ngbDropdownItem>Billetera 3</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  
+                  
+                    <button type="submit" class="btn btn-primary btn-large btn-block">Recargar saldo</button>
+                  </fieldset>
+                </form>  
+                
+          </div>
+      </div>
+  </div>
+
+
+ 
+

@@ -29,7 +29,7 @@ import { ComercioConsultarSaldoComponent } from './comercio/comercio-consultar-s
 import { ComercioConsultarSolicitudesRetiroComponent } from './comercio/comercio-consultar-solicitudes-retiro/comercio-consultar-solicitudes-retiro.component';
 import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-retiro/comercio-solicitud-retiro.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 
 
 
@@ -65,7 +65,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     HomeRoutingModule,
     ReactiveFormsModule,
     DataTablesModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    NgbModule
 
   ]
 })
