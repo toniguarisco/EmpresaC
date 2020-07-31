@@ -1,8 +1,19 @@
-<blockquote>Please click on a row</blockquote>
-<p class="text-danger">You clicked on: <strong>{{ message }}</strong></p>
-<br />
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Administrar Usuarios 
+  </h1>
+</div>
+<!-- End Header -->
 
-<table datatable [dtOptions]="dtOptions" class="row-border hover">
+<!-- Click Handler -->
+<blockquote>Haga click en un usuario para ver y administrar sus datos.</blockquote>
+<!-- <p class="text-danger">You clicked on: <strong>{{ message }}</strong></p>
+<br /> -->
+<!-- End Click Handler -->
+
+<!-- Table -->
+<table datatable [dtOptions]="dtOptions" class="row-border hover" style="cursor: pointer;">
     <thead>
       <tr>
         <th>ID</th>
@@ -21,6 +32,5 @@
 
 <!-- End Table -->
 
-<!-- Card -->
 
 

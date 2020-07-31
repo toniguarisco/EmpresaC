@@ -1,1 +1,109 @@
-<p>ajustes-perfil works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2 align-middle py-0 mb-0 text-primary">
+        Ajuste de Perfil
+    </h1>
+  </div>
+  <!-- End Header -->
+  
+  <div class="row">
+                              
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
+          <div class="card mb-3">
+              <div class="card-header text-center">
+                  <legend class=""><i class="fa fa-user"></i> Detalles del Perfil</legend>								
+              </div>
+                  
+              <div class="card-body">
+  
+                  <form [formGroup]="registerForm" (ngSubmit)="actualizarUsuario()">
+                  <fieldset>
+                  <div class="row">	
+                  
+                      <div class="col-lg-4 col-xl-4 border-left ">
+                        <legend class="text-center">Datos Personales</legend>
+                          <br />
+                          <label><b>Nombre: </b> {{this.usuario.nombre}}</label>
+                          <br />
+                          <label><b>Apellido: </b> {{this.usuario.apellido}}	</label>
+                          <br />
+                          <label><b>Email: </b> {{this.usuario.email}}	</label>
+                          <br />
+                          <label><b>Contraseña: </b> {{this.usuario.password}}	</label>
+                          <br />
+                          <label><b>Direccion: </b> {{this.usuario.direccion}}</label>
+                          <br />
+                          <label><b>Telefono: </b> {{this.usuario.telefono}}	</label>
+                          <br />
+                          <label><b>Fecha Registro: </b> {{this.usuario.fecha_registro}}	</label>
+                          <br />
+                          <label><b>Tipo de Usuario: </b> {{this.usuario.tipo_usuario}}</label>
+                          
+                          
+                          <div class="m-b-10"></div>
+  
+                          <div class="m-b-10"></div>
+  
+                          
+                      </div>
+  
+                      <div class="col-lg-8 col-xl-8">
+  
+                          <legend class="text-center">Actualizar Datos</legend>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputNombre" placeholder="Nombre" 
+                                  formControlName="nombre">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Apellido</label>
+                          <input type="text" class="form-control" id="exampleInputApellido" placeholder="Apellido" 
+                                  formControlName="apellido">
+                        </div>
+                       
+                        <div class="row">
+                          <div class="form-group col-md-5">
+                            <label for="dateOfBirth">Fecha de Nacimiento</label>
+                            <input id="dateOfBirth2" name="dateOfBirth" placeholder="Fecha de Nacimiento"
+                                    type="text" bsDatepicker [bsConfig]="datePickerConfig" 
+                                    class="form-control mb-3" 
+                                    formControlName="fechaNacimiento" />
+                           
+                           
+                          </div>
+                        </div>
+                       
+                        <div class="form-group">
+                          <label for="exampleInputTelefono">Telefono</label>
+                          <input type="phone" class="form-control" id="exampleInputTelefono"  placeholder="Telefono" 
+                                  formControlName="telefono">
+                        </div>
+  
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Correo</label>
+                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" 
+                                  formControlName="email">
+                          <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo con nadie mas</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Contraseña</label>
+                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" 
+                                  formControlName="password">
+                        </div>
+                      </div>
+                      </div>
+  
+                      <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar</button>
+                  </fieldset>
+                </form>  
+  
+              </div>	
+              <!-- end card-body -->			
+            
+              </div>
+              <!-- end card -->					
+              
+              </div>
+              <!-- end col -->	
+                                          
+              </div>

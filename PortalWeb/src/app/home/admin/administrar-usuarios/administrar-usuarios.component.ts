@@ -34,7 +34,7 @@ export class AdministrarUsuariosComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 8,
       columns: [{
         title: 'ID',
         data: 'id'

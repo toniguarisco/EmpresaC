@@ -22,7 +22,8 @@ login(email, clave): Observable <any> {
   console.log('Estoy en el Servicio.login', email,' ',clave);
 
   
-  return this.http.post<any>('/api/App/login', { email, clave });
+  return this.http.post<any>('/api/App/login', { email, clave })
+          ;
  
   
   /* try {
@@ -57,10 +58,13 @@ login(email, clave): Observable <any> {
   logout(): void{
     console.log('estoy en logout');
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('fakeUser');
+    localStorage.removeItem('fakeCommerce');
     this.router.navigate(['/login']);
   }
 
-  LoggedIn(): Boolean{
+  LoggedIn(): boolean{
     return !!(localStorage.getItem('token'));
   }
 

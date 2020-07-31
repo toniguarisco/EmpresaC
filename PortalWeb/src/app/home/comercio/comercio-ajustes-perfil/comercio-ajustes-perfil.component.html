@@ -1,1 +1,99 @@
-<p>comercio-ajustes-perfil works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2 align-middle py-0 mb-0 text-primary">
+        Ajuste de Perfil
+    </h1>
+  </div>
+  <!-- End Header -->
+  
+  <div class="row">
+                              
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
+          <div class="card mb-3">
+              <div class="card-header text-center">
+                  <legend class=""><i class="fa fa-user"></i> Detalles del Perfil</legend>								
+              </div>
+                  
+              <div class="card-body">
+  
+                  <form [formGroup]="registerForm" (ngSubmit)="actualizarUsuario()">
+                  <fieldset>
+                  <div class="row">	
+                  
+                      <div class="col-lg-4 col-xl-4 border-left ">
+                        <legend class="text-center">Datos del Comercio</legend>
+                          <br />
+                          <label><b>Usuario: </b> {{this.comercio.usuario}}</label>
+                          <br />
+                          <label><b>Email: </b> {{this.comercio.email}}	</label>
+                          <br />
+                          <label><b>Nombre: </b> {{this.comercio.nombre}	</label>
+                          <br />
+                          <label><b>Razon Social: </b> {{this.comercio.razon_social}}	</label>
+                          <br />
+                          <label><b>Direccion: </b> {{this.comercio.direccion}}</label>
+
+                          
+                          
+                          <div class="m-b-10"></div>
+  
+                          <div class="m-b-10"></div>
+  
+                          
+                      </div>
+  
+                      <div class="col-lg-8 col-xl-8">
+  
+                          <legend class="text-center">Actualizar Datos</legend>
+                        
+                          <div class="form-group">
+                            <label for="exampleInputPassword1">Usuario</label>
+                            <input type="text" class="form-control" id="exampleInputApellido" placeholder="Usuario" 
+                                    formControlName="usuario">
+                          </div>
+                        
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Correo</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" 
+                                    formControlName="email">
+                            <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo con nadie mas</small>
+                          </div>
+
+                          <div class="form-group">
+                          <label for="exampleInputPassword1">Nombre</label>
+                          <input type="text" class="form-control" id="exampleInputNombre" placeholder="Nombre" 
+                                  formControlName="nombre">
+                        </div>
+                       
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Razon Social</label>
+                          <input type="text" class="form-control" id="exampleInputNombre" placeholder="Razon Social" 
+                                  formControlName="razon_social">
+                        </div>
+                       
+                    
+                       
+                        <div class="form-group">
+                          <label for="exampleInputTelefono">Direccion</label>
+                          <input type="phone" class="form-control" id="exampleInputTelefono"  placeholder="Direccion" 
+                                  formControlName="direccion">
+                        </div>
+  
+                       
+                      </div>
+                      </div>
+  
+                      <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar</button>
+                  </fieldset>
+                </form>  
+  
+              </div>	
+              <!-- end card-body -->			
+            
+              </div>
+              <!-- end card -->					
+              
+              </div>
+              <!-- end col -->	
+                                          
+              </div>

@@ -1,1 +1,38 @@
-<p>config-parametros works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2 align-middle py-0 mb-0 text-primary">
+        Configuracion de Parametros
+    </h1>
+  </div>
+  <!-- End Header -->
+  <!-- Card -->
+<div class="col-md-6 mx-auto mt-5">
+    <div class="card ">
+        <div class="card-header">
+            <legend class="text-center">Configuracion de Parametros</legend>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="parametrosForm" (ngSubmit)="actualizarParametros()">
+                <fieldset>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Monto maximo por transaccion</label>
+                    <input type="text" class="form-control" id="exampleInputMaxTransacciones" placeholder="Introduzca Monto maximo por transaccion permitido" 
+                            formControlName="montoMaxTransacciones">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Cantidad máxima de operaciones por día</label>
+                    <input type="text" class="form-control" id="exampleInputMaxOperacionesDiarias" placeholder="Introduzca cantidad máxima de operaciones por día permitidas" 
+                            formControlName="maxOperacionesDiarias">
+                  </div> 
+                  <div class="form-group">
+                    <label for="exampleInputTelefono">Monto maximo diario</label>
+                    <input type="phone" class="form-control" id="exampleInputTelefono"  placeholder="Introduza moto maximo diario permitido" 
+                            formControlName="montoMaxDiario">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar Parametros</button>
+                </fieldset>
+              </form>  
+              
+        </div>
+    </div>
+</div>

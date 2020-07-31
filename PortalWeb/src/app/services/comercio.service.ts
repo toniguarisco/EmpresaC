@@ -5,16 +5,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ComercioService {
 
   constructor(private http:HttpClient) { }
 
-
-  getUserById(id: string): Observable <any>{
+  getComercioById(id: string): Observable <any>{
     return this.http.post<any>('/api/App/User/' + id, null);
   }
 
-  actualizarDatosPersona(id: string,
+  actualizarDatosComercio(id: string,
                         nombre: string,
                         apellido: string,
                         fechaNac: string,
@@ -23,4 +22,5 @@ export class UserService {
     return this.http.put<any>('/api/App/UserUpdate/' + id, {nombre, apellido, fechaNac, telefono, correo}).
             subscribe(res => {});
   }
+
 }

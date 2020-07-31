@@ -1,47 +1,55 @@
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Administrar Usuarios 
+  </h1>
+</div>
+<!-- End Header -->
+
 <div class="row">
 							
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
         <div class="card mb-3">
-            <div class="card-header">
-                <h3><i class="fa fa-user"></i> Detalles del Perfil</h3>								
+            <div class="card-header text-center">
+                <legend class=""><i class="fa fa-user"></i> Detalles del Perfil</legend>								
             </div>
                 
             <div class="card-body">
 
-                <form [formGroup]="registerForm" (ngSubmit)="registrarPersona()">
+                <form [formGroup]="registerForm" (ngSubmit)="actualizarUsuario()">
                 <fieldset>
                 <div class="row">	
                 
-                    <div class="col-lg-3 col-xl-3 border-left">
-                        <b>Latest activity</b>: Dec 06 2017, 22:23	
+                    <div class="col-lg-4 col-xl-4 border-left ">
+                      <legend class="text-center">Datos del Usuario</legend>
                         <br />
-                        <b>Register date: </b>: Nov 24 2017, 20:32	
+                        <label><b>Nombre: </b> {{this.usuario.nombre}}</label>
                         <br />
-                        <b>Register IP: </b>: 123.456.789
+                        <label><b>Apellido: </b> {{this.usuario.apellido}}	</label>
+                        <br />
+                        <label><b>Email: </b> {{this.usuario.email}}	</label>
+                        <br />
+                        <label><b>Contraseña: </b> {{this.usuario.password}}	</label>
+                        <br />
+                        <label><b>Direccion: </b> {{this.usuario.direccion}}</label>
+                        <br />
+                        <label><b>Telefono: </b> {{this.usuario.telefono}}	</label>
+                        <br />
+                        <label><b>Fecha Registro: </b> {{this.usuario.fecha_registro}}	</label>
+                        <br />
+                        <label><b>Tipo de Usuario: </b> {{this.usuario.tipo_usuario}}</label>
+                        
                         
                         <div class="m-b-10"></div>
-                        
-                        <!-- <div id="avatar_image">
-                            <img alt="image" style="max-width:100px; height:auto;" src="assets/images/avatars/admin.png" />
-                            <br />
-                            <i class="fa fa-trash-o fa-fw"></i> <a class="delete_image" href="#">Remove avatar</a>
-                                        
-                        </div>  
-                        <div id="image_deleted_text"></div>   -->                    
 
-                        
                         <div class="m-b-10"></div>
-                        
-                        <div class="form-group">
-                        <label>Change avatar</label> 
-                        <input type="file" name="image" class="form-control">
-                        </div>
+
                         
                     </div>
 
-                    <div class="col-lg-9 col-xl-9">
+                    <div class="col-lg-8 col-xl-8">
 
-                        <legend class="text-center">Registro Persona</legend>
+                        <legend class="text-center">Administrar Datos</legend>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Nombre</label>
                         <input type="text" class="form-control" id="exampleInputNombre" placeholder="Nombre" 
@@ -82,22 +90,16 @@
                         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" 
                                 formControlName="password">
                       </div>
-
-
-
                     </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-large btn-block">Registrarse</button>
+                    <button type="submit" class="btn btn-primary btn-large btn-block">Actualizar</button>
                 </fieldset>
               </form>  
 
-
-
             </div>	
             <!-- end card-body -->			
-            					
-                
+          
             </div>
             <!-- end card -->					
             
