@@ -154,11 +154,11 @@ componentWillMount(){
  }
 }
 
-componentDidMount() {
+/*componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
   }, 10000);
-}
+}*/
 
 componentWillUnmount() {
   clearInterval(this.interval);

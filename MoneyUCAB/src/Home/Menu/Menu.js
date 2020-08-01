@@ -59,13 +59,13 @@ export default class Menu extends Component<Props>{
   //Action a pantalla de Añadir saldo
  }
 
- handleVerification = () =>{
+ handlePayment = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     //Action a la verificacion
+     Actions.payment({title:"Realizar pago", idioma: this.state.idioma, correo: this.state.correo});
    }else{
      this.props.onHandle();
-    //Action a la verificacion
+     Actions.payment({title:"Payment", idioma: this.state.idioma, correo: this.state.correo});
    }
   }
 
@@ -81,7 +81,7 @@ export default class Menu extends Component<Props>{
  	if(this.state.idioma=="es"){
  		this.setState({
  		 option: "Añadir saldo",
-     option5: "Verificar códigos",
+     option5: "Realizar pago",
  		 option2: "Configuración",
  		 option3: "Cambiar a Inglés",
  		 option4: "Salir"
@@ -89,7 +89,7 @@ export default class Menu extends Component<Props>{
  	}else{
  		this.setState({
  		 option: "Add balance",
-     option5: "Verificate codes",
+     option5: "Payment",
  		 option2: "Configuration",
  		 option3: "Change to Spanish",
  		 option4: "Log out"
@@ -117,7 +117,7 @@ export default class Menu extends Component<Props>{
 		  		 </TouchableHighlight>
 		  		</View>
           <View style={styles.options}>
-           <TouchableHighlight onPress={this.handleVerification}>
+           <TouchableHighlight onPress={this.handlePayment}>
             <View style={styles.option}>
              <Icons2 style={styles.icon} name="check-circle" color="#C39515" size={15}/>
              <Text style={styles.text}>
