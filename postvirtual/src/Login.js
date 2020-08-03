@@ -83,7 +83,7 @@ export default class Login extends Component<Props> {
    this.setState({
   	data: null
    });
-   this.setModalVisible("Error de conexión", "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.")
+   this.setModalVisible("Error de conexión", "Verifique la conexión")
   }
 }
 
@@ -92,7 +92,7 @@ export default class Login extends Component<Props> {
   if ((this.state.correo!="") && (this.state.contraseña!="")){
    this.loginApp();
   }else{
-    this.setModalVisible("Error","Algún campo se encuentra vacío.");
+    this.setModalVisible("Error","Campos vacíos.");
   }
  }
 
@@ -162,7 +162,7 @@ export default class Login extends Component<Props> {
             <View style={styles.forgotContainer}>
               <TouchableOpacity onPress={this.handleOlvido}>
                <Text style={styles.forgot}>
-                ¿Olvidaste tu contraseña?
+                ¿Olvidó su contraseña?
                </Text>
               </TouchableOpacity>
              </View>
