@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private authSrevice: AuthService,
               private router: Router) { }
-// private token:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
+private myToken:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
   ngOnInit(): void {
 
     this.hasError = false;
@@ -95,6 +95,34 @@ export class LoginComponent implements OnInit {
       }
     );
     console.log('de nuevo en el login');
+  }
+
+  fakeLogin(){
+
+    localStorage.setItem('token', this.myToken);
+    console.log(localStorage.getItem('token'));
+        // valores esperados del servicio
+    let usuario = {
+          id_usuario: '1',
+          usuario: 'bastvai',
+          // password: '1234',
+          tipo_usuario: 'administrador'
+        };
+
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+        // creando un Fake User para pruebas
+    localStorage.setItem('fakeUser', JSON.stringify(this.fakeUser));
+        // creando un Fake Commerce para pruebas
+    localStorage.setItem('fakeCommerce', JSON.stringify(this.fakeCommerce));
+
+    let comercio = {
+          id_comercio: '1',
+          usuario: 'bastvai',
+          // password: '1234',
+          tipo_usuario: 'administrador'
+        };
+    this.router.navigate(['/home']);
+
   }
 
 
