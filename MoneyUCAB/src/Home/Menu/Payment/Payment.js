@@ -61,9 +61,25 @@ export default class Configuration extends Component<Props> {
   }
  }
 
- sendPayment = () => {
-  //Conexión al API
- }
+ sendPayment = async(correo) => {
+  try {
+    let response = await fetch(
+      'API',{
+       method: 'GET',
+       headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+      }
+     }
+    );
+    let responseJson = await response.json();
+    this.setState({
+      //Asignacion de valores 
+    })
+  }catch (error) {
+   this.setModalVisible(this.state.error, this.state.errorTipo);
+  }
+}
 
  componentWillMount(){
   if(this.state.idioma=="es"){

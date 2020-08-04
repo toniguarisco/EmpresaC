@@ -69,6 +69,16 @@ export default class Menu extends Component<Props>{
    }
   }
 
+  handleRequest = () =>{
+  if (this.state.idioma=="es"){
+     this.props.onHandle();
+     Actions.request({title:"Solicitar dinero", idioma: this.state.idioma, correo: this.state.correo});
+   }else{
+     this.props.onHandle();
+     Actions.request({title:"Request money", idioma: this.state.idioma, correo: this.state.correo});
+   }
+  }
+
  handleLanguage = () =>{
   if (this.state.idioma=="es"){
       Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "en"});
@@ -81,7 +91,8 @@ export default class Menu extends Component<Props>{
  	if(this.state.idioma=="es"){
  		this.setState({
  		 option: "Añadir saldo",
-     option5: "Realizar pago",
+    	 option5: "Realizar pago",
+   	     option6: "Solicitar dinero",
  		 option2: "Configuración",
  		 option3: "Cambiar a Inglés",
  		 option4: "Salir"
@@ -89,7 +100,8 @@ export default class Menu extends Component<Props>{
  	}else{
  		this.setState({
  		 option: "Add balance",
-     option5: "Payment",
+     	 option5: "Payment",
+     	 option6: "Request money",
  		 option2: "Configuration",
  		 option3: "Change to Spanish",
  		 option4: "Log out"
@@ -116,16 +128,26 @@ export default class Menu extends Component<Props>{
 		  		    </View>
 		  		 </TouchableHighlight>
 		  		</View>
-          <View style={styles.options}>
-           <TouchableHighlight onPress={this.handlePayment}>
-            <View style={styles.option}>
-             <Icons2 style={styles.icon} name="check-circle" color="#C39515" size={15}/>
-             <Text style={styles.text}>
-              {this.state.option5}
-             </Text>
-            </View>
-           </TouchableHighlight>
-          </View>
+	          <View style={styles.options}>
+	           <TouchableHighlight onPress={this.handlePayment}>
+	            <View style={styles.option}>
+	             <Icons2 style={styles.icon} name="arrow-right" color="#C39515" size={15}/>
+	             <Text style={styles.text}>
+	              {this.state.option5}
+	             </Text>
+	            </View>
+	           </TouchableHighlight>
+	          </View>
+	          <View style={styles.options}>
+	           <TouchableHighlight onPress={this.handleRequest}>
+	            <View style={styles.option}>
+	             <Icons2 style={styles.icon} name="arrow-down" color="#C39515" size={15}/>
+	             <Text style={styles.text}>
+	              {this.state.option6}
+	             </Text>
+	            </View>
+	           </TouchableHighlight>
+	          </View>
   		 	    <View style={styles.options}>
   		 	     <TouchableHighlight onPress={this.handleConfiguration}>
 	  		 	    <View style={styles.option}>

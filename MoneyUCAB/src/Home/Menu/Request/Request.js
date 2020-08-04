@@ -25,8 +25,9 @@ export default class Configuration extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      contraseña: "",
-      contraseña2: "",
+      correoDestino: "",
+      monto: "",
+      referencia: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
       title:"",
@@ -41,27 +42,33 @@ export default class Configuration extends Component<Props> {
     }
   }
 
-  handlePasswordChange= (Text) =>{
+  handleDestinyEmailChange= (Text) =>{
     this.setState({
-      contraseña: Text
+      correoDestino: Text
     })
   }
 
-  handlePassword2Change= (Text) =>{
+  handleAmountChange= (Text) =>{
     this.setState({
-      contraseña2: Text
+      monto: Text
+    })
+  }
+
+  handleReferenceChange= (Text) =>{
+    this.setState({
+      referencia: Text
     })
   }
 
   handlePress = () =>{
-  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")&&(this.state.contraseña==this.state.contraseña2)){
+  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
    Actions.pop();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
- passwordChanger = async(correo) => {
+ requestMoney = async(correo) => {
   try {
     let response = await fetch(
       'API',{
@@ -84,23 +91,25 @@ export default class Configuration extends Component<Props> {
  componentWillMount(){
   if(this.state.idioma=="es"){
     this.setState({
-      title: "CAMBIAR CONTRASEÑA",
-      placeholder: "Contraseña",
-      placeholder2: "Confirmar contraseña",
+      title: "SOLICITAR DEVOLUCIÓN DEL DINERO",
+      placeholder: "Correo del usuario a solicitar dinero",
+      placeholder2: "Monto",
+      placeholder3: "Número de referencia",
       button: "ACEPTAR",
       error: "Error",
-      errorTipo: "Algún campo está vacío o las contraseñas no coinciden.",
-      subtitle: "Por favor, escriba su nueva contraseña dos veces y luego presione aceptar."
+      errorTipo: "Algún campo está vacío.",
+      subtitle: "Por favor, ingrese el correo de la persona a la que le solicitará su dinero de regreso, luego el monto y el numero de referencia de la transacción que desea retornar."
     })
   }else{
     this.setState({
-      title: "CHANGE PASSWORD",
-      placeholder: "Password",
-      placeholder2: "Confirm password",
+      title: "REQUEST YOUR MONEY BACK",
+      placeholder: "User's e-mail who you want to request your money back",
+      placeholder2: "Amount",
+      placeholder3: "Reference number",
       button: "ACCEPT",
       error: "Error",
-      errorTipo: "Some field is empty or passwords doesn't match.",
-      subtitle: "Please, write your new password two times and then push accept."
+      errorTipo: "Some field is empty.",
+      subtitle: "Please, set the e-mail of the other person who you want to request to get your money back, then set the amount and the reference number of the transaction that you want to return."
     })
   }
  }
@@ -138,9 +147,8 @@ export default class Configuration extends Component<Props> {
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                secureTextEntry={true}
-                onChangeText={this.handlePasswordChange}
-                value={this.state.contraseña} />
+                onChangeText={this.handleDestinyEmailChange}
+                value={this.state.correoDestino} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -149,9 +157,18 @@ export default class Configuration extends Component<Props> {
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                secureTextEntry={true}
-                onChangeText={this.handlePassword2Change}
-                value={this.state.contraseña2} />
+                onChangeText={this.handleAmountChange}
+                value={this.state.monto} />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+                style={styles.input}
+                placeholder={this.state.placeholder3}
+                placeholderTextColor="#A1A1A1"
+                underlineColorAndroid="#C39515"
+                selectionColor="#C39515"
+                onChangeText={this.handleReferenceChange}
+                value={this.state.referencia} />
           </View>
           <TouchableOpacity onPress={this.handlePress}>
            <View style={styles.buttons}>
