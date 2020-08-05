@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap/';
+
 
 @Component({
   selector: 'app-recarga',
@@ -9,21 +9,28 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap/';
 })
 export class RecargaComponent implements OnInit {
 
-  recargaForm = new FormGroup({
-    montoMaxTransacciones : new FormControl('', Validators.required),
-    maxOperacionesDiarias : new FormControl('', [Validators.required]),
-    montoMaxDiario : new FormControl('', Validators.required)
+ 
+  billeteraForm = new FormGroup({
+    monto : new FormControl('', Validators.required)
+
   });
 
+  tarjetaForm = new FormGroup({
+    monto2 : new FormControl('', Validators.required),
+    banco : new FormControl('', Validators.required),
+    numeroTarjeta : new FormControl('', Validators.required),
+    codigoSeguridad : new FormControl('', Validators.required)
+  });
 
   constructor() { }
-
 
   ngOnInit(): void {
   }
 
-  recargarSaldo(): void{
+  porBilletera(): void{
+  }
 
+  porTarjeta(): void{
   }
 
 }

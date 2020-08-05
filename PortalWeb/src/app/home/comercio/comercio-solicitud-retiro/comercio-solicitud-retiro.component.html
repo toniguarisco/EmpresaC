@@ -1,1 +1,73 @@
-<p>comercio-solicitud-retiro works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Solicitud de Retiro de Fondos
+  </h1>
+</div>
+<!-- End Header -->
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card ">
+            <div class="card-header">
+                <legend class="text-center">Solicitud</legend>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="retiroForm" (ngSubmit)="retirarFondos()">
+                    <fieldset>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Monto a retirar</label>
+                        <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca monto a retirar" 
+                                formControlName="monto">
+                              
+                      </div>
+                      
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Retiro Total</label>
+                        <p class = "ml-3"></p>
+                       
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Retiro Parcial</label>
+                        <p class = "mb-5"></p>
+                       
+                      </div>
+
+                    
+                      <div class="form-group">
+                        <label for="examplelabel">Banco</label>
+                        <input type="text" class="form-control" id="exampleInputComision" placeholder="Introduzca el banco" 
+                                formControlName="banco">
+                      </div>
+                      <div class="form-group">
+                        <label for="examplelabel">Numero de Tarjeta</label>
+                        <input type="text" class="form-control" id="exampleInputComision" placeholder="Introduzca el numero de su tarjeta" 
+                                formControlName="numeroTarjeta">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Codigo de Seguridad</label>
+                        <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca el codigo de seguridad de su tarjeta" 
+                                formControlName="codigoSeguridad">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Cedula de Identidad</label>
+                        <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca Monto a recargar" 
+                                formControlName="cedula">
+                      </div>
+
+           
+                      <button type="submit" class="btn btn-primary btn-large btn-block">Realizar retiro</button>
+                    </fieldset>
+                  </form>  
+                  
+            </div>
+        </div>
+    </div>
+</div>
+   
+  
+  
+

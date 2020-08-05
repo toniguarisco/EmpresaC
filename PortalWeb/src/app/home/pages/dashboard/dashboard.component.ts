@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  saldo: String = '3.500.000';
+ 
   constructor() { }
 
   ngOnInit(): void {

@@ -1,1 +1,67 @@
-<p>sub-usuarios works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Registrar Nuevo Sub Usuario
+  </h1>
+</div>
+<!-- End Header -->
+<div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card">
+            <div class="card-body">
+                
+                <form [formGroup]="registerForm" (ngSubmit)="registrarPersona()">
+                    <fieldset>
+                      <legend class="text-center">Registro Sub Usuario</legend>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Nombre</label>
+                        <input type="text" class="form-control" id="exampleInputNombre" placeholder="Nombre" 
+                                formControlName="nombre">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Apellido</label>
+                        <input type="text" class="form-control" id="exampleInputApellido" placeholder="Apellido" 
+                                formControlName="apellido">
+                      </div>
+                     
+                      <div class="row">
+                        <div class="form-group col-md-5">
+                          <label for="dateOfBirth">Fecha de Nacimiento</label>
+                          <input id="dateOfBirth2" name="dateOfBirth" placeholder="Fecha de Nacimiento"
+                                  type="text" bsDatepicker [bsConfig]="datePickerConfig" 
+                                  class="form-control mb-3" 
+                                  formControlName="fechaNacimiento" />
+                         
+                         
+                        </div>
+                      </div>
+                     
+                      <div class="form-group">
+                        <label for="exampleInputTelefono">Telefono</label>
+                        <input type="phone" class="form-control" id="exampleInputTelefono"  placeholder="Telefono" 
+                                formControlName="telefono">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Correo</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" 
+                                formControlName="email">
+                        <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo con nadie mas</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" 
+                                formControlName="password">
+                      </div>
+       
+
+                      <button type="submit" class="btn btn-primary btn-large btn-block">Registrar Sub Usuario</button>
+                    </fieldset>
+                  </form>  
+                   
+                  
+            </div>
+        </div>
+    </div>
+</div>
+

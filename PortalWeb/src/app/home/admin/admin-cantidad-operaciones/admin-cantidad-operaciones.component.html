@@ -1,1 +1,27 @@
-<p>admin-cantidad-operaciones works!</p>
+
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2 align-middle py-0 mb-0 text-primary">
+        Listado total de cantidad de operaciones
+    </h1>
+</div>
+<!-- End Header -->
+
+<!-- Datatable -->
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tipo</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let operacion of operaciones">
+            <td>{{ operacion.id }}</td>
+            <td>{{ operacion.tipo }}</td>
+            <td>{{ operacion.total }}</td>
+          </tr>
+    </tbody>
+  </table>
+  <!-- End Datatable -->

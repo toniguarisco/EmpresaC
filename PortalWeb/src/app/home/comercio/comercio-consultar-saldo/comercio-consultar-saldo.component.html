@@ -1,1 +1,52 @@
-<p>comercio-consultar-saldo works!</p>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2 align-middle py-0 mb-0 text-primary">
+        Consultar Saldo
+    </h1>
+</div>
+<!-- End Header -->
+
+
+<div class="row row-cols-1 row-cols-md-2">
+  <div class="col-md-6 mx-auto mt-5">
+      <div class="card ">
+          <div class="card-header">
+            <legend class="text-center">Saldo Disponible</legend>
+          </div>
+          <div class="card-body">
+              <form [formGroup]="saldoForm" (ngSubmit)="saldoActual()">
+                <fieldset>
+            
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Su saldo actual es de</label>
+                    <input type="text" class="form-control" id="exampleMonto" placeholder="50050" 
+                            formControlName="saldo">
+                  </div>
+                </fieldset>
+              </form>  
+              
+        </div>
+    </div>
+</div>
+
+<!-- Datatable -->
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+  <legend class="text-center">Historial de Operaciones</legend>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+        <th>Concepto</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let operacion of operaciones">
+            <td>{{ operacion.id }}</td>
+            <td>{{ operacion.monto }}</td>
+            <td>{{ operacion.fecha }}</td>
+            <td>{{ operacion.concepto }}</td>
+          </tr>
+    </tbody>
+  </table>
+  <!-- End Datatable -->

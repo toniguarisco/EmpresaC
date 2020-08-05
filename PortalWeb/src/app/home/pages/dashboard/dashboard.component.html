@@ -1,1 +1,65 @@
-<h3>aca esta el Dashboard</h3>
+<!-- Header -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Dashboard 
+  </h1>
+</div>
+<!-- End Header -->
+
+<!-- Card Deck -->
+<div class="card-deck">
+    <!-- Card -->
+    <div routerLink="/home/consultar-saldo" routerLinkActive="active" style="cursor: pointer" class="card bg-info text-white">
+        <div class="card-header">
+            <h3 class="card-title">Consultar Saldo 
+                <span style="font-size: 3em; color: Tomato;">  
+                  <i id="userIcon" class="fa fa-file-text-o float-right text-white"></i>
+                </span>
+            </h3>
+        </div>
+        <div class="card-body ">
+          <p class="card-text">Consultar saldo en su monedero.</p>
+        </div>
+      </div>
+      <!-- End Card -->
+      <!-- Card -->
+    <div routerLink="/home/recarga" routerLinkActive="active" style="cursor: pointer" class="card bg-warning text-white">
+        <div class="card-header" >
+            <h3 class="card-title">Recargar Saldo
+                <span style="font-size: 2.8em; color: Tomato;">  
+                <i class="fa fa-edit float-right text-white"></i>
+                </span>
+            </h3>
+        </div>
+      <div class="card-body ">
+
+        <p class="card-text">Recargar saldo en su monedero.</p>
+      </div>
+    </div>
+   <!-- End Card -->
+      <!-- Card -->
+    <div class="card bg-danger text-white">
+        <div class="card-header">
+            <h3 class="card-title">Administrar Sub Usuarios 
+                <span style="font-size: 3em; color: Tomato;">  
+                  <i  id="userIcon" class="fa fa-user-o float-right text-white"></i>
+                </span>
+            </h3>
+        </div>
+      <div class="card-body">
+        <p class="card-text">Administracion de Sub Usuarios asociados a su cuenta.</p>
+        <!-- Listado de Reportes -->
+        <div class="list-group ">
+            <a id="link" href="/home/sub-usuarios" class="list-group-item list-group-item-action">Registrar nuevo Sub Usuario</a>
+            <a id="link" href="/home/consultar-sub-usuarios" class="list-group-item list-group-item-action">Consultar Sub Usuarios existentes</a>
+            <a id="link" href="/home/eliminar-sub-usuarios" class="list-group-item list-group-item-action">Eliminar Sub Usuario</a>
+            <p>.</p>
+            <p>.</p>
+
+
+      </div>
+    </div>
+    <!-- End Card -->
+  </div>
+
+   

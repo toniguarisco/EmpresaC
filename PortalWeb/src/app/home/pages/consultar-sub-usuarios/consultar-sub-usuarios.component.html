@@ -1,25 +1,28 @@
 <!-- Header -->
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2 align-middle py-0 mb-0 text-primary">
-        Historial de solicitudes de retiro de fondos
+        Consultar Sub Usuarios
     </h1>
 </div>
 <!-- End Header -->
 
 <!-- Datatable -->
 <table datatable [dtOptions]="dtOptions" class="row-border hover">
+  <legend class="text-center">Sub Usuarios existentes</legend>
     <thead>
       <tr>
         <th>ID</th>
-        <th>Monto</th>
-        <th>Fecha</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Telefono</th>
       </tr>
     </thead>
     <tbody>
         <tr *ngFor="let operacion of operaciones">
             <td>{{ operacion.id }}</td>
-            <td>{{ operacion.monto }}</td>
-            <td>{{ operacion.fecha }}</td>
+            <td>{{ operacion.nombre }}</td>
+            <td>{{ operacion.apellido }}</td>
+            <td>{{ operacion.telefono }}</td>
           </tr>
     </tbody>
   </table>
