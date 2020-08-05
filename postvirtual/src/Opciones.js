@@ -27,7 +27,6 @@ export default class Configuration extends Component<Props> {
     this.state = {
       contraseña: "",
       contraseña2: "",
-      idioma: this.props.idioma,
       correo: this.props.correo,
       title:"",
       placeholder:"",
@@ -66,7 +65,6 @@ export default class Configuration extends Component<Props> {
  }
 
  componentWillMount(){
-  if(this.state.idioma=="es"){
     this.setState({
       title: "CAMBIAR CONTRASEÑA",
       placeholder: "Contraseña",
@@ -76,17 +74,6 @@ export default class Configuration extends Component<Props> {
       errorTipo: "Algún campo está vacío o las contraseñas no coinciden.",
       subtitle: "Por favor, escriba su nueva contraseña dos veces y luego presione aceptar."
     })
-  }else{
-    this.setState({
-      title: "CHANGE PASSWORD",
-      placeholder: "Password",
-      placeholder2: "Confirm password",
-      button: "ACCEPT",
-      error: "Error",
-      errorTipo: "Some field is empty or passwords doesn't match.",
-      subtitle: "Please, write your new password two times and then push accept."
-    })
-  }
  }
 
  setModalVisible = (Text1, Text2) => {

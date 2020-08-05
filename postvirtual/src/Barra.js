@@ -9,7 +9,7 @@ import {
   Image
 } from 'react-native';
 
-const Header = props =>{
+const Barra = props =>{
 		return(
 			 <View style={styles.container}>
 			  <TouchableHighlight onPress={props.onHandle}>

@@ -29,7 +29,6 @@ export default class Menu extends Component<Props>{
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       charts: this.props.chartState,
-      idioma: this.props.idiomaState,
       option: "",
       option2: "",
       option3: "",
@@ -45,13 +44,8 @@ export default class Menu extends Component<Props>{
  }
 
  handleConfiguration = () =>{
-  if (this.state.idioma=="es"){
-     this.props.onHandle();
-     Actions.configuration({title:"Configuración", correo: this.state.correo});
-   }else{
-     this.props.onHandle();
-     Actions.configuration({title:"Configuration", correo: this.state.correo});
-   }
+  this.props.onHandle();
+  Actions.configuration({title:"Configuración", correo: this.state.correo});
   }
   
  handleBalance = () =>{
@@ -60,25 +54,17 @@ export default class Menu extends Component<Props>{
  }
 
  handlePayment = () =>{
-  if (this.state.idioma=="es"){
      this.props.onHandle();
-     Actions.payment({title:"Realizar pago", correo: this.state.correo});
-   }else{
-     this.props.onHandle();
-     Actions.payment({title:"Payment", correo: this.state.correo});
-   }
+     Actions.payment({title:"Solicitar pago", correo: this.state.correo});
   }
 
- handleLanguage = () =>{
-  if (this.state.idioma=="es"){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "en"});
-    }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "es"});
-    }
+  handleOperaciones = () =>{
+    this.props.onHandle();
+    // Accion de operaciones
+    // Actions.payment({title:"Realizar pago", correo: this.state.correo});
  }
 
  componentWillMount(){
- 	if(this.state.idioma=="es"){
  		this.setState({
  		 option: "Añadir saldo",
      option5: "Realizar pago",
@@ -86,15 +72,6 @@ export default class Menu extends Component<Props>{
  		 option3: "Cambiar a Inglés",
  		 option4: "Salir"
  		})
- 	}else{
- 		this.setState({
- 		 option: "Add balance",
-     option5: "Verificate codes",
- 		 option2: "Configuration",
- 		 option3: "Change to Spanish",
- 		 option4: "Log out"
- 		})
- 	}
  }
 
   render(){
@@ -137,9 +114,9 @@ export default class Menu extends Component<Props>{
 		  		 </TouchableHighlight>
 		  		</View>
 		  		<View style={styles.options}>
-		  		 <TouchableHighlight onPress={this.handleLanguage}>
+		  		 <TouchableHighlight onPress={this.handleOperaciones}>
 	  		 	  <View style={styles.option}>
-	  		 	   <Icons3 style={styles.icon} name="translate" color="#C39515" size={15}/>
+	  		 	   <Icons3 style={styles.icon} name="operaciones" color="#C39515" size={15}/>
 	           <Text style={styles.text}>
 	            {this.state.option3}
 		  		 	 </Text>

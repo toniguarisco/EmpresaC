@@ -8,6 +8,7 @@ import Olvido from './Olvido.js';
 import Principal from './Principal.js';
 import Opciones from './Opciones.js';
 import Pago from './Pago.js';
+import Operaciones from './Operaciones.js';
 
 import {
   Platform,
@@ -27,7 +28,8 @@ export default class App extends Component<Props> {
         <Scene key="olvido" component={Olvido} title="Reestablacer contraseña" hideNavBar={false}/>
         <Scene key="principal" component={Principal} title="Inicio" type="reset" hideNavBar/>
         <Scene key="opciones" component={Opciones} title="Opciones" hideNavBar={false}/>
-        <Scene key="pago" component={Pago} title="Pagos" hideNavBar={false}/>
+        <Scene key="pago" component={Pago} title="Solicitar pago" hideNavBar={false}/>
+        <Scene key="operaciones" component={Operaciones} title="Operaciones" hideNavBar={false}/>
        </Stack>
       </Router>
     );

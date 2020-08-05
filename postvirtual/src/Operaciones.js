@@ -66,10 +66,12 @@ export default class Configuration extends Component<Props> {
 
  componentWillMount(){
     this.setState({
-      title: "SOLICITAR PAGO",
-      placeholder: "Correo del usuario para solicitud",
-      placeholder2: "Monto",
-      button: "ACEPTAR",
+      title: "OPERACIONES",
+      placeholder: "Operaciones de cuenta",
+      placeholder2: "Operaciones de monedero",
+      placeholder2: "Operaciones de tarjeta",
+      placeholder2: "Operaciones de reintegro",
+      button: "ACEPTAR REINTEGRO",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
       subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto."

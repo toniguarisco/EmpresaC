@@ -122,7 +122,7 @@ export default class Login extends Component<Props> {
                 height: 100,
                 }}> 
                 <Text style={{ fontSize: 40, color: "#FFFFFF" }}> PostVirtual</Text>
-                <Text style={{ fontSize: 20, color: "#FFFFFF" }}> para comercios</Text>
+                <Text style={{ fontSize: 15, color: "#FFFFFF" }}> para comercios</Text>
               </View>
               <View style={styles.inputContainer}>
               <TextInput style={styles.input}
