@@ -12,23 +12,16 @@
                   <legend class="text-center">Menu de eliminacion</legend>
               </div>
               <div class="card-body">
-                  <form [formGroup]="bloqueoForm" (ngSubmit)="bloqueoOperaciones()">
+                  <form [formGroup]="bloqueoForm" (ngSubmit)="eliminarSubusuario()">
                       <fieldset>
                         <div class="form-group">
                           <label for="exampleInputPassword1">Seleccionar Sub Usuario a Eliminar</label>
                         </div>
     
-                        <div class="row">
-                          <div class="col">
-                            <div ngbDropdown class="d-inline-block">
-                              <button class="btn btn-outline-primary" id="dropdownbilletera" ngbDropdownToggle>Sub Usuarios</button>
-                              <div ngbDropdownMenu aria-labelledby="dropdownbilletera">
-                                <button ngbDropdownItem>Carlos Perez</button>
-                                <button ngbDropdownItem>Karla Perez</button>
-                                <button ngbDropdownItem>Manuel Perez</button>
-                                <button ngbDropdownItem>Marcia Avila</button>   
-                              </div>
-                            </div>
+                        <div ngbDropdown class="d-inline-block">
+                          <button class="btn btn-outline-primary" id="sortMenu"  ngbDropdownToggle>{{selectedSortOrder}}</button>
+                          <div class="dropdown-menu" aria-labelledby="sortMenu" ngbDropdownMenu>
+                            <button class="dropdown-item" *ngFor="let sortOrder of sortOrders" (click)="ChangeSortOrder(sortOrder)" >{{sortOrder}}</button>
                           </div>
                         </div>
     

@@ -20,16 +20,11 @@
                               formControlName="monto">
                     </div>
 
-                    <div class="row">
-                      <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                          <button class="btn btn-outline-primary" id="dropdownbilletera" ngbDropdownToggle>Seleccionar Billetera</button>
-                          <div ngbDropdownMenu aria-labelledby="dropdownbilletera">
-                            <button ngbDropdownItem>Billetera 1</button>
-                            <button ngbDropdownItem>Billetera 2</button>
-                            <button ngbDropdownItem>Billetera 3</button>
-                          </div>
-                        </div>
+                    
+                    <div ngbDropdown class="d-inline-block">
+                      <button class="btn btn-outline-primary" id="sortMenu"  ngbDropdownToggle>{{selectedSortOrder}}</button>
+                      <div class="dropdown-menu" aria-labelledby="sortMenu" ngbDropdownMenu>
+                        <button class="dropdown-item" *ngFor="let sortOrder of sortOrders" (click)="ChangeSortOrder(sortOrder)" >{{sortOrder}}</button>
                       </div>
                     </div>
 

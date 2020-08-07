@@ -27,6 +27,8 @@ export class ComercioSolicitudRetiroComponent implements OnInit {
 
   retirarFondos(): void{
 
+    console.log('click en actualizar comision');
+    console.log(this.retiroForm.value);
+  }
   }
 
-}

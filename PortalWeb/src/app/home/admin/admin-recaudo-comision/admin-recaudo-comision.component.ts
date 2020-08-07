@@ -13,7 +13,7 @@ export class AdminRecaudoComisionComponent implements OnInit {
   });
 
   comisionForm = new FormGroup({
-    TotalTotal : new FormControl('', Validators.required)
+    TotalTotalComisiones : new FormControl('', Validators.required)
   });
 
   constructor() { }
@@ -22,8 +22,9 @@ export class AdminRecaudoComisionComponent implements OnInit {
   }
 
   consultarTotalEmpresa(): void{
-    console.log('click en actualizar paramteros');
+    console.log('click en actualizar parametros');
     console.log(this.parametrosForm.value);
+    
   }
 
   consultarTotalTotal(): void{

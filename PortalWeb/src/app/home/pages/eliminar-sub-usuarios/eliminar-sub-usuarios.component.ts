@@ -13,12 +13,26 @@ export class EliminarSubUsuariosComponent implements OnInit {
     
   });
 
+  sortOrders: string[] = ["Carlos Perez", "Karla Perez", "Manuel Perez", "Marcia Avila"];
+  selectedSortOrder: string = "Sub Usuario";
+
+
+
   constructor() { }
+
+ 
+  ChangeSortOrder(newSortOrder: string) { 
+    this.selectedSortOrder = newSortOrder;
+  }
+
 
   ngOnInit(): void {
   }
 
-  bloqueoOperaciones(): void{
+  eliminarSubusuario(): void{
 
+    console.log('bloquear');
+    console.log('Form -> ',this.selectedSortOrder)
+  
   }
 }
