@@ -55,8 +55,13 @@ export default class Menu extends Component<Props>{
   }
   
  handleBalance = () =>{
-  this.props.onHandle();
-  //Action a pantalla de Añadir saldo
+  if (this.state.idioma=="es"){
+     this.props.onHandle();
+     Actions.money({title:"Añadir dinero", idioma: this.state.idioma, correo: this.state.correo});
+   }else{
+     this.props.onHandle();
+     Actions.money({title:"Add money", idioma: this.state.idioma, correo: this.state.correo});
+   }
  }
 
  handlePayment = () =>{

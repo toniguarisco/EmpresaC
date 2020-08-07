@@ -91,7 +91,9 @@ export default class Login extends Component<Props> {
 
  handleLoginPress = () =>{
   if ((this.state.correo!="") && (this.state.contraseña!="")){
-   this.loginApp();
+   //this.loginApp();
+   Actions.pop();
+   Actions.home({token: 12311212, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
   }else{
     this.setModalVisible("Error","Algún campo se encuentra vacío.");
   }

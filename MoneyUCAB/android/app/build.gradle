@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-paypal-lib')
     implementation project(':react-native-camera')
     implementation project(':react-native-svg')
     implementation project(':react-native-vector-icons')
