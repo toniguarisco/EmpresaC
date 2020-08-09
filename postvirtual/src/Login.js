@@ -47,8 +47,12 @@ export default class Login extends Component<Props> {
       contraseña: Text
     })
   }
+
+  loginApp = () => {
+    Actions.principal();
+  }
   
-  loginApp = async() => {
+  /*loginApp = async() => {
   this.setState({
   	data: 1
   })
@@ -72,7 +76,7 @@ export default class Login extends Component<Props> {
   	     data: null
         })
         Actions.pop();
-        Actions.home({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
+        Actions.principal({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: false});
     }else{
       this.setState({
   	   data: null
@@ -85,8 +89,8 @@ export default class Login extends Component<Props> {
    });
    this.setModalVisible("Error de conexión", "Verifique la conexión")
   }
-}
-
+} 
+*/
 
  handleLoginPress = () =>{
   if ((this.state.correo!="") && (this.state.contraseña!="")){
@@ -114,7 +118,7 @@ export default class Login extends Component<Props> {
     return (
       <View style={{flex: 1}}>
         <ImageBackground resizeMode={'stretch'} style={{flex: 1}} source={require(background)}>
-           <View style={{flex: 1, marginBottom: 15, marginTop: 100}}>
+           <View style={{flex: 1, marginBottom: 15, marginTop: 10}}>
             <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: "center"}}>
               <View
                 style={{
@@ -165,11 +169,6 @@ export default class Login extends Component<Props> {
                 ¿Olvidó su contraseña?
                </Text>
               </TouchableOpacity>
-             </View>
-             <View style={styles.developer}>
-                <Text style={styles.text3}>
-                   Desarrollado por Empresa C
-                </Text>
              </View>
              <Modal
               animationType="slide"

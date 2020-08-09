@@ -25,14 +25,12 @@ export default class Configuration extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      usuario: "",
-      numidentificacion: "",
-      telefono: "",
-      direccion: "",
-      nombrerep: "",
-      apellidorep: "",
+      contraseña: "",
+      contraseña2: "",
       correo: this.props.correo,
       title:"",
+      placeholder:"",
+      placeholder2:"",
       button:"",
       error:"",
       errorTipo:"",
@@ -42,37 +40,27 @@ export default class Configuration extends Component<Props> {
     }
   }
 
-  handleDestinyEmailChange= (Text) =>{
+  handlePasswordChange= (Text) =>{
     this.setState({
-      correoDestino: Text
+      contraseña: Text
     })
   }
 
-  handleAmountChange= (Text) =>{
+  handlePassword2Change= (Text) =>{
     this.setState({
-      monto: Text
-    })
-  }
-
-  handleReferenceChange= (Text) =>{
-    this.setState({
-      referencia: Text
+      contraseña2: Text
     })
   }
 
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
+  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")&&(this.state.contraseña==this.state.contraseña2)){
    Actions.pop();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
- handleCambio = () =>{
-  Actions.cambioclave({title:"Cambiar Contraseña", correo: this.state.correo});
-  }
-
- requestMoney = async(correo) => {
+ passwordChanger = async(correo) => {
   try {
     let response = await fetch(
       'API',{
@@ -91,14 +79,18 @@ export default class Configuration extends Component<Props> {
    this.setModalVisible(this.state.error, this.state.errorTipo);
   }
 }
- 
-componentWillMount(){
-  this.setState({
-    title: "OPCIONES DE PERFIL",
-    error: "Error",
-    errorTipo: "Algún campo está vacío.",
-  })
-}
+
+ componentWillMount(){
+    this.setState({
+      title: "CAMBIAR CONTRASEÑA",
+      placeholder: "Contraseña",
+      placeholder2: "Confirmar contraseña",
+      button: "GUARDAR",
+      error: "Error",
+      errorTipo: "Algún campo está vacío o las contraseñas no coinciden.",
+      subtitle: "Por favor, escriba su nueva contraseña dos veces y luego presione aceptar."
+    })
+ }
 
  setModalVisible = (Text1, Text2) => {
     this.setState({
@@ -123,93 +115,37 @@ componentWillMount(){
            </View>
           </View>
           <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+           <Text style={styles.text3}>
+            {this.state.subtitle}
+           </Text>
            <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}
-                placeholder={this.state.usuario}
+                placeholder={this.state.placeholder}
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleDestinyEmailChange}
-                value={this.state.correoDestino} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput editable={false} selectTextOnFocus={false}
-                style={styles.input}
-                placeholder={this.state.numidentificacion}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleReferenceChange}
-                value={this.state.referencia} />
+                secureTextEntry={true}
+                onChangeText={this.handlePasswordChange}
+                value={this.state.contraseña} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}
-                placeholder={this.state.correo}
+                placeholder={this.state.placeholder2}
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                secureTextEntry={true}
+                onChangeText={this.handlePassword2Change}
+                value={this.state.contraseña2} />
           </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.telefono}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.direccion}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.nombrerep}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.apellidorep}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>       
-          <TouchableOpacity onPress={this.handleCambio}>
-           <View style={styles.buttons}>
-            <View style={styles.button}>
-             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
-                <Text style={styles.buttonText}>
-                 CAMBIAR CONTRASEÑA
-                </Text>
-              </LinearGradient>
-            </View>
-           </View>
-          </TouchableOpacity>
           <TouchableOpacity onPress={this.handlePress}>
            <View style={styles.buttons}>
             <View style={styles.button}>
              <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
                 <Text style={styles.buttonText}>
-                 GUARDAR
+                 {this.state.button}
                 </Text>
               </LinearGradient>
             </View>
@@ -232,15 +168,11 @@ componentWillMount(){
              this.setState({modalVisible: !this.state.modalVisible})
             }}
             style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <TouchableOpacity onPress={this.handlePress}>
-           <View style={{paddingTop:5}}>
-           </View>
-          </TouchableOpacity>
             <View style={styles.buttons}>
              <View style={styles.button}>
               <LinearGradient style={{paddingLeft: 40, paddingRight: 40}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
                <Text style={styles.buttonText}>
-                CONFIRMAR
+                OK
                </Text>
               </LinearGradient>
              </View>
@@ -343,4 +275,4 @@ const styles = StyleSheet.create({
   flex: 1,
   height: 30
  },
-});
+}); 

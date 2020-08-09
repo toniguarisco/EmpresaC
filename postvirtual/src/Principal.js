@@ -8,6 +8,7 @@ import Barra from "./Barra.js";
 import Menu from "./Menu.js";
 
 import {
+  FlatList,
   Platform,
   StyleSheet,
   Text,
@@ -19,6 +20,7 @@ import {
   Modal,
   TouchableHighlight
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -30,19 +32,25 @@ export default class Home extends Component<Props> {
     this.state = {
       token: this.props.token,
       correo: this.props.correo,
-      contreseña: this.props.contraseña,
+      contraseña: this.props.contraseña,
       isOpen: false,
       charts: this.props.charts,
       color: "",
       data: [],
       balance: 0,
-      title3:"",
-      title4: "",
+      title1:"",
+      title2: "",
       error:"",
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
-      message: ""
+      message: "",
+      lista: [
+        {usuario: "",
+        monto: "",
+        fecha: "",
+        referencia: ""}
+      ]
     }
   }
 
@@ -57,13 +65,7 @@ export default class Home extends Component<Props> {
     isOpen: isopen
   })
  }
- switchCharts = () =>{
-   if (!this.state.charts){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data});
-   }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data});
-   }
- }
+
 
  getUserData = async(correo) => {
   try {
@@ -73,7 +75,11 @@ export default class Home extends Component<Props> {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      /* body: JSON.stringify({
+      usuario: this.state.usuario,
+      fecha: this.state.fecha
+      }) */
      }
     );
     let responseJson = await response.json();
@@ -127,6 +133,23 @@ componentWillMount(){
   }
 }
 
+renderItem = ({item}) => (
+  <TouchableOpacity>
+    <View style={styles.item}>
+      <View></View>
+      <Text># {item.referencia} | {item.fecha} | {item.usuario}  |  $ {item.monto}</Text>
+    </View>
+  </TouchableOpacity>
+)
+
+FlatListseparador = () => { 
+  return(
+    <View
+    style={{height:1, width: '100%', backgroundColor:'#f5C39515'}}
+  />
+  )
+}
+
 componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
@@ -138,28 +161,11 @@ componentWillUnmount() {
 }
 
   render() {
-
-    const dias = ["14/07/2018","15/07/2018","16/07/2018","17/07/2018"]
-    const axesSvg = { fontSize: 10, fill: 'white' };
-    const verticalContentInset = { top: 9, bottom: 9 }
-    const xAxisHeight = 45;
-    const Line = ({ line }) =>{
-     if(this.state.charts==false){
-     	return(
-       <Path key={ 'line ' } d={ line } stroke={ "#C39515" } fill={ 'none' }/>
-      )
-     }else{
-     	return(
-     	 <Path key={ 'line ' } d={ line } stroke={ "#A9A9A9" } fill={ 'none' }/>
-       )
-      }
-    }
-
     return (
       <View style={styles.home}>
        <SideMenu menu={<Menu token={this.state.token} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} chartState={this.state.charts} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
-          <Header onHandle={this.handleSideMenu} onSwitch={this.switchCharts}/>
+          <Barra onHandle={this.handleSideMenu} onSwitch={this.switchCharts}/>
         </View> 
         <View style={{flex: 1}}>
          <View style={styles.container}>
@@ -189,16 +195,13 @@ componentWillUnmount() {
                </LinearGradient>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row'}}>
-              <YAxis data={this.state.data} numberOfTicks={5} style={{ marginBottom: xAxisHeight}} contentInset={verticalContentInset} svg={axesSvg}/>
-                <View style={{flex: 1, flexDirection:"column"}}>
-                  <AreaChart style={{ flex: 1}} data={ this.state.data } svg={{ fill: this.state.color }} contentInset={{ top: 15, bottom: 15 }} curve={ shape.curveNatural }>
-                   <Line/>
-                  </AreaChart>
-                <View style={{ flex: 1, height: 20, flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                  {dias.map((item) => <Text style={{color: "white", fontSize: 10}}>{item}</Text>)}
-                </View>
-              </View>
+            <View style={{ flex: 1, paddingTop: 5, flexDirection: 'row'}}>
+              <FlatList
+                data={this.state.lista}
+                keyExtractor={({ id }, index) => id}
+                renderItem={this.renderItem}
+                ItemSeparatorComponent = {this.FlatListseparador}
+              />
             </View>
             <Modal
               animationType="slide"
@@ -342,5 +345,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontFamily: "Montserrat-SemiBold",
     marginBottom: 10
-  }
+  },
+
+  item: {
+    padding: 10,
+    fontSize: 10,
+    height: 44,
+}
 });

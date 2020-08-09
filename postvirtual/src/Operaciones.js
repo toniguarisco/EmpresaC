@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 import {
+  FlatList,
   Platform,
   StyleSheet,
   Text,
@@ -27,11 +34,11 @@ export default class Configuration extends Component<Props> {
     this.state = {
       correoDestino: "",
       monto: "",
+      referencia: "",
+      usuario: "",
+      fecha: "",
       correo: this.props.correo,
       title:"",
-      placeholder:"",
-      placeholder2:"",
-      button:"",
       error:"",
       errorTipo:"",
       modalVisible: false,
@@ -40,41 +47,57 @@ export default class Configuration extends Component<Props> {
     }
   }
 
-  handleDestinyEmailChange= (Text) =>{
-    this.setState({
-      correoDestino: Text
-    })
-  }
-
-  handleAmountChange= (Text) =>{
-    this.setState({
-      monto: Text
-    })
-  }
-
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")){
+  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
    Actions.pop();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
- sendRequest = () => {
-  //Conexión al API
- }
+ requestMoney = async(correo) => {
+  try {
+    let response = await fetch(
+      'API',{
+       method: 'GET',
+       headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+      }
+     }
+    );
+    let responseJson = await response.json();
+    this.setState({
+      //Asignacion de valores 
+    })
+  }catch (error) {
+   this.setModalVisible(this.state.error, this.state.errorTipo);
+  }
+}
+
+renderItem = ({item}) => (
+  <TouchableOpacity>
+    <View style={styles.item}>
+      <View></View>
+      <Text># {item.referencia} | {item.fecha}</Text>
+      <Text>{item.usuario}    $ {item.monto}</Text>
+    </View>
+  </TouchableOpacity>
+)
+
+FlatListseparador = () => { 
+  return(
+    <View
+    style={{height:1, width: '100%', backgroundColor:'#f5C39515'}}
+  />
+  )
+}
 
  componentWillMount(){
     this.setState({
-      title: "OPERACIONES",
-      placeholder: "Operaciones de cuenta",
-      placeholder2: "Operaciones de monedero",
-      placeholder2: "Operaciones de tarjeta",
-      placeholder2: "Operaciones de reintegro",
-      button: "ACEPTAR REINTEGRO",
+      title: "HISTORIAL DE OPERACIONES",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
-      subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto."
     })
  }
 
@@ -100,41 +123,17 @@ export default class Configuration extends Component<Props> {
             </LinearGradient>
            </View>
           </View>
-          <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-           <Text style={styles.text3}>
-            {this.state.subtitle}
-           </Text>
-           <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.placeholder}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleDestinyEmailChange}
-                value={this.state.correoDestino} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.placeholder2}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <TouchableOpacity onPress={this.handlePress}>
-           <View style={styles.buttons}>
-            <View style={styles.button}>
-             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
-                <Text style={styles.buttonText}>
-                 {this.state.button}
-                </Text>
-              </LinearGradient>
+
+            <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <View style={styles.inputContainer}>
+            <FlatList
+              data={this.state.lista}
+              keyExtractor={({ id }, index) => id}
+              renderItem={this.renderItem}
+              ItemSeparatorComponent = {this.FlatListseparador}
+            />
             </View>
-           </View>
-          </TouchableOpacity>
+ 
           <Modal
            animationType="slide"
            transparent={false}
@@ -152,15 +151,6 @@ export default class Configuration extends Component<Props> {
              this.setState({modalVisible: !this.state.modalVisible})
             }}
             style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <View style={styles.buttons}>
-             <View style={styles.button}>
-              <LinearGradient style={{paddingLeft: 40, paddingRight: 40}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
-               <Text style={styles.buttonText}>
-                OK
-               </Text>
-              </LinearGradient>
-             </View>
-            </View>
            </TouchableHighlight>
           </View>
          </Modal>
@@ -259,4 +249,4 @@ const styles = StyleSheet.create({
   flex: 1,
   height: 30
  },
-}); 
+});

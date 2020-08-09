@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 import {
+  FlatList,
   Platform,
   StyleSheet,
   Text,
@@ -25,39 +32,21 @@ export default class Configuration extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
+      correoDestino: "",
+      monto: "",
+      referencia: "",
       usuario: "",
-      numidentificacion: "",
-      telefono: "",
-      direccion: "",
-      nombrerep: "",
-      apellidorep: "",
+      fecha: "",
       correo: this.props.correo,
       title:"",
-      button:"",
+      title2:"",
+      title3:"",
       error:"",
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
       message: ""
     }
-  }
-
-  handleDestinyEmailChange= (Text) =>{
-    this.setState({
-      correoDestino: Text
-    })
-  }
-
-  handleAmountChange= (Text) =>{
-    this.setState({
-      monto: Text
-    })
-  }
-
-  handleReferenceChange= (Text) =>{
-    this.setState({
-      referencia: Text
-    })
   }
 
   handlePress = () =>{
@@ -67,10 +56,6 @@ export default class Configuration extends Component<Props> {
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
-
- handleCambio = () =>{
-  Actions.cambioclave({title:"Cambiar Contraseña", correo: this.state.correo});
-  }
 
  requestMoney = async(correo) => {
   try {
@@ -91,14 +76,34 @@ export default class Configuration extends Component<Props> {
    this.setModalVisible(this.state.error, this.state.errorTipo);
   }
 }
- 
-componentWillMount(){
-  this.setState({
-    title: "OPCIONES DE PERFIL",
-    error: "Error",
-    errorTipo: "Algún campo está vacío.",
-  })
+
+renderItem = ({item}) => (
+  <TouchableOpacity>
+    <View style={styles.item}>
+      <View></View>
+      <Text># {item.referencia} | {item.fecha}</Text>
+      <Text>{item.usuario}    $ {item.monto}</Text>
+    </View>
+  </TouchableOpacity>
+)
+
+FlatListseparador = () => { 
+  return(
+    <View
+    style={{height:1, width: '100%', backgroundColor:'#f5C39515'}}
+  />
+  )
 }
+
+ componentWillMount(){
+    this.setState({
+      title: "SOLICITUDES DE REINTEGRO",
+      title2: "ACEPTAR",
+      title3: "DENEGAR",
+      error: "Error",
+      errorTipo: "Algún campo está vacío.",
+    })
+ }
 
  setModalVisible = (Text1, Text2) => {
     this.setState({
@@ -122,99 +127,25 @@ componentWillMount(){
             </LinearGradient>
            </View>
           </View>
-          <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-           <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.usuario}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleDestinyEmailChange}
-                value={this.state.correoDestino} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput editable={false} selectTextOnFocus={false}
-                style={styles.input}
-                placeholder={this.state.numidentificacion}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleReferenceChange}
-                value={this.state.referencia} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.correo}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.telefono}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.direccion}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.nombrerep}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.apellidorep}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>       
-          <TouchableOpacity onPress={this.handleCambio}>
-           <View style={styles.buttons}>
-            <View style={styles.button}>
-             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
-                <Text style={styles.buttonText}>
-                 CAMBIAR CONTRASEÑA
-                </Text>
-              </LinearGradient>
+
+            <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <View style={styles.inputContainer}>
+            <FlatList
+              data={this.state.lista}
+              keyExtractor={({ id }, index) => id}
+              renderItem={({ item }) => (
+                <Menu onSelect={value => Alert.alert(value)}>
+                  <MenuTrigger text={'Opciones:' + item.value} />
+                  <MenuOptions>
+                    <MenuOption value="aceptar" text="ACEPTAR" />
+                    <MenuOption value="aceptar" text="DENEGAR" />
+                </MenuOptions>
+              </Menu>
+              )}
+              ItemSeparatorComponent = {this.FlatListseparador}
+            />
             </View>
-           </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.handlePress}>
-           <View style={styles.buttons}>
-            <View style={styles.button}>
-             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
-                <Text style={styles.buttonText}>
-                 GUARDAR
-                </Text>
-              </LinearGradient>
-            </View>
-           </View>
-          </TouchableOpacity>
+ 
           <Modal
            animationType="slide"
            transparent={false}
@@ -232,10 +163,6 @@ componentWillMount(){
              this.setState({modalVisible: !this.state.modalVisible})
             }}
             style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <TouchableOpacity onPress={this.handlePress}>
-           <View style={{paddingTop:5}}>
-           </View>
-          </TouchableOpacity>
             <View style={styles.buttons}>
              <View style={styles.button}>
               <LinearGradient style={{paddingLeft: 40, paddingRight: 40}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>

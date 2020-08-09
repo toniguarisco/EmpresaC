@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
-import Icons from "react-native-vector-icons/dist/FontAwesome";
-import Icons2 from 'react-native-vector-icons/dist/Feather';
-import Icons3 from 'react-native-vector-icons/dist/MaterialIcons';
-
 
 import {
   Platform,
@@ -30,10 +26,10 @@ export default class Menu extends Component<Props>{
       contraseña: this.props.contraseña,
       charts: this.props.chartState,
       option: "",
+      option1: "",
       option2: "",
       option3: "",
-      option4: "",
-      option5: ""
+      option4: ""
 
     }
   }
@@ -43,34 +39,33 @@ export default class Menu extends Component<Props>{
   Actions.login();
  }
 
- handleConfiguration = () =>{
+ handlePerfil = () =>{
   this.props.onHandle();
-  Actions.configuration({title:"Configuración", correo: this.state.correo});
+  Actions.opciones({title:"Perfil", correo: this.state.correo});
   }
-  
- handleBalance = () =>{
-  this.props.onHandle();
-  //Action a pantalla de Añadir saldo
- }
 
- handlePayment = () =>{
+ handlePago = () =>{
      this.props.onHandle();
-     Actions.payment({title:"Solicitar pago", correo: this.state.correo});
+     Actions.pago({title:"Solicitar pago", correo: this.state.correo});
   }
 
   handleOperaciones = () =>{
-    this.props.onHandle();
-    // Accion de operaciones
-    // Actions.payment({title:"Realizar pago", correo: this.state.correo});
+	this.props.onHandle();
+	Actions.operaciones({title:"Operaciones", correo: this.state.correo});
  }
+
+ handleReintegro = () =>{
+     this.props.onHandle();
+     Actions.reintegro({title:"Reintegros", correo: this.state.correo});
+  }
 
  componentWillMount(){
  		this.setState({
- 		 option: "Añadir saldo",
-     option5: "Realizar pago",
- 		 option2: "Configuración",
- 		 option3: "Cambiar a Inglés",
- 		 option4: "Salir"
+     option: "OPERACIONES",
+     option1: "SOLICITAR PAGO",
+     option2: "REINTEGROS",
+ 		 option3: "PERFIL",
+ 		 option4: "SALIR"
  		})
  }
 
@@ -84,9 +79,8 @@ export default class Menu extends Component<Props>{
   		 	  </View>
   		 	  <View style={styles.optionSection}>
   		 	    <View style={styles.options}>
-  		 	     <TouchableHighlight onPress={this.handleBalance}>
+  		 	     <TouchableHighlight onPress={this.handleOperaciones}>
 	  		 	    <View style={styles.option}>
-	  		 	     <Icons2 style={styles.icon} name="plus-circle" color="#C39515" size={15}/>
 	              <Text style={styles.text}>
 	               {this.state.option}
 		  		 	    </Text>
@@ -94,39 +88,35 @@ export default class Menu extends Component<Props>{
 		  		 </TouchableHighlight>
 		  		</View>
           <View style={styles.options}>
-           <TouchableHighlight onPress={this.handlePayment}>
-            <View style={styles.option}>
-             <Icons2 style={styles.icon} name="check-circle" color="#C39515" size={15}/>
-             <Text style={styles.text}>
-              {this.state.option5}
-             </Text>
-            </View>
-           </TouchableHighlight>
-          </View>
+	           <TouchableHighlight onPress={this.handlePago}>
+	            <View style={styles.option}>
+	             <Text style={styles.text}>
+	              {this.state.option1}
+	             </Text>
+	            </View>
+	           </TouchableHighlight>
+	          </View>
+	          <View style={styles.options}>
+	           <TouchableHighlight onPress={this.handleReintegro}>
+	            <View style={styles.option}>
+	             <Text style={styles.text}>
+	              {this.state.option2}
+	             </Text>
+	            </View>
+	           </TouchableHighlight>
+	          </View>
   		 	    <View style={styles.options}>
-  		 	     <TouchableHighlight onPress={this.handleConfiguration}>
+  		 	     <TouchableHighlight onPress={this.handlePerfil}>
 	  		 	    <View style={styles.option}>
-	  		 	     <Icons style={styles.icon} name="cogs" color="#C39515" size={15}/>
 	                <Text style={styles.text}>
-	                   {this.state.option2}
+	                   {this.state.option3}
 		  		 	</Text>
 		  		    </View>
 		  		 </TouchableHighlight>
 		  		</View>
 		  		<View style={styles.options}>
-		  		 <TouchableHighlight onPress={this.handleOperaciones}>
-	  		 	  <View style={styles.option}>
-	  		 	   <Icons3 style={styles.icon} name="operaciones" color="#C39515" size={15}/>
-	           <Text style={styles.text}>
-	            {this.state.option3}
-		  		 	 </Text>
-		  		  </View>
-		  		 </TouchableHighlight>
-		  		</View>
-		  		<View style={styles.options}>
 		  		 <TouchableHighlight onPress={this.handleExit}>
 	  		 	  <View style={styles.option}>
-	  		 	   <Icons2 style={styles.icon} name="log-out" color="#C39515" size={15}/>
 	           <Text style={styles.text}>
 	            {this.state.option4}
 		  		 	 </Text>

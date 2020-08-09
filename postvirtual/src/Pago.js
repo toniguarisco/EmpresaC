@@ -60,19 +60,35 @@ export default class Configuration extends Component<Props> {
   }
  }
 
- sendRequest = () => {
-  //Conexión al API
- }
+ sendRequest = async(correo) => {
+  try {
+    let response = await fetch(
+      'API',{
+       method: 'PUT',
+       headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+      }
+     }
+    );
+    let responseJson = await response.json();
+    this.setState({
+      //Asignacion de valores 
+    })
+  }catch (error) {
+   this.setModalVisible(this.state.error, this.state.errorTipo);
+  }
+}
 
  componentWillMount(){
     this.setState({
       title: "SOLICITAR PAGO",
-      placeholder: "Correo del usuario para solicitud",
+      placeholder: "Correo del usuario a solicitar",
       placeholder2: "Monto",
-      button: "ACEPTAR",
+      button: "ENVIAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
-      subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto."
+      subtitle: "Ingrese los datos para realizar la solicitud."
     })
  }
 
