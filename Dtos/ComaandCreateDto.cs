@@ -9,10 +9,10 @@ namespace ApiRestDesarrollo.Dtos
     public class ComaandCreateDto
     {
         [Required]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
         [Required]
-        public string clave { get; set; }
+        public string Clave { get; set; }
     }
 }

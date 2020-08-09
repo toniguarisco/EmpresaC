@@ -26,6 +26,16 @@ namespace ApiRestDesarrollo.Data
 
         }
 
+        public void CreateUser(Usuario user, Contrasena contrasena)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            _context.Usuario.Add(user);
+            _context.Contrasena.Add(contrasena);
+        }
+
         public void DeleteUsuario(Class usuario)
         {
             if (usuario == null)

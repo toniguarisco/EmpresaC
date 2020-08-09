@@ -14,6 +14,11 @@ namespace ApiRestDesarrollo.Models
         {
         }
 
+        public bool saveChanges()
+        {
+            return SaveChanges() >= 0;
+        }
+
         public virtual DbSet<Aplicacion> Aplicacion { get; set; }
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Bitacora> Bitacora { get; set; }

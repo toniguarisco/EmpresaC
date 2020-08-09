@@ -1,6 +1,7 @@
 ﻿using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Models;
+//using ApiRestDesarrollo.Profiles.ComerceProfile;
 using AutoMapper;
 using ApiRestDesarrollo.Business.Interface;
 using Microsoft.Extensions.Configuration;
@@ -24,16 +25,19 @@ namespace ApiRestDesarrollo.Controllers
         private readonly IUsuarios _usuario;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-         
-                
-		    public AppController(IUsuarios usuario,
-                                 IMapper mapper,
-                                 IConfiguration configuration
+        private readonly postgresContext _context;
+
+
+        public AppController(IUsuarios usuario,
+                             IMapper mapper,
+                             IConfiguration configuration,
+                             postgresContext context
                                 )
             {
                 _usuario = usuario;
                 _mapper = mapper;
                 this._configuration = configuration;
+                _context = context;
             }
         
         
@@ -49,10 +53,21 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("Usuario o contraseña incorrecto");
         }
 
+        [HttpPost("CreateComerce")]
+        public ActionResult CreateUsuario(CreateUserComerce user)
+        {
+            if (_usuario.RegisterUser(user)) {
+
+                _context.SaveChanges();
+                return Ok();
+            }
+            return BadRequest("El usuario ya existe");
+        }
+
         private IActionResult BuildToken(LoginModel user) 
         {
             var Claims = new[] { 
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.email),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -63,9 +78,9 @@ namespace ApiRestDesarrollo.Controllers
                                             issuer: "ucab.com",
                                             audience: "ucab.com",
                                             claims: Claims,
-                                            expires:expiration,
+                                            expires: expiration,
                                             signingCredentials: Creds
-                                            );
+                                            ) ;
             
             return Ok(new 
             { 

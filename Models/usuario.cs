@@ -23,7 +23,7 @@ namespace ApiRestDesarrollo.Models
 
         public int IdUsuario { get; set; }
         public string Usuario1 { get; set; }
-        public DateTime? FechaRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
         public int NumIdentificacion { get; set; }
         public string Email { get; set; }
         public string Telefono { get; set; }

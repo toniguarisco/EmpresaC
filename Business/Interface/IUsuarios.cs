@@ -8,8 +8,11 @@ namespace ApiRestDesarrollo.Business.Interface
 {
     public interface IUsuarios
     {
-        void CreateUsuario(CreateUserModel usuario);
+        void CreateUsuario(CreateUserComerce usuario);
         //IEnumerable<Usuario> GetAllUsuario();
+
+        bool RegisterUser(CreateUserComerce usuario);
+
         bool Login(LoginModel login);
     }
 }
