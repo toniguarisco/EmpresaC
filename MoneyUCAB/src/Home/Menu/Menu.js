@@ -86,9 +86,9 @@ export default class Menu extends Component<Props>{
 
  handleLanguage = () =>{
   if (this.state.idioma=="es"){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "en"});
+      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "en"});
     }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "es"});
+      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es"});
     }
  }
 

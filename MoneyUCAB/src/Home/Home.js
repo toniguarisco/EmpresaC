@@ -3,9 +3,8 @@ import {Actions} from 'react-native-router-flux';
 import Header from "./Header/Header.js";
 import SideMenu from "react-native-side-menu";
 import Menu from "./Menu/Menu.js";
+import { Table, Row, Rows} from 'react-native-table-component';
 import LinearGradient from 'react-native-linear-gradient';
-import { AreaChart, Path, YAxis} from 'react-native-svg-charts';
-import * as shape from 'd3-shape'
 
 import {
   Platform,
@@ -43,7 +42,14 @@ export default class Home extends Component<Props> {
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
-      message: ""
+      message: "",
+      tableHead: "" ,
+      tableData: [
+        ['09/08/2020', '200', '+', "12123" ],
+        ['08/08/2020', '300', '-', "46456"],
+        ['07/08/2020', '400', '-', "95345"],
+        ['06/08/2020', '500', '+', "87646"]
+      ]
     }
   }
 
@@ -57,21 +63,6 @@ export default class Home extends Component<Props> {
   this.setState({
     isOpen: isopen
   })
- }
- switchCharts = () =>{
-   if (!this.state.charts){
-    if (this.state.idioma=="es"){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "es"});
-    }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "en"});
-    }
-   }else{
-     if (this.state.idioma=="es"){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "es"});
-    }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: !this.state.charts, data: this.state.data, data2: this.state.data2, data3: this.state.data, idioma: "en"});
-    }
-   }
  }
 
  getUserData = async(correo) => {
@@ -107,52 +98,25 @@ componentWillMount(){
 
  this.getUserData(this.state.correo);
 
- if(this.state.charts==false){
-  this.setState({
-    data: [ 1300, 1200, 1400, 1500 ],
-    color: "rgba(195, 149, 21, 0.2)"
-  })
- }else{
-  this.setState({
-    data: [ 700, 950, 800, 1000 ],
-    color: "rgba(169, 169, 169, 0.2)"
-  })
- }
-
  if (this.state.idioma=="es"){
-  if(this.state.charts==false){
   this.setState({
     title3: "BALANCE GENERAL (USD)",
     title4: "ULTIMOS MOVIMIENTOS",
     error: "Error de conexión",
-    errorTipo: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado."
-   })
-  }else{
-    this.setState({
-    title3: "BALANCE GENERAL (USD)",
-    title4: "ULTIMOS MOVIMIENTOS",
-    error: "Error de conexión",
-    errorTipo: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado."
-   })
-  }
- }else{
-  if(this.state.charts==false){
-  this.setState({
-    title3: "GENERAL BALANCE (USD)",
-    title4: "LAST MOVEMENTS",
-    error: "Network error",
-    errorTipo: "Check out you are connected to a WiFi network or that you have your mobile data activated."
+    errorTipo: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.",
+    tableHead: ['Fecha', 'Monto','Tipo', 'Referencia']
+
    })
   }else{
     this.setState({
     title3: "GENERAL BALANCE (USD)",
     title4: "LAST MOVEMENTS",
     error: "Network error",
-    errorTipo: "Check out you are connected to a WiFi network or that you have your mobile data activated."
+    errorTipo: "Check out you are connected to a WiFi network or that you have your mobile data activated.",
+    tableHead: ['Date', 'Amount','Type', 'Reference']
    })
   }
  }
-}
 
 /*componentDidMount() {
   this.interval = setInterval(() => {
@@ -166,27 +130,11 @@ componentWillUnmount() {
 
   render() {
 
-    const dias = ["14/07/2018","15/07/2018","16/07/2018","17/07/2018"]
-    const axesSvg = { fontSize: 10, fill: 'white' };
-    const verticalContentInset = { top: 9, bottom: 9 }
-    const xAxisHeight = 45;
-    const Line = ({ line }) =>{
-     if(this.state.charts==false){
-     	return(
-       <Path key={ 'line ' } d={ line } stroke={ "#C39515" } fill={ 'none' }/>
-      )
-     }else{
-     	return(
-     	 <Path key={ 'line ' } d={ line } stroke={ "#A9A9A9" } fill={ 'none' }/>
-       )
-      }
-    }
-
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu token={this.state.token} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} chartState={this.state.charts} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu token={this.state.token} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
-          <Header onHandle={this.handleSideMenu} onSwitch={this.switchCharts}/>
+          <Header onHandle={this.handleSideMenu}/>
         </View> 
         <View style={{flex: 1}}>
          <View style={styles.container}>
@@ -216,16 +164,15 @@ componentWillUnmount() {
                </LinearGradient>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row'}}>
-              <YAxis data={this.state.data} numberOfTicks={5} style={{ marginBottom: xAxisHeight}} contentInset={verticalContentInset} svg={axesSvg}/>
+              <View style={{ flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1, flexDirection:"column"}}>
-                  <AreaChart style={{ flex: 1}} data={ this.state.data } svg={{ fill: this.state.color }} contentInset={{ top: 15, bottom: 15 }} curve={ shape.curveNatural }>
-                   <Line/>
-                  </AreaChart>
-                <View style={{ flex: 1, height: 20, flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                  {dias.map((item) => <Text style={{color: "white", fontSize: 10}}>{item}</Text>)}
+                  <View style={styles.container2}>
+                    <Table borderStyle={{borderWidth: 2, borderColor: "#C39515"}}>
+                      <Row data={this.state.tableHead} style={styles.head} textStyle={styles.text}/>
+                      <Rows data={this.state.tableData} textStyle={styles.text}/>
+                    </Table>
+                  </View>
                 </View>
-              </View>
             </View>
             <Modal
               animationType="slide"
@@ -275,6 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#111111",
 
  },
+
  welcome:{
   flexDirection: "column",
   justifyContent: "center",
@@ -330,6 +278,14 @@ const styles = StyleSheet.create({
  	backgroundColor: "#1D1D1D",
  	paddingVertical: 30
  },
+ box2:{
+  flex: 1,
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#1D1D1D",
+  paddingVertical: 30
+ },
  oro:{
     fontSize: 12,
     textAlign: 'center',
@@ -369,5 +325,41 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontFamily: "Montserrat-SemiBold",
     marginBottom: 10
-  }
+  },
+
+  container2: { 
+    flex: 1, 
+    padding: 16, 
+    paddingTop: 30, 
+    backgroundColor: "#1D1D1D"
+  },
+
+  head: {  
+    height: 40,  
+    backgroundColor: "#1D1D1D"
+  },
+
+  wrapper: { 
+    flexDirection: 'row' 
+  },
+
+  title2: { 
+    flex: 1, 
+    backgroundColor: "#1D1D1D" 
+  },
+
+  row: {  
+    height: 28  
+  },
+
+  text6: {
+    fontSize: 10,
+    fontWeight: "bold",
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+    fontFamily: "Montserrat-Bold"
+  },
+
 });

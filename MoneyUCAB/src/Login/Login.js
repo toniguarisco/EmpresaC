@@ -73,7 +73,7 @@ export default class Login extends Component<Props> {
   	     data: null
         })
         Actions.pop();
-        Actions.home({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
+        Actions.home({token: responseJson.value.token, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es"});
     }else{
       this.setState({
   	   data: null

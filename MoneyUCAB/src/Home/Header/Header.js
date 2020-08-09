@@ -13,11 +13,8 @@ const Header = props =>{
 		return(
 			 <View style={styles.container}>
 			  <TouchableHighlight onPress={props.onHandle}>
-          <Icons name="bars" color="#C39515" size={25}/>
+                <Icons name="bars" color="#C39515" size={25}/>
 			  </TouchableHighlight>
-        <TouchableHighlight onPress={props.onSwitch}>
-          <Icons2 style={styles.icon} name="chart-areaspline" color="#C39515" size={25}/>
-        </TouchableHighlight>
 			 </View>
 			)
 	}
