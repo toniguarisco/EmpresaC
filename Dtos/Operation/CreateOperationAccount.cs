@@ -7,7 +7,7 @@ using ApiRestDesarrollo.Models;
 
 namespace ApiRestDesarrollo.Dtos
 {
-    public class CreateOperationCuenta
+    public class CreateOperationAccount
     {
         public DateTime Fecha { get; set; }
 

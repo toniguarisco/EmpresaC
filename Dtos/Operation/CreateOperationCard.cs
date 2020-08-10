@@ -19,7 +19,7 @@ namespace ApiRestDesarrollo.Dtos
 
         public int FkIdUsuarioReceptor { get; set; }
 
-        public int FkIdCuenta { get; set; }
+        public int FkIdTarjeta { get; set; }
 
         //TARJETA
 

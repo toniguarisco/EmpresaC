@@ -16,8 +16,8 @@ namespace ApiRestDesarrollo.Profiles
             CreateMap<Class, ComandRead>();
             CreateMap<ComaandCreateDto, Usuario>();
             CreateMap<ComaandCreateDto, Class>();
-            CreateMap<UpdateUsuaarioDto, Usuario>();
-            CreateMap<UpdateUsuaarioDto, Class>();
+            //CreateMap<UpdateUsuaarioDto, Usuario>();
+            //CreateMap<UpdateUsuaarioDto, Class>();
             CreateMap<Usuario, UsuarioRead>();
 
             //Mapeo para Usuario tipo comercio con el Dto CreateUserComerce
