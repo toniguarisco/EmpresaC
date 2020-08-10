@@ -74,19 +74,19 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         //put
-        [HttpPut("{id}")]
-        public ActionResult UpdateUsuario(int id, UpdateUsuaarioDto usuarioDto)
-        {
-            var usuario = _repository.GetCommanderById(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            _mapper.Map(usuarioDto, usuario);
-            _repository.UpdateUsuario(usuario); //teorico en caso de necesitar hacer algo mas con el update
-            _repository.saveChanges();
-            return NoContent();
-        }
+        //[HttpPut("{id}")]
+        //public ActionResult UpdateUsuario(int id, UpdateUsuaarioDto usuarioDto)
+        //{
+        //    var usuario = _repository.GetCommanderById(id);
+        //    if (usuario == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    _mapper.Map(usuarioDto, usuario);
+        //    _repository.UpdateUsuario(usuario); //teorico en caso de necesitar hacer algo mas con el update
+        //    _repository.saveChanges();
+        //    return NoContent();
+        //}
 
         //delete
         [HttpDelete("{id}")]
