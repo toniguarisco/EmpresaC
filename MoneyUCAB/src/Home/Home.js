@@ -169,7 +169,7 @@ componentWillUnmount() {
                   <View style={styles.container2}>
                     <Table borderStyle={{borderWidth: 2, borderColor: "#C39515"}}>
                       <Row data={this.state.tableHead} style={styles.head} textStyle={styles.text}/>
-                      <Rows data={this.state.tableData} textStyle={styles.text}/>
+                      <Rows data={this.state.tableData} style={{backgroundColor: "black"}} textStyle={styles.text}/>
                     </Table>
                   </View>
                 </View>
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
 
   head: {  
     height: 40,  
-    backgroundColor: "#1D1D1D"
+    backgroundColor: "#FFC900"
   },
 
   wrapper: { 
