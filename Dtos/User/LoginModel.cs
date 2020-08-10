@@ -8,6 +8,9 @@ namespace ApiRestDesarrollo.Dtos
     public class LoginModel
     {
         public string Email { get; set; }
+
+        public string Usuario { get; set; }
+
         public string Clave { get; set; }
     }
 }

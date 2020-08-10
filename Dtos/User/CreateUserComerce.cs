@@ -9,8 +9,6 @@ namespace ApiRestDesarrollo.Dtos
 {
     public class CreateUserComerce
     {
-        //public int IdUsuario { get; set; }
-        //[Key]
 
         [MaxLength(20)] 
         public string Usuario { get; set; }
@@ -30,13 +28,16 @@ namespace ApiRestDesarrollo.Dtos
 
         public int EstatusUsuario { get; set; }
 
+        public int FkIdTipoUsuario { get; set; }
+
+        public int FkIdTipoIdentificacion { get; set; }
+
         //CONTRASENA
         public string Contrasena { get; set; }
 
         public int IntentosFallidos { get; set; }
 
         //TIPO USUARIO
-        //public int IdTipoUsuario { get; set; }
         [MaxLength(45)]
         public string DescripcionTipoUsuario { get; set; }
 
@@ -50,9 +51,9 @@ namespace ApiRestDesarrollo.Dtos
         [MaxLength(45)]
         public string ApellidoRepresentante { get; set; }
 
+        public int FkIdUsuario { get; set; }
+
         //TIPO_IDENTIFICACION
-        //[Key]
-        //public int IdTipoIdentifiacion { get; set; }
 
         public char Codigo { get; set; }
 
