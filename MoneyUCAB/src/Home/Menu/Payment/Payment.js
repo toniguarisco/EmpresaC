@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import RNPaypal from 'react-native-paypal-lib';
 
 import {
   Platform,
@@ -37,7 +38,8 @@ export default class Configuration extends Component<Props> {
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
-      message: ""
+      message: "",
+      descripcion: ""
     }
   }
 
@@ -56,6 +58,28 @@ export default class Configuration extends Component<Props> {
   handlePress = () =>{
   if ((this.state.correoDestino!="")&&(this.state.monto!="")){
    Actions.pop();
+  }else{
+    this.setModalVisible(this.state.error, this.state.errorTipo);
+  }
+ }
+
+ handlePress2 = () =>{
+  if ((this.state.correoDestino!="")&&(this.state.monto!="")){
+   let _Price = parseFloat(this.state.monto);
+   RNPaypal.paymentRequest({
+        clientId: 'AYjiaHGFtoRA_8ZlL_FvkhTq9TnETyyPVgFumd5NvHNp5rl5TbBppIXzdF2Y_FBTr14_8qkcbZiVP6vC',
+        environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
+        intent: RNPaypal.INTENT.SALE,
+        price: _Price,
+        currency: 'USD',
+        description: this.state.descripcion+this.state.correoDestino,
+        acceptCreditCards: true
+    }).then(response => {
+        //Enviar datos al servidor para que registre la transaccion
+    }).catch(err => {
+        console.log(err.message)
+    })
+
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -87,20 +111,24 @@ export default class Configuration extends Component<Props> {
       title: "REALIZAR PAGO",
       placeholder: "Correo del usuario destino",
       placeholder2: "Monto",
-      button: "ACEPTAR",
+      button: "ENVIAR",
+      button2: "PAYPAL",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
-      subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto."
+      subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto.",
+      descripcion: "Usted enviará mediante Paypal dinero a: "
     })
   }else{
     this.setState({
       title: "MAKE PAYMENT",
       placeholder: "Destiny user's e-mail",
       placeholder2: "Amount",
-      button: "ACCEPT",
+      button: "SENDIT",
+      button2: "PAYPAL",
       error: "Error",
       errorTipo: "Some field is empty.",
-      subtitle: "Please, set the e-mail of the other person who you want to make a pay and then set the amount."
+      subtitle: "Please, set the e-mail of the other person who you want to make a pay and then set the amount.",
+      descripcion: "You will send money using Paypal to: "
     })
   }
  }
@@ -157,6 +185,17 @@ export default class Configuration extends Component<Props> {
              <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
                 <Text style={styles.buttonText}>
                  {this.state.button}
+                </Text>
+              </LinearGradient>
+            </View>
+           </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.handlePress2}>
+           <View style={styles.buttons}>
+            <View style={styles.button}>
+             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
+                <Text style={styles.buttonText}>
+                 {this.state.button2}
                 </Text>
               </LinearGradient>
             </View>
