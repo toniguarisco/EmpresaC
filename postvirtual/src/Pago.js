@@ -28,9 +28,11 @@ export default class Configuration extends Component<Props> {
       correoDestino: "",
       monto: "",
       correo: this.props.correo,
+      referencia: "",
       title:"",
       placeholder:"",
       placeholder2:"",
+      placeholder3:"",
       button:"",
       error:"",
       errorTipo:"",
@@ -52,8 +54,14 @@ export default class Configuration extends Component<Props> {
     })
   }
 
+  handleRefChange= (Text) =>{
+    this.setState({
+      referencia: Text
+    })
+  }
+
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")){
+  if ((this.state.correoDestino!="")&&(this.state.referencia!="")&&(this.state.monto!="")){
    Actions.pop();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
@@ -85,6 +93,7 @@ export default class Configuration extends Component<Props> {
       title: "SOLICITAR PAGO",
       placeholder: "Correo del usuario a solicitar",
       placeholder2: "Monto",
+      placeholder3: "Referencia",
       button: "ENVIAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
@@ -136,6 +145,16 @@ export default class Configuration extends Component<Props> {
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
                 onChangeText={this.handleAmountChange}
+                value={this.state.monto} />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+                style={styles.input}
+                placeholder={this.state.placeholder3}
+                placeholderTextColor="#A1A1A1"
+                underlineColorAndroid="#C39515"
+                selectionColor="#C39515"
+                onChangeText={this.handleRefChange}
                 value={this.state.monto} />
           </View>
           <TouchableOpacity onPress={this.handlePress}>
