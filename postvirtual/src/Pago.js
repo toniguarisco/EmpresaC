@@ -32,7 +32,6 @@ export default class Configuration extends Component<Props> {
       title:"",
       placeholder:"",
       placeholder2:"",
-      placeholder3:"",
       button:"",
       error:"",
       errorTipo:"",
@@ -51,12 +50,6 @@ export default class Configuration extends Component<Props> {
   handleAmountChange= (Text) =>{
     this.setState({
       monto: Text
-    })
-  }
-
-  handleRefChange= (Text) =>{
-    this.setState({
-      referencia: Text
     })
   }
 
@@ -93,7 +86,6 @@ export default class Configuration extends Component<Props> {
       title: "SOLICITAR PAGO",
       placeholder: "Correo del usuario a solicitar",
       placeholder2: "Monto",
-      placeholder3: "Referencia",
       button: "ENVIAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
@@ -148,15 +140,6 @@ export default class Configuration extends Component<Props> {
                 value={this.state.monto} />
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.placeholder3}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleRefChange}
-                value={this.state.monto} />
-          </View>
           <TouchableOpacity onPress={this.handlePress}>
            <View style={styles.buttons}>
             <View style={styles.button}>
