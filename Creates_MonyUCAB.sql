@@ -58,11 +58,15 @@ CREATE TABLE ESTADO_CIVIL(
 );
 
 CREATE TABLE PERSONA(
+    id_persona integer not null,
     nombre varchar(45) not null,
+    segundo_nombre varchar(45) not null,
     apellido varchar(45) not null,
+    segundo_apellido varchar (45) not null,
     fecha_nacimiento date not null,
     id_usuario integer not null,
     id_estado_civil integer not null,
+    CONSTRAINT pk_id_persona PRIMARY KEY (id_persona)
     CONSTRAINT fk_id_usuario FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario),
     CONSTRAINT fk_id_estado_civil FOREIGN KEY (id_estado_civil) REFERENCES  ESTADO_CIVIL(id_estado_civil)
 );

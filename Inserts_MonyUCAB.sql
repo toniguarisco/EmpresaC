@@ -32,7 +32,7 @@ INSERT INTO estado_civil VALUES (1,'casado','1',0);
 INSERT INTO estado_civil VALUES (2,'otro','2',0);
 
 /* Tabla PERSONA */
-INSERT INTO persona VALUES ('gabriella','soler',to_date('07/05/1997','dd/mm/yyyy'),2,0);
+INSERT INTO persona VALUES (0,'gabriella','alejandra','soler','perez',to_date('07/05/1997','dd/mm/yyyy'),2,0);
 
 /* Tabla APLICACION */
 INSERT INTO aplicacion VALUES (0,'Monedero','Monedero virtual de MonyUCAB',1);
