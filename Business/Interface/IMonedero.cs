@@ -10,5 +10,7 @@ namespace ApiRestDesarrollo.Business.Interface
     {
         ReadOperationAccount GetBalance(int usuarioId, int cuentaId);
         List<ReadAccounts> GetAccountsUser(int userId);
+
+        ReadOperationAccount GetBalanceByEmail(string email);
     }
 }

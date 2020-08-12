@@ -46,5 +46,17 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el id del usuario no es valido");
         }
 
+        [HttpGet("BalanceEmail")]
+        public ActionResult<IEnumerable<ComandRead>> GetBalanceByEmail(string email)
+        {
+            var accounts = _repository.GetBalanceByEmail(email);
+            if (accounts != null)
+            {
+                return Ok(accounts);
+            };
+            return BadRequest("el correo no es valido");
+        }
+
+
     }
 }

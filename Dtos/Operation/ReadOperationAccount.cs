@@ -15,6 +15,7 @@ namespace ApiRestDesarrollo.Dtos.Operation
         public int FkIdUsuarioReceptor { get; set; }
 
         public int FkIdCuenta { get; set; }
+
         public ReadOperation[] readOperations { get; set; }
     }
 }
