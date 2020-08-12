@@ -55,14 +55,14 @@ export default class Login extends Component<Props> {
   })
   try {
     let response = await fetch(
-      'http://ec2-52-90-180-87.compute-1.amazonaws.com/api/App/login',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/login',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-      email: this.state.correo,
+      usuario: this.state.correo,
       clave: this.state.contraseña
       })
      }
@@ -91,9 +91,7 @@ export default class Login extends Component<Props> {
 
  handleLoginPress = () =>{
   if ((this.state.correo!="") && (this.state.contraseña!="")){
-   //this.loginApp();
-   Actions.pop();
-   Actions.home({token: 12311212, correo: this.state.correo, contraseña: this.state.contraseña, charts: false, idioma: "es"});
+   this.loginApp();
   }else{
     this.setModalVisible("Error","Algún campo se encuentra vacío.");
   }
