@@ -12,7 +12,7 @@ namespace ApiRestDesarrollo.Models
         public string Referencia { get; set; }
         public int IdCuenta { get; set; }
         public int IdUsuarioReceptor { get; set; }
-
+        public bool operacion { get; set; }
         public virtual Cuenta IdCuentaNavigation { get; set; }
         public virtual Usuario IdUsuarioReceptorNavigation { get; set; }
     }

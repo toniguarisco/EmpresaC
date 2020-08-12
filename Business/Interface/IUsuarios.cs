@@ -14,5 +14,7 @@ namespace ApiRestDesarrollo.Business.Interface
         bool RegisterUser(CreateUserDto usuario);
 
         bool Login(LoginModel login);
+
+
     }
 }

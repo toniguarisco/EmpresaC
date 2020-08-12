@@ -71,6 +71,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Telefono = comerce.Telefono,
                 Direccion = comerce.Direccion,
                 Contrasena = contrasenas,
+                Estatus = 1,
                 IdTipoUsuario = comerce.tipo.GetHashCode(),
                 IdTipoIdentificacion = comerce.tipo.GetHashCode(),
                 };
