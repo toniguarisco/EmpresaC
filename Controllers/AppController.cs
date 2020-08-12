@@ -54,7 +54,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("CreateComerce")]
-        public ActionResult CreateUsuario(CreateUserComerce user)
+        public ActionResult CreateUsuario(CreateUserDto user)
         {
             if (_usuario.RegisterUser(user)) {
 
@@ -67,7 +67,7 @@ namespace ApiRestDesarrollo.Controllers
         private IActionResult BuildToken(LoginModel user) 
         {
             var Claims = new[] { 
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Usuario),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

@@ -12,8 +12,8 @@ namespace ApiRestDesarrollo.Profiles.ComerceProfile
     {
         public ComerceProfile()
         {
-            CreateMap<Usuario, CreateUserComerce>();
-            CreateMap<CreateUserComerce, Usuario>();
+            CreateMap<Usuario, CreateUserDto>();
+            CreateMap<CreateUserDto, Usuario>();
         }
     }
 }

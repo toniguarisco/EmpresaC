@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ApiRestDesarrollo.Models
 {
@@ -20,7 +21,7 @@ namespace ApiRestDesarrollo.Models
             ReintegroIdUsuarioSolicitanteNavigation = new HashSet<Reintegro>();
             Tarjeta = new HashSet<Tarjeta>();
         }
-
+        [Key]
         public int IdUsuario { get; set; }
         public string Usuario1 { get; set; }
         public DateTime FechaRegistro { get; set; }
