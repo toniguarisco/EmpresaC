@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import Header from "./Header/Header.js";
 import SideMenu from "react-native-side-menu";
@@ -27,13 +27,11 @@ export default class Home extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      token: this.props.token,
+      id: this.props.id,
       correo: this.props.correo,
       contreseña: this.props.contraseña,
       isOpen: false,
-      charts: this.props.charts,
       color: "",
-      data: [],
       balanceGeneral: 0,
       idioma: this.props.idioma,
       title3:"",
@@ -44,12 +42,7 @@ export default class Home extends Component<Props> {
       modalTitle: "",
       message: "",
       tableHead: "" ,
-      tableData: [
-        ['09/08/2020', '200', '+', "12123" ],
-        ['08/08/2020', '300', '-', "46456"],
-        ['07/08/2020', '400', '-', "95345"],
-        ['06/08/2020', '500', '+', "87646"]
-      ]
+      tableData: []
     }
   }
 
@@ -68,7 +61,7 @@ export default class Home extends Component<Props> {
  getUserData = async(correo) => {
   try {
     let response = await fetch(
-      'API',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/Balance?usuarioId='+this.state.id,{
        method: 'GET',
        headers: {
        Accept: 'application/json',
@@ -77,8 +70,16 @@ export default class Home extends Component<Props> {
      }
     );
     let responseJson = await response.json();
+    let tempArray = [];
+
+    responseJson.readOperations.map((item)=>{
+      let arrayObject = [ item.fecha, item.monto, item.operation, item.referencia ];
+      tempArray.push(arrayObject);
+    })
+
     this.setState({
-      //Asignacion de valores 
+      balanceGeneral: responseJson.monto,
+      tableData: tempArray
     })
   }catch (error) {
    this.setModalVisible(this.state.error, this.state.errorTipo);
@@ -118,11 +119,11 @@ componentWillMount(){
   }
  }
 
-/*componentDidMount() {
+componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
   }, 10000);
-}*/
+}
 
 componentWillUnmount() {
   clearInterval(this.interval);
@@ -132,7 +133,7 @@ componentWillUnmount() {
 
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu token={this.state.token} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
           <Header onHandle={this.handleSideMenu}/>
         </View> 

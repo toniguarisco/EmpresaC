@@ -25,7 +25,7 @@ export default class Menu extends Component<Props>{
   constructor(props){
     super(props);
     this.state = {
-      token: this.props.token,
+      id: this.props.id,
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       charts: this.props.chartState,
@@ -86,9 +86,9 @@ export default class Menu extends Component<Props>{
 
  handleLanguage = () =>{
   if (this.state.idioma=="es"){
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "en"});
+      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "en"});
     }else{
-      Actions.home({token: this.state.token, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es"});
+      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es"});
     }
  }
 
