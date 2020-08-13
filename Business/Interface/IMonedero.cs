@@ -14,5 +14,6 @@ namespace ApiRestDesarrollo.Business.Interface
         ReadOperationAccount GetBalanceByEmail(string email);
         bool AddBalance(CreateOperacion createOperacion);
         bool AddCuenta(CreateCuenta create);
+        bool reintegro(int IdUser, string reference);
     }
 }

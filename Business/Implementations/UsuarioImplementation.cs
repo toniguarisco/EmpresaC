@@ -188,39 +188,18 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
         private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
         {
-            string contrasena = "Desarrollo.2020";
-            string mensaje = string.Empty;
-            //Creando el correo electronico
-            string destinatario = correo;
-            string remitente = "desarrollo2020gato@gmail.com";
-            string asunto = "Nueva contraseña Apps Easy";
-            string cuerpoDelMesaje = "Su nueva contraseña es" + " " + Convert.ToString(contrasenaNueva);
-            MailMessage ms = new MailMessage(remitente, destinatario, asunto, cuerpoDelMesaje);
+            //string contrasena = "Desarrollo.2020";
+            //string mensaje = string.Empty;
+            ////Creando el correo electronico
+            //string destinatario = correo;
+            //string remitente = "desarrollo2020gato@gmail.com";
+            //string asunto = "Nueva contraseña Apps Easy";
+            //string cuerpoDelMesaje = "Su nueva contraseña es" + " " + Convert.ToString(contrasenaNueva);
+            //MailMessage ms = new MailMessage(remitente, destinatario, asunto, cuerpoDelMesaje);
             //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             //smtp.EnableSsl = true;
-            //smtp.UseDefaultCredentials = true;
-            //smtp.Credentials = new NetworkCredential("desarrollo2020gato@gmail.com", contraseña);
-
-
-            using (MailMessage mail = new MailMessage())
-            {
-                mail.From = new MailAddress("desarrollo2020gato@gmail.com");
-                mail.To.Add("dexter_alejandro@hotmail.com");
-                mail.Subject = "Hello World";
-                mail.Body = "<h1>Hello</h1>";
-                mail.IsBodyHtml = true;
-                //mail.Attachments.Add(new Attachment("C:\\file.zip"));
-
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                {
-                    smtp.Credentials = new NetworkCredential("email@gmail.com", "password");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                }
-            }
-
-
-
+            //smtp.UseDefaultCredentials = false;
+            //smtp.Credentials = new NetworkCredential("desarrollo2020gato@gmail.com", contrasena);
 
             //try
             //{
@@ -239,6 +218,30 @@ namespace ApiRestDesarrollo.Business.Implementations
             //{
             //    //MessageBox.Show("Error al enviar correo electronico: " + ex.Message);
             //}
+           
+
+            var fromAddress = new MailAddress("linkdex2@gmail.com", "Dexter");
+            var toAddress = new MailAddress("linkdex456@gmail.com", "Dexter");
+            const string fromPassword = "c16542947r";
+            const string subject = "test";
+            const string body = "Hey now!!";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                Timeout = 20000
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
         }
         private int GenerarNuevaContrasena() // metodo que general la nueva contraseña
         {
