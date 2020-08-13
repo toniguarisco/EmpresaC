@@ -585,7 +585,8 @@ namespace ApiRestDesarrollo.Models
 
             modelBuilder.Entity<Persona>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdPersona)
+                .HasName("pk_id_persona");
 
                 entity.ToTable("persona");
 
@@ -605,6 +606,15 @@ namespace ApiRestDesarrollo.Models
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnName("nombre")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SegundoNombre)
+                    .HasColumnName("segundo_nombre")
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.SegundoApellido)
+                    .IsRequired()
+                    .HasColumnName("segundo_apellido")
                     .HasMaxLength(45);
 
                 entity.HasOne(d => d.IdEstadoCivilNavigation)
