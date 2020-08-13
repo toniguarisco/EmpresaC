@@ -68,14 +68,14 @@ export default class Configuration extends Component<Props> {
    let _Price = parseFloat(this.state.monto);
    RNPaypal.paymentRequest({
         clientId: 'AYjiaHGFtoRA_8ZlL_FvkhTq9TnETyyPVgFumd5NvHNp5rl5TbBppIXzdF2Y_FBTr14_8qkcbZiVP6vC',
-        environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
+        environment: RNPaypal.ENVIRONMENT.SANDBOX,
         intent: RNPaypal.INTENT.SALE,
         price: _Price,
         currency: 'USD',
         description: this.state.descripcion+this.state.correoDestino,
-        acceptCreditCards: true
+        acceptCreditCards: false
     }).then(response => {
-        //Enviar datos al servidor para que registre la transaccion
+        Actions.pop();
     }).catch(err => {
         console.log(err.message)
     })
