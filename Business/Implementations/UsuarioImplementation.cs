@@ -72,26 +72,26 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
         
 
-        public bool RegisterUser(CreateUserDto comerce)
+        public bool RegisterUser(CreateUserDto user)
         {
-            var correo = _context.Usuario.FirstOrDefault(src => src.Email == comerce.Email);
-            var usuario = _context.Usuario.FirstOrDefault(src => src.Usuario1 == comerce.Usuario);
+            var correo = _context.Usuario.FirstOrDefault(src => src.Email == user.Email);
+            var usuario = _context.Usuario.FirstOrDefault(src => src.Usuario1 == user.Usuario);
             if (usuario == null && correo == null)
             {
-                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() + 1, Contrasena1 = comerce.Contrasena};
+                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() + 1, Contrasena1 = user.Contrasena};
                 IList<Contrasena> contrasenas = new List<Contrasena>() {contrasena};
                 Usuario usu = new Usuario() {
                 IdUsuario = _context.Usuario.Count() + 1,
-                Email = comerce.Email,
-                Usuario1 = comerce.Usuario,
-                FechaRegistro = comerce.FechaRegistro,
-                NumIdentificacion = comerce.NumIdentificacion,
-                Telefono = comerce.Telefono,
-                Direccion = comerce.Direccion,
+                Email = user.Email,
+                Usuario1 = user.Usuario,
+                FechaRegistro = user.FechaRegistro,
+                NumIdentificacion = user.NumIdentificacion,
+                Telefono = user.Telefono,
+                Direccion = user.Direccion,
                 Contrasena = contrasenas,
                 Estatus = 1,
-                IdTipoUsuario = comerce.tipo.GetHashCode(),
-                IdTipoIdentificacion = comerce.tipo.GetHashCode(),
+                IdTipoUsuario = user.tipo.GetHashCode(),
+                IdTipoIdentificacion = user.tipo.GetHashCode(),
                 };
                 _context.Usuario.Add(usu);
                 _context.saveChanges();
