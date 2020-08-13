@@ -47,6 +47,7 @@ namespace ApiRestDesarrollo
             services.AddScoped<IcommanderRepo, SqlComander>();
             services.AddScoped<IUsuarios, UsuarioImplementation>();
             services.AddScoped<IMonedero, MonederoImplementacion>();
+            services.AddScoped<IPost, PostImplementacion>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(

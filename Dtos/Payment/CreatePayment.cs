@@ -11,7 +11,7 @@ namespace ApiRestDesarrollo.Dtos
     {
         public DateTime FechaSolicitud { get; set; }
 
-        public int Monto { get; set; }
+        public decimal Monto { get; set; }
 
         [MaxLength(45)]
         public string EstatusPago { get; set; }
