@@ -51,7 +51,7 @@ namespace ApiRestDesarrollo.Controllers
             if (log.login) { 
             return Ok(BuildToken(user, log.idUser, log.tipo ));
             }
-            return BadRequest("Usuario o contraseña incorrecto");
+            return BadRequest(log.mensaje);
         }
 
         [HttpPost("CreateComerce")]
@@ -92,7 +92,15 @@ namespace ApiRestDesarrollo.Controllers
             }); ;
         }
 
-
+        [HttpPut("EstadoUsuario")]
+        public ActionResult ActualizarEstado(string usuario)
+        {
+            if (_usuario.DesbloquearUsuario(usuario))
+            {
+                return Ok();
+            }
+            return BadRequest("El usuario no esta bloqueado o no existe");
+        }
     }
 
 }

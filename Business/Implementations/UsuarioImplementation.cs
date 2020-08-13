@@ -30,6 +30,22 @@ namespace ApiRestDesarrollo.Business.Implementations
             throw new NotImplementedException();
         }
 
+        public bool DesbloquearUsuario(string usuario1)
+        {
+            var usuario = _context.Usuario.FirstOrDefault(p => p.Usuario1.Contains(usuario1));
+            if (usuario == null)
+            {
+                return false;
+            }
+            else if (usuario.Estatus != 3) 
+            { 
+                return false;
+            }
+            usuario.Estatus = 0;
+            _context.saveChanges();
+            return true;
+        }
+
         public ReadUserPersona GetPersona(int id)
         {
             var query = _context.Persona.FirstOrDefault(p => p.IdUsuario == id);
@@ -58,19 +74,42 @@ namespace ApiRestDesarrollo.Business.Implementations
                         tu.IdTipoUsuario == usu.IdTipoUsuario &&
                         (usu.Usuario1.Contains(login.Usuario) || usu.Email.Contains(login.Usuario))&&
                         clave.Contrasena1 == login.Clave
-                        select new 
-                        { 
-                        Usuario = usu.Usuario1,
-                        Clave = clave.Contrasena1,
-                        Id = usu.IdUsuario,
-                        tipo = tu.Descripcion
-                        }).FirstOrDefault();
-            if (query != null) {
-                return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo};
+                        select new
+                        {
+                            Usuario = usu.Usuario1,
+                            Clave = clave.Contrasena1,
+                            Id = usu.IdUsuario,
+                            tipo = tu.Descripcion,
+                            idClave = clave.IdContrasena,
+                            esatdo = usu.Estatus
+                        }
+                        ).FirstOrDefault();
+            if (_context.Usuario.FirstOrDefault(p => p.Usuario1 == login.Usuario).Estatus == 3) 
+            {
+                return new TokenValidate { login = false, mensaje = "Usuario bloqueado" };
             }
-            var usuario = _context.Usuario.FirstOrDefault(p=>p.Usuario1 == login.Usuario);
+            if (query != null) 
+            {
+                var contrasena = _context.Contrasena.FirstOrDefault(p => p.IdContrasena == query.idClave);
+                contrasena.IntentosFallidos = 0;
+                _context.saveChanges();
+                return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo, mensaje = "Login exitoso"};
+            }
+            var usuario = _context.Usuario.FirstOrDefault(p => p.Usuario1 == login.Usuario);
+            if (usuario != null) {
 
-            return new TokenValidate { login = false};
+                var contrasena = _context.Contrasena.FirstOrDefault(p => p.IdUsuario == usuario.IdUsuario);
+                contrasena.IntentosFallidos ++;
+                
+                if (contrasena.IntentosFallidos == 5) 
+                {
+                    usuario.Estatus = 3;
+                }
+                _context.saveChanges();
+                return new TokenValidate { login = false, intento = contrasena.IntentosFallidos, mensaje = "clave o usuario incorrecto" };
+            }
+
+            return new TokenValidate { login = false , mensaje = "clave o usuario incorrecto"};
         }
         
 
@@ -80,10 +119,10 @@ namespace ApiRestDesarrollo.Business.Implementations
             var usuario = _context.Usuario.FirstOrDefault(src => src.Usuario1 == user.Usuario);
             if (usuario == null && correo == null)
             {
-                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() + 1, Contrasena1 = user.Contrasena};
+                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() *135, Contrasena1 = user.Contrasena};
                 IList<Contrasena> contrasenas = new List<Contrasena>() {contrasena};
                 Usuario usu = new Usuario() {
-                IdUsuario = _context.Usuario.Count() + 1,
+                IdUsuario = _context.Usuario.Count() *135,
                 Email = user.Email,
                 Usuario1 = user.Usuario,
                 FechaRegistro = user.FechaRegistro,

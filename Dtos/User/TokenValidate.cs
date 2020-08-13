@@ -9,6 +9,9 @@ namespace ApiRestDesarrollo.Dtos.User
     {
         public bool login { get; set; }
         public int idUser { get; set; }
+        public int intento { get; set; }
         public string tipo { get; set; }
+        public string mensaje { get; set; }
+        
     }
 }

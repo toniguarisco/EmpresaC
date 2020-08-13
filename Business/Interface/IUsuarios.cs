@@ -19,6 +19,7 @@ namespace ApiRestDesarrollo.Business.Interface
         void UpdateContrasena(string login);
 
         ReadUserPersona GetPersona(int id);
+        bool DesbloquearUsuario(string usuario1);
 
     }
 }
