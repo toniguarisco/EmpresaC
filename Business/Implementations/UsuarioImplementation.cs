@@ -160,8 +160,7 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
         private bool buscarCorreo(string email) // se verifica que el correo exista en la base de datos
         {
-            var a = _context.Usuario.FirstOrDefault(p => p.Email == email);
-
+            var a = _context.Usuario.FirstOrDefault(p => p.Email.Contains(email));
 
             if (a != null)
                 return true;
@@ -189,7 +188,7 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
         private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
         {
-            string contraseña = "Desarrollo.2020";
+            string contrasena = "Desarrollo.2020";
             string mensaje = string.Empty;
             //Creando el correo electronico
             string destinatario = correo;
@@ -197,29 +196,49 @@ namespace ApiRestDesarrollo.Business.Implementations
             string asunto = "Nueva contraseña Apps Easy";
             string cuerpoDelMesaje = "Su nueva contraseña es" + " " + Convert.ToString(contrasenaNueva);
             MailMessage ms = new MailMessage(remitente, destinatario, asunto, cuerpoDelMesaje);
+            //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            //smtp.EnableSsl = true;
+            //smtp.UseDefaultCredentials = true;
+            //smtp.Credentials = new NetworkCredential("desarrollo2020gato@gmail.com", contraseña);
 
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.EnableSsl = true;
-            smtp.Credentials = new NetworkCredential("desarrollo2020gato@gmail.com", contraseña);
-
-            try
+            using (MailMessage mail = new MailMessage())
             {
-                Task.Run(() =>
+                mail.From = new MailAddress("desarrollo2020gato@gmail.com");
+                mail.To.Add("dexter_alejandro@hotmail.com");
+                mail.Subject = "Hello World";
+                mail.Body = "<h1>Hello</h1>";
+                mail.IsBodyHtml = true;
+                //mail.Attachments.Add(new Attachment("C:\\file.zip"));
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-
-                    smtp.Send(ms);
-                    ms.Dispose();
-                    //MessageBox.Show("Correo enviado, sirvase revisar su bandeja de entrada");
+                    smtp.Credentials = new NetworkCredential("email@gmail.com", "password");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
                 }
-                );
+            }
 
-                // MessageBox.Show("Esta tarea puede tardar unos segundos, por favor espere.");
-            }
-            catch (Exception /*ex*/)
-            {
-                //MessageBox.Show("Error al enviar correo electronico: " + ex.Message);
-            }
+
+
+
+            //try
+            //{
+            //    Task.Run(() =>
+            //    {
+
+            //        smtp.Send(ms);
+            //        ms.Dispose();
+            //        //MessageBox.Show("Correo enviado, sirvase revisar su bandeja de entrada");
+            //    }
+            //    );
+
+            //    // MessageBox.Show("Esta tarea puede tardar unos segundos, por favor espere.");
+            //}
+            //catch (Exception /*ex*/)
+            //{
+            //    //MessageBox.Show("Error al enviar correo electronico: " + ex.Message);
+            //}
         }
         private int GenerarNuevaContrasena() // metodo que general la nueva contraseña
         {
