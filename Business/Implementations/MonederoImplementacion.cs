@@ -108,7 +108,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 }
                 ReadOperation readOperations = new ReadOperation() 
                 { 
-                fecha = item.Fecha,
+                fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                 monto = item.Monto,
                 operation = operacion,
                 referencia = item.Referencia
@@ -155,7 +155,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     }
                     ReadOperation readOperations = new ReadOperation()
                     {
-                        fecha = item.Fecha,
+                        fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                         monto = item.Monto,
                         operation = operacion,
                         referencia = item.Referencia

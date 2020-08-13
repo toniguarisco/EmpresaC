@@ -20,7 +20,5 @@ namespace ApiRestDesarrollo.Business.Interface
 
         ReadUserPersona GetPersona(int id);
 
-
-
     }
 }

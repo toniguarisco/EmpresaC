@@ -68,6 +68,8 @@ namespace ApiRestDesarrollo.Business.Implementations
             if (query != null) {
                 return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo};
             }
+            var usuario = _context.Usuario.FirstOrDefault(p=>p.Usuario1 == login.Usuario);
+
             return new TokenValidate { login = false};
         }
         
