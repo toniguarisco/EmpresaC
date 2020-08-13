@@ -30,6 +30,7 @@ export default class Configuration extends Component<Props> {
       monto: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
+      id: this.props.id,
       descripcion:"",
       title:"",
       placeholder:"",
@@ -37,9 +38,12 @@ export default class Configuration extends Component<Props> {
       button:"",
       error:"",
       errorTipo:"",
+      errorTipo2:"",
+      errorTipo3:"",
       modalVisible: false,
       modalTitle: "",
-      message: ""
+      message: "",
+      fecha: ""
     }
   }
 
@@ -67,7 +71,7 @@ export default class Configuration extends Component<Props> {
         description: this.state.descripcion,
         acceptCreditCards: false
     }).then(response => {
-        Actions.pop();
+        this.addMoney();
     }).catch(err => {
         console.log(err.message)
     })
@@ -77,23 +81,56 @@ export default class Configuration extends Component<Props> {
   }
  }
 
- addMoney = async(correo) => {
+getCurrentDate = () => {
+
+      let date = new Date().getDate();
+      let month = new Date().getMonth()+1;
+      let year = new Date().getFullYear();
+
+      if (date<10){
+      	date = "0" + date
+      }
+
+      if (month<10){
+      	month = "0" + month
+      }
+
+      this.setState({
+      fecha: year + '-' + month + '-' + date,
+      })
+}
+
+ addMoney = async() => {
+
+ 	this.getCurrentDate();
+ 	let _Monto = parseInt(this.state.monto);
+
   try {
     let response = await fetch(
-      'API',{
-       method: 'GET',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/AddSaldo',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+      fecha: this.state.fecha,
+      hora: {},
+      monto: _Monto,
+      idUsuario: this.state.id,
+      cuenta: "Paypal"
+      })
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
+    if (responseJson == "saldo añadido exitosamente"){
+        Actions.pop();
+    }else{
+      this.setModalVisible("Error", this.state.errorTipo2);
+    }
+  } catch (error) {
+
+   this.setModalVisible("Error", this.state.errorTipo3)
   }
 }
 
@@ -105,6 +142,8 @@ export default class Configuration extends Component<Props> {
       button: "ACEPTAR",
       error: "Error",
       errorTipo: "Campo está vacío.",
+      errorTipo2: "Ha ocurrido un error",
+      errorTipo3: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.",
       subtitle: "Por favor, ingrese el monto que desea añadir y presione aceptar.",
       descripcion: "Usted añadirá dinero a su cuenta."
     })
@@ -115,6 +154,8 @@ export default class Configuration extends Component<Props> {
       button: "ACCEPT",
       error: "Error",
       errorTipo: "Fiel is empty.",
+      errorTipo2: "An error has ocurred.",
+      errorTipo3: "Check out you are connected to a WiFi network or that you have your mobile data activated.",
       subtitle: "Please, set the amount of money that you want to add and press accept.",
       descripcion: "You will add money to your account."
     })

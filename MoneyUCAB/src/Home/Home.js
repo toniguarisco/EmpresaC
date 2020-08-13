@@ -122,7 +122,7 @@ componentWillMount(){
 componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
-  }, 10000);
+  }, 1000);
 }
 
 componentWillUnmount() {
