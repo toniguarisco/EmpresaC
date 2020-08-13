@@ -1,4 +1,5 @@
-﻿using ApiRestDesarrollo.Dtos.Operation;
+﻿using ApiRestDesarrollo.Dtos.Account;
+using ApiRestDesarrollo.Dtos.Operation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ApiRestDesarrollo.Business.Interface
         ReadOperationAccount GetBalance(int usuarioId);
         List<ReadAccounts> GetAccountsUser(int userId);
         ReadOperationAccount GetBalanceByEmail(string email);
-        void AddBalance(int usuarioId, int cuentaId);
-
+        bool AddBalance(CreateOperacion createOperacion);
+        bool AddCuenta(CreateCuenta create);
     }
 }

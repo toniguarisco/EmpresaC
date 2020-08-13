@@ -1,6 +1,8 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
+using ApiRestDesarrollo.Dtos.Account;
+using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +71,30 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(person);
             };
             return BadRequest("el id no es valido");
+        }
+        [HttpPost("CuentaNueva")]
+        public ActionResult AnadirCuenta (CreateCuenta cuenta)
+        {
+            //var commandItems = _repository.GetAppCommands();
+            //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
+            var log = _repository.AddCuenta(cuenta);
+            if (log)
+            {
+                return Ok("cuenta añadida exitosamente");
+            }
+            return BadRequest("Puede ser que el usuario que ingreso o el banco no sean validos");
+        }
+        [HttpPost("AddSaldo")]
+        public ActionResult AddSaldo(CreateOperacion operacion)
+        {
+            //var commandItems = _repository.GetAppCommands();
+            //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
+            var log = _repository.AddBalance(operacion);
+            if (log)
+            {
+                return Ok("saldo añadido exitosamente");
+            }
+            return BadRequest("La cuenta no es valida");
         }
 
     }

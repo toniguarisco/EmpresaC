@@ -1,4 +1,5 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
@@ -19,11 +20,50 @@ namespace ApiRestDesarrollo.Business.Implementations
             _mapper = mapper;
         }
 
-        public void AddBalance(int usuarioId, int cuentaId)
+        public bool AddBalance(CreateOperacion createOperacion)
         {
-           // var balance = 
-                
-             
+            var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
+            if (cuenta != null)
+            { 
+                OperacionCuenta operacionCuenta = new OperacionCuenta()
+                {
+                    Fecha = createOperacion.fecha,
+                    Hora = createOperacion.hora,
+                    IdCuenta = cuenta.IdCuenta,
+                    Monto = createOperacion.monto,
+                    operacion = true,
+                    IdUsuarioReceptor = createOperacion.idUSuario,
+                    IdOperacionCuenta = _context.Cuenta.Count() * 135,
+                    Referencia = "5789"+ _context.Cuenta.Count() * 135
+                };
+                _context.Add(operacionCuenta);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddCuenta(CreateCuenta create)
+        {
+            var idBanco = _context.Banco.FirstOrDefault(p => p.Nombre.Contains(create.Banco));
+            var idTipo = _context.TipoCuenta.FirstOrDefault(p => p.Descripcion.Contains(create.tipo));
+            var usuario = _context.Usuario.FirstOrDefault(p => p.IdUsuario == create.IdUsuario);
+            var a = _context.Cuenta.Count();
+            if (idBanco == null || idTipo == null || usuario == null) 
+            { 
+                return false; 
+            }
+            Cuenta cuenta = new Cuenta()
+            {
+                IdUsuario = create.IdUsuario,
+                IdBanco = idBanco.IdBanco,
+                IdTipoCuenta = idTipo.IdTipoCuenta,
+                NumeroCuenta = create.Cuenta,
+                IdCuenta = _context.Cuenta.Count() * 135
+            };
+            _context.Add(cuenta);
+            _context.saveChanges();
+            return true;
         }
 
         public List<ReadAccounts> GetAccountsUser(int userId)
@@ -129,5 +169,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return readOperationAccount;
         }
+
+       
     }
 }
