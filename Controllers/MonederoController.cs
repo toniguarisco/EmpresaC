@@ -16,19 +16,22 @@ namespace ApiRestDesarrollo.Controllers
     public class MonederoController : ControllerBase
     {
         private readonly IMonedero _repository;
+        private readonly IUsuarios _usuarios;
         private readonly IMapper _mapper;
 
         public MonederoController(IMonedero repository,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  IUsuarios usuarios)
         {
             _repository = repository;
             _mapper = mapper;
+            _usuarios = usuarios;
         }
 
         [HttpGet("Balance")]
-        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId, int cuentaId)
+        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId)
         {
-            var saldo = _repository.GetBalance(usuarioId,cuentaId);
+            var saldo = _repository.GetBalance(usuarioId);
             if (saldo != null) {
                 return Ok(saldo);
             };
@@ -57,6 +60,16 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el correo no es valido");
         }
 
+        [HttpGet("InfoPersona")]
+        public ActionResult<IEnumerable<ComandRead>> GetPersonaId(int id)
+        {
+            var person = _usuarios.GetPersona(id);
+            if (person != null)
+            {
+                return Ok(person);
+            };
+            return BadRequest("el id no es valido");
+        }
 
     }
 }

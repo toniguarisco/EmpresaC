@@ -10,6 +10,7 @@ using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Profiles.ComerceProfile;
 using AutoMapper;
 using System.Net;
+using ApiRestDesarrollo.Dtos.User;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
@@ -29,30 +30,47 @@ namespace ApiRestDesarrollo.Business.Implementations
             throw new NotImplementedException();
         }
 
+        public ReadUserPersona GetPersona(int id)
+        {
+            var query = _context.Persona.FirstOrDefault(p => p.IdUsuario == id);
+            if (query != null)
+            { 
+                var read = _mapper.Map<ReadUserPersona>(query);
+                read.FkIdUsuario = query.IdUsuario;
+                return read;
+            }
+            return null;
+        }
+
         //public IEnumerable<Usuario> GetAllUsuario()
         //{
         //    var a = _context.Usuario.ToList();
         //    return a;
         //}
 
-        public bool Login(LoginModel login)
+        public TokenValidate Login(LoginModel login)
         {
             var query = (from usu in _context.Usuario
                         from clave in _context.Contrasena
+                        from tu in _context.TipoUsuario
                         where
                         usu.IdUsuario == clave.IdUsuario &&
-                        usu.Usuario1 == login.Usuario &&
+                        tu.IdTipoUsuario == usu.IdTipoUsuario &&
+                        (usu.Usuario1.Contains(login.Usuario) || usu.Email.Contains(login.Usuario))&&
                         clave.Contrasena1 == login.Clave
-                        select new LoginModel
+                        select new 
                         { 
                         Usuario = usu.Usuario1,
-                        Clave = clave.Contrasena1
+                        Clave = clave.Contrasena1,
+                        Id = usu.IdUsuario,
+                        tipo = tu.Descripcion
                         }).FirstOrDefault();
             if (query != null) {
-                return true;
+                return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo};
             }
-            return false;
+            return new TokenValidate { login = false};
         }
+        
 
         public bool RegisterUser(CreateUserDto comerce)
         {
@@ -77,10 +95,15 @@ namespace ApiRestDesarrollo.Business.Implementations
                 };
                 _context.Usuario.Add(usu);
                 _context.saveChanges();
+                
                 return true;    
             }
             return false;
         }
-        
+
+        public void UpdateContrasena(string login)
+        {
+            
+        }
     }
 }

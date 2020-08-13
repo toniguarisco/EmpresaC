@@ -19,8 +19,6 @@ namespace ApiRestDesarrollo.Dtos.User
 
         public int FkIdUsuario { get; set; }
 
-        public int FkIdEstadoCivil { get; set; }
-
         //ESTADO CIVIL
 
         [MaxLength(45)]
