@@ -47,10 +47,11 @@ namespace ApiRestDesarrollo.Controllers
         {
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
-            if (_usuario.Login(user)) { 
-            return Ok(BuildToken(user));
+            var log = _usuario.Login(user);
+            if (log.login) { 
+            return Ok(BuildToken(user, log.idUser, log.tipo ));
             }
-            return BadRequest("Usuario o contraseña incorrecto");
+            return BadRequest(log.mensaje);
         }
 
         [HttpPost("recuperarContaseña")]
@@ -77,7 +78,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El usuario ya existe");
         }
 
-        private IActionResult BuildToken(LoginModel user) 
+        private IActionResult BuildToken(LoginModel user, int idUser, string tipo) 
         {
             var Claims = new[] { 
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Usuario),
@@ -94,15 +95,25 @@ namespace ApiRestDesarrollo.Controllers
                                             expires: expiration,
                                             signingCredentials: Creds
                                             ) ;
-            
-            return Ok(new 
-            { 
+
+            return Ok(new
+            {
                 Token = new JwtSecurityTokenHandler().WriteToken(Token),
-                expiration = expiration.ToString()
-            });
+                expiration = expiration.ToString(),
+                Id = idUser,
+                tipo = tipo
+            }); ;
         }
 
-
+        [HttpPut("EstadoUsuario")]
+        public ActionResult ActualizarEstado(string usuario)
+        {
+            if (_usuario.DesbloquearUsuario(usuario))
+            {
+                return Ok();
+            }
+            return BadRequest("El usuario no esta bloqueado o no existe");
+        }
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
@@ -17,6 +18,52 @@ namespace ApiRestDesarrollo.Business.Implementations
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public bool AddBalance(CreateOperacion createOperacion)
+        {
+            var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
+            if (cuenta != null)
+            { 
+                OperacionCuenta operacionCuenta = new OperacionCuenta()
+                {
+                    Fecha = createOperacion.fecha,
+                    Hora = createOperacion.hora,
+                    IdCuenta = cuenta.IdCuenta,
+                    Monto = createOperacion.monto,
+                    operacion = true,
+                    IdUsuarioReceptor = createOperacion.idUSuario,
+                    IdOperacionCuenta = _context.Cuenta.Count() * 135,
+                    Referencia = "5789"+ _context.Cuenta.Count() * 135
+                };
+                _context.Add(operacionCuenta);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddCuenta(CreateCuenta create)
+        {
+            var idBanco = _context.Banco.FirstOrDefault(p => p.Nombre.Contains(create.Banco));
+            var idTipo = _context.TipoCuenta.FirstOrDefault(p => p.Descripcion.Contains(create.tipo));
+            var usuario = _context.Usuario.FirstOrDefault(p => p.IdUsuario == create.IdUsuario);
+            var a = _context.Cuenta.Count();
+            if (idBanco == null || idTipo == null || usuario == null) 
+            { 
+                return false; 
+            }
+            Cuenta cuenta = new Cuenta()
+            {
+                IdUsuario = create.IdUsuario,
+                IdBanco = idBanco.IdBanco,
+                IdTipoCuenta = idTipo.IdTipoCuenta,
+                NumeroCuenta = create.Cuenta,
+                IdCuenta = _context.Cuenta.Count() * 135
+            };
+            _context.Add(cuenta);
+            _context.saveChanges();
+            return true;
         }
 
         public List<ReadAccounts> GetAccountsUser(int userId)
@@ -40,9 +87,9 @@ namespace ApiRestDesarrollo.Business.Implementations
             return query;
         }
 
-        public ReadOperationAccount GetBalance(int usuarioId, int cuentaId)
+        public ReadOperationAccount GetBalance(int usuarioId)
         {
-            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdCuenta == cuentaId && p.IdUsuarioReceptor == usuarioId).ToList();
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId).ToList();
             List<ReadOperation> reads = new List<ReadOperation>();
             decimal saldo = 0;
             
@@ -61,7 +108,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 }
                 ReadOperation readOperations = new ReadOperation() 
                 { 
-                fecha = item.Fecha,
+                fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                 monto = item.Monto,
                 operation = operacion,
                 referencia = item.Referencia
@@ -71,7 +118,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             ReadOperationAccount readOperationAccount = new ReadOperationAccount()
             {
                 Monto = saldo,
-                FkIdCuenta = cuentaId,
                 FkIdUsuarioReceptor = usuarioId,
                 readOperations = reads.ToArray()
             };
@@ -109,7 +155,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     }
                     ReadOperation readOperations = new ReadOperation()
                     {
-                        fecha = item.Fecha,
+                        fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                         monto = item.Monto,
                         operation = operacion,
                         referencia = item.Referencia
@@ -123,5 +169,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return readOperationAccount;
         }
+
+       
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ApiRestDesarrollo.Dtos;
+using ApiRestDesarrollo.Dtos.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,16 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool RegisterUser(CreateUserDto usuario);
 
-        bool Login(LoginModel login);
+        TokenValidate Login(LoginModel login);
 
         bool recuperarContrasena(RecuperarModel usuarioRecuperar);
 
 
 
+        void UpdateContrasena(string login);
 
+        ReadUserPersona GetPersona(int id);
+        bool DesbloquearUsuario(string usuario1);
 
     }
 }
