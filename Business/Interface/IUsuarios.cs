@@ -15,7 +15,10 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool Login(LoginModel login);
 
-        
+        bool recuperarContrasena(RecuperarModel usuarioRecuperar);
+
+
+
 
 
     }

@@ -38,7 +38,7 @@ namespace ApiRestDesarrollo.Controllers
                 _mapper = mapper;
                 this._configuration = configuration;
                 _context = context;
-            }
+        }
         
         
         
@@ -51,6 +51,19 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(BuildToken(user));
             }
             return BadRequest("Usuario o contraseña incorrecto");
+        }
+
+        [HttpPost("recuperarContaseña")]
+        public ActionResult RecuperarContaseña(RecuperarModel usuarioRecuperar)
+        {
+
+            if (_usuario.recuperarContrasena(usuarioRecuperar))
+            {
+                return Ok();
+            }
+            else
+                return BadRequest("Ocurrio un error");
+
         }
 
         [HttpPost("CreateComerce")]
