@@ -9,7 +9,9 @@ namespace ApiRestDesarrollo.Models
         [Key]
         public int IdPersona { get; set; }
         public string Nombre { get; set; }
+        public string SegundoNombre { get; set; }
         public string Apellido { get; set; }
+        public string SegundoApellido { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public int IdUsuario { get; set; }
         public int IdEstadoCivil { get; set; }
