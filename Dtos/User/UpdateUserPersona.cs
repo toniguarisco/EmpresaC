@@ -9,7 +9,6 @@ namespace ApiRestDesarrollo.Dtos.User
 {
     public class UpdateUserPersona
     {
-        [Key]
         public int Id { get; }
 
         [MaxLength(45)]

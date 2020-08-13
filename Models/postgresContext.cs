@@ -590,6 +590,10 @@ namespace ApiRestDesarrollo.Models
 
                 entity.ToTable("persona");
 
+                entity.Property(e => e.IdPersona)
+                    .HasColumnName("id_persona")
+                    .ValueGeneratedNever();
+
                 entity.Property(e => e.Apellido)
                     .IsRequired()
                     .HasColumnName("apellido")
