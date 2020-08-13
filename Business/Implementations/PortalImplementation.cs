@@ -28,7 +28,9 @@ namespace ApiRestDesarrollo.Business.Implementations
                 {
                     IdPersona = _context.Persona.Count() +1,
                     Nombre = person.Nombre,
+                    SegundoNombre = person.SegundoNombre,
                     Apellido = person.Apellido,
+                    SegundoApellido = person.SegundoApellido,
                     FechaNacimiento = person.FechaNacimiento,
                     IdUsuario = person.FkIdUsuario,
                 };

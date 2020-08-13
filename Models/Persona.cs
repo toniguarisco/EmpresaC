@@ -6,7 +6,6 @@ namespace ApiRestDesarrollo.Models
 {
     public partial class Persona
     {
-        [Key]
         public int IdPersona { get; set; }
         public string Nombre { get; set; }
         public string SegundoNombre { get; set; }
