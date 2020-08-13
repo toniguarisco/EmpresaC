@@ -1,21 +1,25 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Dtos.User;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Models;
 using ApiRestDesarrollo.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
     public class PortalImplementation : IPortal
     {
         private readonly postgresContext _context;
+        private readonly IMapper _mapper;
 
-        public PortalImplementation(postgresContext context)
+        public PortalImplementation(postgresContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public bool UpdateUserPerson(UpdateUserPersona person)
@@ -73,6 +77,75 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return true;
             }
             return false;
+        }
+
+        public ReadUserCommerce GetCommerceById(int IdCommerce)
+        {
+            var source = _context.Comercio.FirstOrDefault(e => e.IdComercio == IdCommerce);
+            if (source != null)
+            {
+                ReadUserCommerce comercio = new ReadUserCommerce
+                    {
+                        RazonSocial = source.RazonSocial,
+                        NombreRepresentante = source.NombreRepresentante,
+                        ApellidoRepresentante = source.ApellidoRepresentante,
+                        FkIdUsuario = source.IdUsuario
+                    };
+                return comercio;
+            }
+            return null;
+        }
+
+        public bool CreateAccount(CreateCuenta account)
+        {
+            var id_usuario = _context.Usuario.FirstOrDefault(e => e.IdUsuario == account.IdUsuario);
+            var id_banco = _context.Banco.FirstOrDefault(e => e.Nombre == account.Banco);
+            var id_tipo_usuario = _context.TipoUsuario.FirstOrDefault(e => e.Descripcion == account.tipo);
+            if ( (id_usuario != null) && (id_banco != null) && (id_tipo_usuario != null) )
+            {         
+                Cuenta cuenta = new Cuenta
+                {
+                    IdCuenta = _context.Cuenta.Count() + 1,
+                    NumeroCuenta = account.Cuenta,
+                    IdUsuario = account.IdUsuario
+                };
+                var query = (from idb in _context.Banco
+                             from idtu in _context.TipoUsuario
+                             where
+                             idb.Nombre == account.Banco &&
+                             idtu.Descripcion == account.tipo
+                             select new
+                             {
+                                 idbanco = idb.IdBanco,
+                                 idtipousuario = idtu.IdTipoUsuario
+                             }
+                    ).FirstOrDefault();               
+                cuenta.IdBanco = query.idbanco;
+                cuenta.IdTipoCuenta = query.idtipousuario;
+                return true;
+            }
+            return false;
+        }
+
+        public ReadUserPersona GetPersonById(int IdPerson)
+        {
+            var source = _context.Persona.FirstOrDefault(e => e.IdPersona == IdPerson);
+            if (source != null)
+            {
+                var src = _context.EstadoCivil.FirstOrDefault(e => e.IdEstadoCivil == source.IdEstadoCivil);
+                ReadUserPersona persona = new ReadUserPersona
+                {
+                    Nombre = source.Nombre,
+                    SegundoNombre = source.SegundoNombre,
+                    Apellido = source.Apellido,
+                    SegundoApellido = source.SegundoApellido,
+                    FechaNacimiento = source.FechaNacimiento,
+                    FkIdUsuario = source.IdUsuario,
+                    DescripcionEstadoCivil = src.Descripcion
+                };
+                return persona;
+            }
+            return null;
         }
     }
 }
