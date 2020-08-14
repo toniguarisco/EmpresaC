@@ -21,7 +21,7 @@ export default class Menu extends Component<Props>{
   constructor(props){
     super(props);
     this.state = {
-      token: this.props.token,
+      id: this.props.id,
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       charts: this.props.chartState,

@@ -30,13 +30,11 @@ export default class Home extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      token: this.props.token,
+      id: this.props.id,
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       isOpen: false,
-      charts: this.props.charts,
       color: "",
-      data: [],
       balance: 0,
       title1:"",
       title2: "",
@@ -163,7 +161,7 @@ componentWillUnmount() {
   render() {
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu token={this.state.token} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} chartState={this.state.charts} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} chartState={this.state.charts} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
           <Barra onHandle={this.handleSideMenu} onSwitch={this.switchCharts}/>
         </View> 

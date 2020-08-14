@@ -48,25 +48,21 @@ export default class Login extends Component<Props> {
     })
   }
 
-  loginApp = () => {
-    Actions.principal();
-  }
-  
-  /*loginApp = async() => {
+  loginApp = async() => {
   this.setState({
   	data: 1
   })
   try {
     let response = await fetch(
-      'http://ec2-52-90-180-87.compute-1.amazonaws.com/api/App/login',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/login',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-      email: this.state.correo,
-      pass: this.state.contraseña
+      usuario: this.state.correo,
+      clave: this.state.contraseña
       })
      }
     );
@@ -90,7 +86,6 @@ export default class Login extends Component<Props> {
    this.setModalVisible("Error de conexión", "Verifique la conexión")
   }
 } 
-*/
 
  handleLoginPress = () =>{
   if ((this.state.correo!="") && (this.state.contraseña!="")){
