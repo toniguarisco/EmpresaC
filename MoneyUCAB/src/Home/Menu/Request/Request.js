@@ -25,11 +25,10 @@ export default class Configuration extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      correoDestino: "",
-      monto: "",
       referencia: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
+      id: this.props.id,
       title:"",
       placeholder:"",
       placeholder2:"",
@@ -42,18 +41,6 @@ export default class Configuration extends Component<Props> {
     }
   }
 
-  handleDestinyEmailChange= (Text) =>{
-    this.setState({
-      correoDestino: Text
-    })
-  }
-
-  handleAmountChange= (Text) =>{
-    this.setState({
-      monto: Text
-    })
-  }
-
   handleReferenceChange= (Text) =>{
     this.setState({
       referencia: Text
@@ -61,30 +48,38 @@ export default class Configuration extends Component<Props> {
   }
 
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
-   Actions.pop();
+  if (this.state.referencia!=""){
+   this.requestMoney();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
- requestMoney = async(correo) => {
+requestMoney = async() => {
+
   try {
     let response = await fetch(
-      'API',{
-       method: 'GET',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/Reintegro',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+      idUser: this.state.id,
+      referencia: this.state.referencia
+      })
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
+    if (responseJson == "reintegro exitoso"){
+        Actions.pop();
+    }else{
+      this.setModalVisible("Error", this.state.errorTipo2);
+    }
+  } catch (error) {
+
+   this.setModalVisible("Error", this.state.errorTipo3)
   }
 }
 
@@ -92,24 +87,24 @@ export default class Configuration extends Component<Props> {
   if(this.state.idioma=="es"){
     this.setState({
       title: "SOLICITAR DEVOLUCIÓN DEL DINERO",
-      placeholder: "Correo del usuario a solicitar dinero",
-      placeholder2: "Monto",
       placeholder3: "Número de referencia",
       button: "ACEPTAR",
       error: "Error",
-      errorTipo: "Algún campo está vacío.",
-      subtitle: "Por favor, ingrese el correo de la persona a la que le solicitará su dinero de regreso, luego el monto y el numero de referencia de la transacción que desea retornar."
+      errorTipo: "Campo está vacío.",
+      errorTipo2: "Ocurrió un error.",
+      errorTipo3: "Error de conexion",
+      subtitle: "Por favor, ingrese el numero de referencia de la transacción que desea retornar."
     })
   }else{
     this.setState({
       title: "REQUEST YOUR MONEY BACK",
-      placeholder: "User's e-mail who you want to request your money back",
-      placeholder2: "Amount",
       placeholder3: "Reference number",
       button: "ACCEPT",
       error: "Error",
-      errorTipo: "Some field is empty.",
-      subtitle: "Please, set the e-mail of the other person who you want to request to get your money back, then set the amount and the reference number of the transaction that you want to return."
+      errorTipo: "Field is empty.",
+      errorTipo2: "An error has ocurred.",
+      errorTipo3: "Network error",
+      subtitle: "Please, set the reference number of the transaction that you want to return."
     })
   }
  }
@@ -140,26 +135,6 @@ export default class Configuration extends Component<Props> {
            <Text style={styles.text3}>
             {this.state.subtitle}
            </Text>
-           <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.placeholder}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleDestinyEmailChange}
-                value={this.state.correoDestino} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={this.state.placeholder2}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
-          </View>
           <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}
