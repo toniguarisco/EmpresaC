@@ -71,9 +71,9 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(int IdReintegro, string newEstatus)
         {
             var actualizar_reintegro = _repository.ActualizarEstatusReintegro(IdReintegro, newEstatus);
-            if (actualizar_reinegro != false)
+            if (actualizar_reintegro != false)
             {
-                return Ok(solicitud);
+                return Ok(actualizar_reintegro);
             };
             return BadRequest("no existe esa solicitud de reintegro");
         }

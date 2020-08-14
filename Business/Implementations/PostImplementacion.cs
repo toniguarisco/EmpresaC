@@ -117,36 +117,36 @@ namespace ApiRestDesarrollo.Business.Implementations
             return payment;
         }
 
-        public List<ReadRefund> GetReintegros(int usuarioId)
+       public List<ReadRefund> GetReintegros(int usuarioId)
         {
             var query = (   from r in _context.Reintegro
-                            from u in _context.usuario
-                            from usol in _context.usuario
+                            from u in _context.Usuario
+                            from usol in _context.Usuario
                             where
                             r.IdUsuarioReceptor == u.IdUsuario &&
                             u.IdUsuario == usuarioId &&
                             r.IdUsuarioSolicitante == usol.IdUsuario
                             select new ReadRefund
                             {
-                                IdReferencia = r.Referencia,
-                                Fecha = r.FechaSolicitud,
-                                UsuarioAReintegrar = usol.Usuario1,
+                                Referencia = r.Referencia,
+                                FechaSolicitud = r.FechaSolicitud,
+                                UsuarioSolicitante = usol.Usuario1,
                             }
-                        ).OrderBy(p=>p.Fecha).ToList();
+                        ).OrderBy(p=>p.FechaSolicitud).ToList();
 
             return query;
         }
 
         public bool ActualizarEstatusReintegro(int idreintegro, 
-                                                       string newestatus)
+                                               string newestatus)
         {
             var id_reintegro = _context.Reintegro.FirstOrDefault(src => src.IdReintegro == idreintegro);
             
             if (id_reintegro == null){
-                return false
-            }
+                return false;
+            };
 
-             id_reintegro.Estatus = newstatus;
+             id_reintegro.Estatus = newestatus;
              _context.SaveChanges();
             
             return true;
