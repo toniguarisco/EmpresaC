@@ -10,6 +10,7 @@ using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Profiles.ComerceProfile;
 using AutoMapper;
 using System.Net;
+using System.Net.Mail;
 using ApiRestDesarrollo.Dtos.User;
 
 namespace ApiRestDesarrollo.Business.Implementations
@@ -28,6 +29,22 @@ namespace ApiRestDesarrollo.Business.Implementations
         public void CreateUsuario(CreateUserDto usuario)
         {
             throw new NotImplementedException();
+        }
+
+        public bool DesbloquearUsuario(string usuario1)
+        {
+            var usuario = _context.Usuario.FirstOrDefault(p => p.Usuario1.Contains(usuario1));
+            if (usuario == null)
+            {
+                return false;
+            }
+            else if (usuario.Estatus != 3) 
+            { 
+                return false;
+            }
+            usuario.Estatus = 0;
+            _context.saveChanges();
+            return true;
         }
 
         public ReadUserPersona GetPersona(int id)
@@ -58,17 +75,42 @@ namespace ApiRestDesarrollo.Business.Implementations
                         tu.IdTipoUsuario == usu.IdTipoUsuario &&
                         (usu.Usuario1.Contains(login.Usuario) || usu.Email.Contains(login.Usuario))&&
                         clave.Contrasena1 == login.Clave
-                        select new 
-                        { 
-                        Usuario = usu.Usuario1,
-                        Clave = clave.Contrasena1,
-                        Id = usu.IdUsuario,
-                        tipo = tu.Descripcion
-                        }).FirstOrDefault();
-            if (query != null) {
-                return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo};
+                        select new
+                        {
+                            Usuario = usu.Usuario1,
+                            Clave = clave.Contrasena1,
+                            Id = usu.IdUsuario,
+                            tipo = tu.Descripcion,
+                            idClave = clave.IdContrasena,
+                            esatdo = usu.Estatus
+                        }
+                        ).FirstOrDefault();
+            if (_context.Usuario.FirstOrDefault(p => p.Usuario1 == login.Usuario).Estatus == 3) 
+            {
+                return new TokenValidate { login = false, mensaje = "Usuario bloqueado" };
             }
-            return new TokenValidate { login = false};
+            if (query != null) 
+            {
+                var contrasena = _context.Contrasena.FirstOrDefault(p => p.IdContrasena == query.idClave);
+                contrasena.IntentosFallidos = 0;
+                _context.saveChanges();
+                return new TokenValidate { login = true, idUser = query.Id, tipo = query.tipo, mensaje = "Login exitoso"};
+            }
+            var usuario = _context.Usuario.FirstOrDefault(p => p.Usuario1 == login.Usuario);
+            if (usuario != null) {
+
+                var contrasena = _context.Contrasena.FirstOrDefault(p => p.IdUsuario == usuario.IdUsuario);
+                contrasena.IntentosFallidos ++;
+                
+                if (contrasena.IntentosFallidos == 5) 
+                {
+                    usuario.Estatus = 3;
+                }
+                _context.saveChanges();
+                return new TokenValidate { login = false, intento = contrasena.IntentosFallidos, mensaje = "clave o usuario incorrecto" };
+            }
+
+            return new TokenValidate { login = false , mensaje = "clave o usuario incorrecto"};
         }
         
 
@@ -78,10 +120,10 @@ namespace ApiRestDesarrollo.Business.Implementations
             var usuario = _context.Usuario.FirstOrDefault(src => src.Usuario1 == user.Usuario);
             if (usuario == null && correo == null)
             {
-                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() + 1, Contrasena1 = user.Contrasena};
+                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() *135, Contrasena1 = user.Contrasena};
                 IList<Contrasena> contrasenas = new List<Contrasena>() {contrasena};
                 Usuario usu = new Usuario() {
-                IdUsuario = _context.Usuario.Count() + 1,
+                IdUsuario = _context.Usuario.Count() *135,
                 Email = user.Email,
                 Usuario1 = user.Usuario,
                 FechaRegistro = user.FechaRegistro,
@@ -99,6 +141,110 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return true;    
             }
             return false;
+        }
+
+        public bool recuperarContrasena(RecuperarModel usuarioRecuperar) //metodo booleano que devuelve true si se cambia la contraseña correctamente
+        {
+
+            if (buscarCorreo(usuarioRecuperar.email))
+            {
+                int nuevaContraseña = GenerarNuevaContrasena();// se genera la nueva contraseña
+                //Console.Write(nuevaContraseña);
+                modificarContarseña(usuarioRecuperar.email, nuevaContraseña);// se inserta en la base de datos la nueva contraseña
+                EnviarCorreoContrasena(nuevaContraseña, usuarioRecuperar.email); // se le envia al usuario la nueva contraseña al correo
+                return true;
+            }
+            else
+                return false;
+
+        }
+        private bool buscarCorreo(string email) // se verifica que el correo exista en la base de datos
+        {
+            var a = _context.Usuario.FirstOrDefault(p => p.Email.Contains(email));
+
+            if (a != null)
+                return true;
+            else
+                return false;
+        }
+        private void modificarContarseña(string email, int nuevaContraseña) // metodo que inserta la nueva contraseña en la base de datos
+        {
+            Usuario a = new Usuario();
+            a = _context.Usuario.FirstOrDefault(p => p.Email == email);
+            Contrasena b = new Contrasena();
+            b.IdContrasena = _context.Contrasena.Count() + 1;
+            b.Contrasena1 = Convert.ToString(nuevaContraseña);
+            b.IdUsuario = a.IdUsuario;
+            b.IntentosFallidos = 0;
+            b.Estatus = 1;
+            _context.Contrasena.Add(b);
+            //_context.Usuario.Update(a);
+            _context.saveChanges();
+            /* a.Direccion = Convert.ToString(nuevaContraseña);
+             _context.Usuario.Update(a);
+             _context.SaveChanges();*/
+
+
+        }
+        private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
+        {
+            string contrasena = "Desarrollo.2020";
+            string mensaje = string.Empty;
+            //Creando el correo electronico
+            string destinatario = correo;
+            string remitente = "desarrollo2020gato@gmail.com";
+            string asunto = "Nueva contraseña Apps Easy";
+            string cuerpoDelMesaje = "Su nueva contraseña es" + " " + Convert.ToString(contrasenaNueva);
+            MailMessage ms = new MailMessage(remitente, destinatario, asunto, cuerpoDelMesaje);
+            //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            //smtp.EnableSsl = true;
+            //smtp.UseDefaultCredentials = true;
+            //smtp.Credentials = new NetworkCredential("desarrollo2020gato@gmail.com", contraseña);
+
+
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("desarrollo2020gato@gmail.com");
+                mail.To.Add("dexter_alejandro@hotmail.com");
+                mail.Subject = "Hello World";
+                mail.Body = "<h1>Hello</h1>";
+                mail.IsBodyHtml = true;
+                //mail.Attachments.Add(new Attachment("C:\\file.zip"));
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("email@gmail.com", "password");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+
+
+
+
+            //try
+            //{
+            //    Task.Run(() =>
+            //    {
+
+            //        smtp.Send(ms);
+            //        ms.Dispose();
+            //        //MessageBox.Show("Correo enviado, sirvase revisar su bandeja de entrada");
+            //    }
+            //    );
+
+            //    // MessageBox.Show("Esta tarea puede tardar unos segundos, por favor espere.");
+            //}
+            //catch (Exception /*ex*/)
+            //{
+            //    //MessageBox.Show("Error al enviar correo electronico: " + ex.Message);
+            //}
+        }
+        private int GenerarNuevaContrasena() // metodo que general la nueva contraseña
+        {
+            Random rd = new Random(DateTime.Now.Millisecond);
+            int nuevaContrasena = rd.Next(100000, 999999);
+            return nuevaContrasena;
         }
 
         public void UpdateContrasena(string login)

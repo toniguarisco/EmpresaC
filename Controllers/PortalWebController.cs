@@ -1,6 +1,7 @@
 ﻿using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.User;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(a);
         }
 
-        [HttpPost("Actualizar Persona")]
+        [HttpPost("IngresarPersona")]
         public ActionResult UpdateUserPerson(UpdateUserPersona person)
         {
             if (_portal.UpdateUserPerson(person))
@@ -52,7 +53,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El usuario no es de tipo persona");
         }
 
-        [HttpPost("Actualizar Comercio")]
+        [HttpPost("IngresarComercio")]
         public ActionResult UpdateUserCommerce(UpdateUserCommerce commerce)
         {
             if (_portal.UpdateUserCommerce(commerce))
@@ -64,5 +65,37 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El usuario no es de tipo comercio");
         }
 
+        [HttpGet("ObtenerComercioId")]
+        public ActionResult<IEnumerable<ComandRead>> GetCommerceById(int IdCommerce)
+        {
+            var comercio = _portal.GetCommerceById(IdCommerce);
+            if (comercio != null)
+            {
+                return Ok(comercio);
+            }
+            return BadRequest("No hay un comercio con el id ingresado");
+        }
+
+        [HttpGet("ObtenerPersonaId")]
+        public ActionResult<IEnumerable<ComandRead>> GetPersonById(int IdPerson)
+        {
+            var persona = _portal.GetPersonById(IdPerson);
+            if (persona != null)
+            {
+                return Ok(persona);
+            }
+            return BadRequest("No hay una persona con el id ingresado");
+        }
+        
+        [HttpPost("IngresarCuenta")]
+        public ActionResult CreateAccount(CreateCuenta account)
+        {
+
+            if (_portal.CreateAccount(account))
+            {
+                return Ok(account);
+            }
+            return BadRequest("No se pudo ingresar la cuenta o el usuario ya tiene asociado la cuenta");
+        }
     }
 }
