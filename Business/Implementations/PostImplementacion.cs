@@ -2,6 +2,7 @@ using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.Payment;
+using ApiRestDesarrollo.Dtos.Refund;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using System;
@@ -114,6 +115,41 @@ namespace ApiRestDesarrollo.Business.Implementations
             };
 
             return payment;
+        }
+
+        public List<ReadRefund> GetReintegros(int usuarioId)
+        {
+            var query = (   from r in _context.Reintegro
+                            from u in _context.usuario
+                            from usol in _context.usuario
+                            where
+                            r.IdUsuarioReceptor == u.IdUsuario &&
+                            u.IdUsuario == usuarioId &&
+                            r.IdUsuarioSolicitante == usol.IdUsuario
+                            select new ReadRefund
+                            {
+                                IdReferencia = r.Referencia,
+                                Fecha = r.FechaSolicitud,
+                                UsuarioAReintegrar = usol.Usuario1,
+                            }
+                        ).OrderBy(p=>p.Fecha).ToList();
+
+            return query;
+        }
+
+        public bool ActualizarEstatusReintegro(int idreintegro, 
+                                                       string newestatus)
+        {
+            var id_reintegro = _context.Reintegro.FirstOrDefault(src => src.IdReintegro == idreintegro);
+            
+            if (id_reintegro == null){
+                return false
+            }
+
+             id_reintegro.Estatus = newstatus;
+             _context.SaveChanges();
+            
+            return true;
         }
     }
 }
