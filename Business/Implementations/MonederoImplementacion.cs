@@ -252,14 +252,20 @@ namespace ApiRestDesarrollo.Business.Implementations
         
         public bool reintegro(ReintegroDto reintegroDto)
         {
-            var tipoOperacion = _context.OperacionCuenta.FirstOrDefault(p => p.IdUsuarioReceptor == reintegroDto.idUser && p.Referencia.Equals(reintegroDto.referencia));
-            if (tipoOperacion != null && tipoOperacion.operacion == false) 
+            var tipoOperacion = _context.OperacionCuenta.Where(p => p.Referencia.Equals(reintegroDto.referencia));
+            
+            if (tipoOperacion != null && tipoOperacion.FirstOrDefault(p=>p.operacion == false).operacion == false) 
             {
                 int refid = _context.OperacionCuenta.Count();
-                var reintegro = tipoOperacion;
+                var reintegro = tipoOperacion.FirstOrDefault(p => p.operacion == false);
                 reintegro.IdOperacionCuenta = refid * 135;
                 reintegro.Referencia = "5789" + refid * 135;
                 reintegro.operacion = true;
+                var afectado = tipoOperacion.FirstOrDefault(p => p.operacion == true);
+                afectado.IdOperacionCuenta = (refid + 1) * 135;
+                afectado.Referencia = "5789" + refid * 135;
+                afectado.operacion = false;
+                _context.Add(afectado);
                 _context.Add(reintegro);
                 _context.SaveChanges();
                 return true;
