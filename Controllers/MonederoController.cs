@@ -98,9 +98,9 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("Reintegro")]
-        public ActionResult Reintegro(int idUser, string referencia)
+        public ActionResult Reintegro(ReintegroDto reintegro)
         {
-            var log = _repository.reintegro(idUser,referencia);
+            var log = _repository.reintegro(reintegro);
             if (log)
             {
                 return Ok("reintegro exitoso");

@@ -171,9 +171,9 @@ namespace ApiRestDesarrollo.Business.Implementations
             return readOperationAccount;
         }
 
-        public bool reintegro(int IdUser, string reference)
+        public bool reintegro(ReintegroDto reintegroDto)
         {
-            var tipoOperacion = _context.OperacionCuenta.FirstOrDefault(p => p.IdUsuarioReceptor == IdUser && p.Referencia.Equals(reference));
+            var tipoOperacion = _context.OperacionCuenta.FirstOrDefault(p => p.IdUsuarioReceptor == reintegroDto.idUser && p.Referencia.Equals(reintegroDto.referencia));
             if (tipoOperacion != null && tipoOperacion.operacion == false) 
             {
                 int refid = _context.OperacionCuenta.Count();

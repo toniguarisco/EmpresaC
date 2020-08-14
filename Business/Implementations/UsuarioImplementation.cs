@@ -85,7 +85,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                             esatdo = usu.Estatus
                         }
                         ).FirstOrDefault();
-            if (_context.Usuario.FirstOrDefault(p => p.Usuario1 == login.Usuario).Estatus == 3) 
+            if (query != null && query.esatdo == 3) 
             {
                 return new TokenValidate { login = false, mensaje = "Usuario bloqueado" };
             }
