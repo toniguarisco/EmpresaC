@@ -97,5 +97,16 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("La cuenta no es valida");
         }
 
+        [HttpPost("Reintegro")]
+        public ActionResult Reintegro(ReintegroDto reintegro)
+        {
+            var log = _repository.reintegro(reintegro);
+            if (log)
+            {
+                return Ok("reintegro exitoso");
+            }
+            return BadRequest("Su referencia no es valida para reintegro o el usuario no existe");
+        }
+
     }
 }
