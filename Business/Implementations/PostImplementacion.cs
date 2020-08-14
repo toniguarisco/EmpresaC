@@ -117,7 +117,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             return payment;
         }
 
-       public List<ReadRefund> GetReintegros(int usuarioId)
+        public List<ReadRefund> GetReintegros(int usuarioId)
         {
             var query = (   from r in _context.Reintegro
                             from u in _context.Usuario
@@ -138,13 +138,13 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
 
         public bool ActualizarEstatusReintegro(int idreintegro, 
-                                               string newestatus)
+                                                       string newestatus)
         {
             var id_reintegro = _context.Reintegro.FirstOrDefault(src => src.IdReintegro == idreintegro);
             
             if (id_reintegro == null){
                 return false;
-            };
+            }
 
              id_reintegro.Estatus = newestatus;
              _context.SaveChanges();

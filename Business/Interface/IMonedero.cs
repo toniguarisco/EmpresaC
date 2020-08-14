@@ -1,5 +1,7 @@
-﻿using ApiRestDesarrollo.Dtos.Account;
+﻿using ApiRestDesarrollo.Controllers;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Dtos.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,7 @@ namespace ApiRestDesarrollo.Business.Interface
         bool AddBalance(CreateOperacion createOperacion);
         bool AddCuenta(CreateCuenta create);
         bool reintegro(ReintegroDto reintegro);
+        bool pago(PagoDtos pago);
+        bool paypal(PagoPaypalDto pagoPaypal);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
+using ApiRestDesarrollo.Controllers;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Dtos.Payment;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using System;
@@ -169,6 +171,16 @@ namespace ApiRestDesarrollo.Business.Implementations
                 readOperationAccount.readOperations = reads.Take(4).ToArray();
             }
             return readOperationAccount;
+        }
+
+        public bool pago(PagoDtos pago) //idusuario el que manda, usuaario el que recibe
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool paypal(PagoPaypalDto pagoPaypal)
+        {
+            throw new NotImplementedException();
         }
 
         public bool reintegro(ReintegroDto reintegroDto)
