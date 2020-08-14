@@ -190,7 +190,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
                     IdOperacionCuenta = refid * 135,
-                    Referencia = "5789" + refid * 135
+                    Referencia = "3789" + refid * 135
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                 {
@@ -201,7 +201,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = false,
                     IdUsuarioReceptor = pago.IdUsuario,
                     IdOperacionCuenta = (refid + 1) * 135,
-                    Referencia = "5789" + refid * 135
+                    Referencia = "3789" + refid * 135
                 };
                 _context.Add(operacionCuentaReceptor);
                 _context.Add(operacionCuentaEnvia);
@@ -209,6 +209,29 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return true;
             }
             return false;
+        }
+
+        public List<PagoSolicitud> pagoSolicitud(int IdUsuario)
+        {
+            var solicitudes = (from pago in _context.Pago
+                               from usu in _context.Usuario
+                               where
+                               pago.IdUsuarioSolicitante == usu.IdUsuario
+                               select new PagoSolicitud
+                               {
+                                   Estatus = pago.Estatus,
+                                   FechaSolicitud = pago.FechaSolicitud,
+                                   Monto = pago.Monto,
+                                   Referencia = pago.Referencia,
+                                   Solicitante = usu.Usuario1,
+                                   IdPago = pago.IdPago
+                               }).OrderBy(p=>p.Estatus.Contains("en proceso")).ToList();
+            return solicitudes;
+        }
+
+        public bool pagoTienda(PagoTiendaDtos pago)
+        {
+            throw new NotImplementedException();
         }
 
         public bool paypal(PagoDtos pagoPaypal)
@@ -229,7 +252,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
                     IdOperacionCuenta = refid * 135,
-                    Referencia = "5789" + refid * 135
+                    Referencia = "4789" + refid * 135
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                 {
@@ -240,7 +263,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = true,
                     IdUsuarioReceptor = pagoPaypal.IdUsuario,
                     IdOperacionCuenta = (refid + 1)* 135,
-                    Referencia = "5789" + refid * 135
+                    Referencia = "4789" + refid * 135
                 };
                 _context.Add(operacionCuentaReceptor);
                 _context.Add(operacionCuentaEnvia);
