@@ -47,14 +47,35 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("SolicitarPago")]
-        public ActionResult<IEnumerable<ComandRead>> SolicitarPago(string users, double monto, string userr)
+        public ActionResult<IEnumerable<ComandRead>> SolicitarPago(string UserSolicita, double Monto, string UserRecibe)
         {
-            var solicitud = _repository.SolicitarPago(users,monto,userr);
+            var solicitud = _repository.SolicitarPago(UserSolicita,Monto,UserRecibe);
             if (solicitud != null)
             {
                 return Ok(solicitud);
             };
             return BadRequest("datos invalidos");
+        }
+
+        [HttpGet("Reintegros")]
+        public ActionResult<IEnumerable<ComandRead>> GetReintegros(int usuarioId)
+        {
+            var reintegros = _repository.GetReintegros(usuarioId);
+            if (reintegros != null) {
+                return Ok(reintegros);
+            };
+            return BadRequest("el id del usuario no es valido");
+        }
+
+        [HttpPut("ActualizarReintegro")]
+        public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(int IdReintegro, string newEstatus)
+        {
+            var actualizar_reintegro = _repository.ActualizarEstatusReintegro(IdReintegro, newEstatus);
+            if (actualizar_reinegro != false)
+            {
+                return Ok(solicitud);
+            };
+            return BadRequest("no existe esa solicitud de reintegro");
         }
 
 
