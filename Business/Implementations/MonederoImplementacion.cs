@@ -190,7 +190,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
                     IdOperacionCuenta = refid * 135,
-                    Referencia = "3789" + refid * 135
+                    Referencia = "3789" + refid * 135,
+                    estatus = 0
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                 {
@@ -201,7 +202,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = false,
                     IdUsuarioReceptor = pago.IdUsuario,
                     IdOperacionCuenta = (refid + 1) * 135,
-                    Referencia = "3789" + refid * 135
+                    Referencia = "3789" + refid * 135,
+                    estatus = 0
                 };
                 _context.Add(operacionCuentaReceptor);
                 _context.Add(operacionCuentaEnvia);
@@ -216,7 +218,8 @@ namespace ApiRestDesarrollo.Business.Implementations
             var solicitudes = (from pago in _context.Pago
                                from usu in _context.Usuario
                                where
-                               pago.IdUsuarioSolicitante == usu.IdUsuario
+                               pago.IdUsuarioSolicitante == usu.IdUsuario &&
+                               pago.IdUsuarioSolicitante == IdUsuario
                                select new PagoSolicitud
                                {
                                    Estatus = pago.Estatus,
@@ -231,7 +234,7 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public bool pagoTienda(PagoTiendaDtos pago)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool paypal(PagoDtos pagoPaypal)
@@ -251,22 +254,37 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = pagoPaypal.monto,
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                    IdOperacionCuenta = refid * 135,
-                    Referencia = "4789" + refid * 135
+                    IdOperacionCuenta = (refid + 3) * 135,
+                    Referencia = "4789" + refid * 135,
+                    estatus = 0
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                 {
                     Fecha = fecha,
                     Hora = hora,
                     IdCuenta = persona.IdCuenta,
-                    Monto = 0,
+                    Monto = pagoPaypal.monto,
                     operacion = true,
                     IdUsuarioReceptor = pagoPaypal.IdUsuario,
                     IdOperacionCuenta = (refid + 1)* 135,
-                    Referencia = "4789" + refid * 135
+                    Referencia = "4789" + refid * 135,
+                    estatus = 0
+                };
+                OperacionCuenta operacionCuentaEnvia2 = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = persona.IdCuenta,
+                    Monto = pagoPaypal.monto,
+                    operacion = false,
+                    IdUsuarioReceptor = pagoPaypal.IdUsuario,
+                    IdOperacionCuenta = (refid + 2) * 135,
+                    Referencia = "4789" + refid * 135,
+                    estatus = 0
                 };
                 _context.Add(operacionCuentaReceptor);
                 _context.Add(operacionCuentaEnvia);
+                _context.Add(operacionCuentaEnvia2);
                 _context.saveChanges();
                 return true;
             }
