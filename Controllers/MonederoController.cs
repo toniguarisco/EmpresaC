@@ -50,6 +50,16 @@ namespace ApiRestDesarrollo.Controllers
             };
             return BadRequest("el id del usuario no es valido");
         }
+        [HttpGet("PagosPendientes")]
+        public ActionResult<IEnumerable<ComandRead>> PagosPendientes(int usuarioId)
+        {
+            var pagos = _repository.pagoSolicitud(usuarioId);
+            if (pagos != null)
+            {
+                return Ok(pagos);
+            };
+            return BadRequest("el id del usuario no es valido");
+        }
 
         [HttpGet("BalanceEmail")]
         public ActionResult<IEnumerable<ComandRead>> GetBalanceByEmail(string email)

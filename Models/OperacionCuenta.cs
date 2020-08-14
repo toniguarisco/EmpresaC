@@ -13,6 +13,7 @@ namespace ApiRestDesarrollo.Models
         public int IdCuenta { get; set; }
         public int IdUsuarioReceptor { get; set; }
         public bool operacion { get; set; }
+        public int estatus { get; set; }
         public virtual Cuenta IdCuentaNavigation { get; set; }
         public virtual Usuario IdUsuarioReceptorNavigation { get; set; }
     }

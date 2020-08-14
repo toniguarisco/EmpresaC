@@ -19,5 +19,7 @@ namespace ApiRestDesarrollo.Business.Interface
         bool reintegro(ReintegroDto reintegro);
         bool pago(PagoDtos pago);
         bool paypal(PagoDtos pagoPaypal);
+        List<PagoSolicitud> pagoSolicitud(int IdUsuario);
+        bool pagoTienda(PagoTiendaDtos pago);
     }
 }

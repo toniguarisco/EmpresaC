@@ -112,7 +112,6 @@ namespace ApiRestDesarrollo.Business.Implementations
 
             return new TokenValidate { login = false , mensaje = "clave o usuario incorrecto"};
         }
-        
 
         public bool RegisterUser(CreateUserDto user)
         {
@@ -218,8 +217,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             string asunto = "Nueva contraseña Apps Easy";
             string cuerpoDelMesaje = "Su nueva contraseña es" + " " + Convert.ToString(contrasenaNueva);
             MailMessage ms = new MailMessage(remitente, destinatario, asunto, cuerpoDelMesaje);
-
-
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.EnableSsl = true;
             smtp.Credentials = new NetworkCredential("linkdex2@gmail.com", contraseña);
