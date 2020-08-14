@@ -158,6 +158,27 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return false;
 
         }
+        public bool actualizarContraseña(ModificarContraseñaModel contraseñaModificar)
+        {
+            try
+            {
+              Usuario a = new Usuario();
+              a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario);
+              Contrasena b = new Contrasena();
+              b.IdContrasena = _context.Contrasena.Count() + 1;
+              b.Contrasena1 = Convert.ToString(contraseñaModificar.nuevaContraseña);
+              b.IdUsuario = a.IdUsuario;
+              b.IntentosFallidos = 0;
+              b.Estatus = 1;
+             _context.Contrasena.Add(b);
+                return true;
+            }
+            catch (Exception )
+            {
+                return false;
+            }
+
+        }
         private bool buscarCorreo(string email) // se verifica que el correo exista en la base de datos
         {
             var a = _context.Usuario.FirstOrDefault(p => p.Email.Contains(email));
