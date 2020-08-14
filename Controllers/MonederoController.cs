@@ -108,5 +108,25 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("Su referencia no es valida para reintegro o el usuario no existe");
         }
 
+        [HttpPost("Transferencia")]
+        public ActionResult Reintegro(PagoDtos tranfe)
+        {
+            var log = _repository.pago(tranfe);
+            if (log)
+            {
+                return Ok("transferencia exitosa");
+            }
+            return BadRequest("El usuario no existe");
+        }
+        [HttpPost("PagoPaypal")]
+        public ActionResult Paypal(PagoDtos tranfe)
+        {
+            var log = _repository.paypal(tranfe);
+            if (log)
+            {
+                return Ok("Pago Exitoso");
+            }
+            return BadRequest("No posee una cuenta paypal asociado. Asocie primero una cuenta");
+        }
     }
 }

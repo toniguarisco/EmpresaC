@@ -175,14 +175,81 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public bool pago(PagoDtos pago) //idusuario el que manda, usuaario el que recibe
         {
-            throw new NotImplementedException();
+            var saldo = GetBalance(pago.IdUsuario);
+            if (saldo != null && saldo.Monto > pago.monto) {
+                var UsuarioReceptor = _context.Usuario.FirstOrDefault(p=>p.Usuario1 == pago.Usuario);
+                int refid = _context.OperacionCuenta.Count();
+                DateTime fecha = DateTime.Now;
+                TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
+                OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = 1,
+                    Monto = pago.monto,
+                    operacion = true,
+                    IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
+                    IdOperacionCuenta = refid * 135,
+                    Referencia = "5789" + refid * 135
+                };
+                OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = 1,
+                    Monto = pago.monto,
+                    operacion = false,
+                    IdUsuarioReceptor = pago.IdUsuario,
+                    IdOperacionCuenta = (refid + 1) * 135,
+                    Referencia = "5789" + refid * 135
+                };
+                _context.Add(operacionCuentaReceptor);
+                _context.Add(operacionCuentaEnvia);
+                _context.saveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public bool paypal(PagoPaypalDto pagoPaypal)
+        public bool paypal(PagoDtos pagoPaypal)
         {
-            throw new NotImplementedException();
+            var persona = _context.Cuenta.FirstOrDefault(p=> p.NumeroCuenta.Contains(pagoPaypal.Cuenta) && p.IdUsuario == pagoPaypal.IdUsuario);
+            if (persona != null)
+            {
+                var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pagoPaypal.Usuario);
+                int refid = _context.OperacionCuenta.Count();
+                DateTime fecha = DateTime.Now;
+                TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
+                OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = 1,
+                    Monto = pagoPaypal.monto,
+                    operacion = true,
+                    IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
+                    IdOperacionCuenta = refid * 135,
+                    Referencia = "5789" + refid * 135
+                };
+                OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = persona.IdCuenta,
+                    Monto = 0,
+                    operacion = true,
+                    IdUsuarioReceptor = pagoPaypal.IdUsuario,
+                    IdOperacionCuenta = (refid + 1)* 135,
+                    Referencia = "5789" + refid * 135
+                };
+                _context.Add(operacionCuentaReceptor);
+                _context.Add(operacionCuentaEnvia);
+                _context.saveChanges();
+                return true;
+            }
+                return false;
         }
-
+        
         public bool reintegro(ReintegroDto reintegroDto)
         {
             var tipoOperacion = _context.OperacionCuenta.FirstOrDefault(p => p.IdUsuarioReceptor == reintegroDto.idUser && p.Referencia.Equals(reintegroDto.referencia));

@@ -18,6 +18,6 @@ namespace ApiRestDesarrollo.Business.Interface
         bool AddCuenta(CreateCuenta create);
         bool reintegro(ReintegroDto reintegro);
         bool pago(PagoDtos pago);
-        bool paypal(PagoPaypalDto pagoPaypal);
+        bool paypal(PagoDtos pagoPaypal);
     }
 }
