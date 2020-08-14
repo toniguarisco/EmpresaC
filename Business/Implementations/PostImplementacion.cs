@@ -129,6 +129,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                             select new ReadRefund
                             {
                                 Referencia = r.Referencia,
+                                EstatusReintegro = r.Estatus, 
                                 FechaSolicitud = r.FechaSolicitud,
                                 UsuarioSolicitante = usol.Usuario1,
                             }
