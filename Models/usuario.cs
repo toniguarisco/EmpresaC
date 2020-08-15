@@ -32,7 +32,7 @@ namespace ApiRestDesarrollo.Models
         public int Estatus { get; set; }
         public int IdTipoUsuario { get; set; }
         public int IdTipoIdentificacion { get; set; }
-
+        public int parametro { get; set; }
         public virtual TipoIdentificacion IdTipoIdentificacionNavigation { get; set; }
         public virtual TipoUsuario IdTipoUsuarioNavigation { get; set; }
         public virtual ICollection<Bitacora> Bitacora { get; set; }
