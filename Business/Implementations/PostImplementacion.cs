@@ -22,6 +22,32 @@ namespace ApiRestDesarrollo.Business.Implementations
             _mapper = mapper;
         }
 
+        public bool actualizarPerfil(PerfilModel usuarioPerfil)
+        {
+            try
+            {
+                Usuario a = new Usuario();
+                a = _context.Usuario.FirstOrDefault(p => p.Email == usuarioPerfil.email);
+                Comercio c = new Comercio();
+                c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
+                a.Usuario1 = usuarioPerfil.nombreUsuario;
+                a.Email = usuarioPerfil.email;
+                a.Telefono = usuarioPerfil.telefono;
+                a.Direccion = usuarioPerfil.direccion;
+                c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
+                c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+                _context.Usuario.Update(a);
+                _context.Comercio.Update(c);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+
+
+            }
+        }
+
         public List<ReadAccounts> GetAccountsUser(int userId)
         {
             var query = (   from acc in _context.Cuenta

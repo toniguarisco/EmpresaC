@@ -18,11 +18,25 @@ namespace ApiRestDesarrollo.Controllers
         private readonly IPost _repository;
         private readonly IMapper _mapper;
 
+
         public PostController(IPost repository,
                                   IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        [HttpPut("actualizarperfil")]
+        public ActionResult actualizarPerfil(PerfilModel usuarioPerfil)
+        {
+
+            if (_repository.actualizarPerfil(usuarioPerfil))
+            {
+                return Ok();
+            }
+            else
+                return BadRequest("Ocurrio un error");
+
         }
 
         [HttpGet("Balance")]
