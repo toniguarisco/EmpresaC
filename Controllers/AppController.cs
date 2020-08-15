@@ -60,7 +60,7 @@ namespace ApiRestDesarrollo.Controllers
 
             if (_usuario.recuperarContrasena(usuarioRecuperar))
             {
-                return Ok();
+                return Ok("Se envio un correo a: " + usuarioRecuperar.email + "con su nueva clave");
             }
             else
                 return BadRequest("Ocurrio un error");
@@ -72,7 +72,7 @@ namespace ApiRestDesarrollo.Controllers
 
             if (_usuario.actualizarContraseña(contraseñaModificar))
             {
-                return Ok();
+                return Ok("Contraseña actualizada");
             }
             else
                 return BadRequest("Ocurrio un error");
