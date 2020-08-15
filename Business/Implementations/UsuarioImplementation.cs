@@ -164,7 +164,7 @@ namespace ApiRestDesarrollo.Business.Implementations
               Usuario a = new Usuario();
               a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario);
               Contrasena b = new Contrasena();
-              b.IdContrasena = _context.Contrasena.Count() + 1;
+              b.IdContrasena = _context.Contrasena.Count() * 135;
               b.Contrasena1 = Convert.ToString(contraseñaModificar.nuevaContraseña);
               b.IdUsuario = a.IdUsuario;
               b.IntentosFallidos = 0;
@@ -252,9 +252,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             return nuevaContrasena;
         }
 
-        public void UpdateContrasena(string login)
-        {
-            
-        }
+       
     }
 }

@@ -16,6 +16,7 @@ namespace ApiRestDesarrollo.Business.Interface
         CreatePayment SolicitarPago(string users, double montog, string userr);
         List<ReadOperationReintegro> GetReintegros(int usuarioId);
         bool ActualizarEstatusReintegro(string refreintegro, string newestatus);
+        bool actualizarPerfil(PerfilModel usuarioPerfil);
 
     }
 }
