@@ -7,6 +7,7 @@ namespace ApiRestDesarrollo.Dtos
 {
     public class PerfilModel
     {
+        public int idUsuario { get; set; }
         public string nombreUsuario { get; set; }
         public string email { get; set; }
         public string telefono { get; set; }

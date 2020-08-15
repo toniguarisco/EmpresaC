@@ -27,7 +27,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             try
             {
                 Usuario a = new Usuario();
-                a = _context.Usuario.FirstOrDefault(p => p.Email == usuarioPerfil.email);
+                a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioPerfil.idUsuario);
                 Comercio c = new Comercio();
                 c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
                 a.Usuario1 = usuarioPerfil.nombreUsuario;
@@ -36,8 +36,10 @@ namespace ApiRestDesarrollo.Business.Implementations
                 a.Direccion = usuarioPerfil.direccion;
                 c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
                 c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-                _context.Usuario.Update(a);
-                _context.Comercio.Update(c);
+                _context.Usuario.Add(a);
+                _context.SaveChanges();
+                _context.Comercio.Add(c);
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception)
