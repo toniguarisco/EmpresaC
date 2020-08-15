@@ -14,18 +14,21 @@ export class AuthService {
   private url = environment.apiUrl;
 
   constructor( private http: HttpClient,
-                private router: Router) { }
+               private router: Router) { }
 
 
-login(email, clave): Observable <any> {
+login(usuario, clave): Observable <any> {
   let resp;
-  console.log('Estoy en el Servicio.login', email,' ',clave);
+  console.log('Estoy en el Servicio.login', usuario, ' ', clave);
 
-  
-  return this.http.post<any>('/api/App/login', { email, clave })
+  // con proxy server
+  return this.http.post<any>('/api/App/login', { usuario, clave })
+
+  /* console.log(`${this.url}/api/App/login`, { usuario, clave });
+  return this.http.post<any>(`${this.url}/api/App/login`, { usuario, clave }) */
           ;
- 
-  
+
+
   /* try {
     resp = this.http.post<any>(`${this.url}`, { username, password });
   } catch (error) {
@@ -58,6 +61,7 @@ login(email, clave): Observable <any> {
   logout(): void{
     console.log('estoy en logout');
     localStorage.removeItem('token');
+    localStorage.removeItem('tipoUsuario');
     localStorage.removeItem('usuario');
     localStorage.removeItem('fakeUser');
     localStorage.removeItem('fakeCommerce');

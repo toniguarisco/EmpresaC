@@ -15,11 +15,15 @@ import { isObject } from 'ngx-bootstrap/chronos/utils/type-checks';
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    username: new FormControl('Aron', [Validators.required]),
-    password: new FormControl(123, [Validators.required, Validators.minLength(2)])
+    username: new FormControl('gabriella', [Validators.required]),
+    password: new FormControl(12345678, [Validators.required, Validators.minLength(2)])
   });
-
-  hasError: boolean;
+/* 
+  gabriella -> persona
+  dexter-bit -> comercio
+  toniguarisco -> Admin
+  
+ */  hasError: boolean;
 
   private fakeUser =  {
                 id_usuario: '1',
@@ -47,7 +51,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private authSrevice: AuthService,
               private router: Router) { }
-private myToken:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
+private myToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0NTQzNTQzNTQzNTM0NTMiLCJleHAiOjE1MDQ2OTkyNTZ9.zG-2FvGegujxoLWwIQfNB5IT46D-xC4e8dEDYwi6aRM';
   ngOnInit(): void {
 
     this.hasError = false;
@@ -67,15 +71,17 @@ private myToken:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0N
         console.log('RESPUESTA Value =>' , res.value);
         console.log('RESPUESTA token =>' , res.value.token);
         localStorage.setItem('token', res.value.token);
+        localStorage.setItem('tipoUsuario', res.value.tipo);
+        localStorage.setItem('idUsuario', res.value.id);
         // valores esperados del servicio
-        let usuario = {
+        /* let usuario = {
           id_usuario: '1',
           usuario: 'bastvai',
           // password: '1234',
           tipo_usuario: 'administrador'
-        };
+        }; */
 
-        localStorage.setItem('usuario', JSON.stringify(usuario));
+        /* localStorage.setItem('usuario', JSON.stringify(usuario));
         // creando un Fake User para pruebas
         localStorage.setItem('fakeUser', JSON.stringify(this.fakeUser));
         // creando un Fake Commerce para pruebas
@@ -86,7 +92,7 @@ private myToken:string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTM0N
           usuario: 'bastvai',
           // password: '1234',
           tipo_usuario: 'administrador'
-        };
+        }; */
         this.router.navigate(['/home']);
       }
       ,err => {

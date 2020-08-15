@@ -1,6 +1,6 @@
 {
     "/api/*":{
-        "target": "http://ec2-52-90-180-87.compute-1.amazonaws.com",
+        "target": "https://localhost:44361",
         "secure": false,
         "changeOrigin": true
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UserService } from '../../../services/user.service';
 @Component({
   selector: 'app-consultar-saldo',
   templateUrl: './consultar-saldo.component.html',
@@ -42,7 +43,7 @@ export class ConsultarSaldoComponent implements OnInit {
 ];
 dtOptions: DataTables.Settings = {};
 
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   saldoActual(): void{
 
@@ -60,7 +61,23 @@ dtOptions: DataTables.Settings = {};
       ]
   };
 
- 
+    //console.log(this.userService.getUserById(localStorage.getItem('idUsuario')));
+    this.userService.getBalancePersona(localStorage.getItem('idUsuario'))
+    .subscribe(res =>{
+      console.log(res.readOperations);
+
+
+      /*
+        5789 = recarga banco tarjeta
+        3789 = transferencia de saldo para persona
+        7543 = pago recibido
+        1789 = pago por paypal
+        5789 = reintegro
+        2789 = pago a comercio
+      */
+
+
+    });
 }
 
 }

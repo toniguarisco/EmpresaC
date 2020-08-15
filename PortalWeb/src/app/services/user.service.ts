@@ -23,4 +23,10 @@ export class UserService {
     return this.http.put<any>('/api/App/UserUpdate/' + id, {nombre, apellido, fechaNac, telefono, correo}).
             subscribe(res => {});
   }
+
+
+  getBalancePersona( id: string): Observable<any>{
+    console.log( 'api/Monedero/Balance?usuarioId=' + id);
+    return this.http.get<any>('api/Monedero/Balance?usuarioId=' + id);
+  }
 }
