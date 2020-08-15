@@ -570,6 +570,10 @@ namespace ApiRestDesarrollo.Models
                     .HasColumnName("nombre")
                     .HasMaxLength(45);
 
+                entity.Property(e => e.Comision)
+                    .IsRequired()
+                    .HasColumnType("comision");
+
                 entity.HasOne(d => d.IdFrecuenciaNavigation)
                     .WithMany(p => p.Parametro)
                     .HasForeignKey(d => d.IdFrecuencia)

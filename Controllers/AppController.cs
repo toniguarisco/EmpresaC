@@ -79,7 +79,7 @@ namespace ApiRestDesarrollo.Controllers
 
         }
 
-        [HttpPost("CreateComerce")]
+        [HttpPost("CreateUsuario")]
         public ActionResult CreateUsuario(CreateUserDto user)
         {
             if (_usuario.RegisterUser(user)) {

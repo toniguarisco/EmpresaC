@@ -22,7 +22,7 @@ namespace ApiRestDesarrollo.Business.Interface
 
         //ReadAccounts GetAccountsById(int IdUser);
 
-        //bool CreateOperation(CreateOperacion operacion);
+        bool CreateOperation(CreateOperacion operacion);
 
         //ReadOperation GetOperationListById(int IdUser);
 

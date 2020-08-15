@@ -1,6 +1,7 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
+using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Models;
 using ApiRestDesarrollo.Dtos;
 using System;
@@ -146,6 +147,12 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return persona;
             }
             return null;
+        }
+
+        public bool CreateOperation(CreateOperacion operacion)
+        {
+
+            return false;
         }
     }
 }
