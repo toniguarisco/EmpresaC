@@ -121,7 +121,7 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("Transferencia")]
         public ActionResult Reintegro(PagoDtos tranfe)
         {
-            var log = _repository.pago(tranfe);
+            var log = _repository.transferencia(tranfe);
             if (log)
             {
                 return Ok("transferencia exitosa");
@@ -137,6 +137,16 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok("Pago Exitoso");
             }
             return BadRequest("No posee una cuenta paypal asociado. Asocie primero una cuenta");
+        }
+        [HttpPost("PagoTienda")]
+        public ActionResult PagoTienda(PagoTiendaDtos pago)
+        {
+            var log = _repository.pagoTienda(pago);
+            if (log)
+            {
+                return Ok("Pago Exitoso");
+            }
+            return BadRequest("La tienda no existe o no tiene saldo suficiente");
         }
     }
 }

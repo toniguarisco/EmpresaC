@@ -36,8 +36,9 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = createOperacion.monto,
                     operacion = true,
                     IdUsuarioReceptor = createOperacion.idUSuario,
-                    IdOperacionCuenta = refid * 135,
-                    Referencia = "5789"+ refid * 135
+                    IdOperacionCuenta = (refid+1) * 135,
+                    Referencia = "5789"+ refid * 135,
+                    estatus = 0
                 };
                 _context.Add(operacionCuenta);
                 _context.SaveChanges();
@@ -92,7 +93,7 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public ReadOperationAccount GetBalance(int usuarioId)
         {
-            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId).ToList();
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3).ToList();
             List<ReadOperation> reads = new List<ReadOperation>();
             decimal saldo = 0;
             
@@ -173,7 +174,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             return readOperationAccount;
         }
 
-        public bool pago(PagoDtos pago) //idusuario el que manda, usuaario el que recibe
+        public bool transferencia(PagoDtos pago)
         {
             var saldo = GetBalance(pago.IdUsuario);
             if (saldo != null && saldo.Monto > pago.monto) {
@@ -189,7 +190,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = pago.monto,
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                    IdOperacionCuenta = refid * 135,
+                    IdOperacionCuenta = (refid+1) * 135,
                     Referencia = "3789" + refid * 135,
                     estatus = 0
                 };
@@ -201,7 +202,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = pago.monto,
                     operacion = false,
                     IdUsuarioReceptor = pago.IdUsuario,
-                    IdOperacionCuenta = (refid + 1) * 135,
+                    IdOperacionCuenta = (refid + 2) * 135,
                     Referencia = "3789" + refid * 135,
                     estatus = 0
                 };
@@ -234,6 +235,17 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public bool pagoTienda(PagoTiendaDtos pago)
         {
+            var PagoFactura = _context.Pago.FirstOrDefault(p=>p.IdPago == pago.IdPago);
+            if (PagoFactura != null) 
+            {
+                var transferecia = transferencia(new PagoDtos { Cuenta = pago.Cuenta, IdUsuario = pago.IdUsuario, monto = pago.monto, Usuario = pago.Usuario });
+                if (transferecia) {
+                    PagoFactura.Referencia = "pagado";
+                    return true;
+                }
+                return false;
+            }
+            
             return false;
         }
 
@@ -293,19 +305,21 @@ namespace ApiRestDesarrollo.Business.Implementations
         
         public bool reintegro(ReintegroDto reintegroDto)
         {
-            var tipoOperacion = _context.OperacionCuenta.Where(p => p.Referencia.Equals(reintegroDto.referencia));
+            var tipoOperacion = _context.OperacionCuenta.Where(p => p.Referencia.Equals(reintegroDto.referencia) && p.estatus == 0);
             
             if (tipoOperacion != null && tipoOperacion.FirstOrDefault(p=>p.operacion == false).operacion == false) 
             {
                 int refid = _context.OperacionCuenta.Count();
                 var reintegro = tipoOperacion.FirstOrDefault(p => p.operacion == false);
-                reintegro.IdOperacionCuenta = refid * 135;
+                reintegro.IdOperacionCuenta = (refid+2) * 135;
                 reintegro.Referencia = "5789" + refid * 135;
-                reintegro.operacion = true;
+                reintegro.operacion = false;
+                reintegro.estatus = 1;
                 var afectado = tipoOperacion.FirstOrDefault(p => p.operacion == true);
                 afectado.IdOperacionCuenta = (refid + 1) * 135;
                 afectado.Referencia = "5789" + refid * 135;
-                afectado.operacion = false;
+                afectado.operacion = true;
+                afectado.estatus = 1;
                 _context.Add(afectado);
                 _context.Add(reintegro);
                 _context.SaveChanges();
