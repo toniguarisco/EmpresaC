@@ -102,9 +102,9 @@ namespace ApiRestDesarrollo.Business.Implementations
             return query;
         }
 
-        public ReadOperationAccount GetBalance(int usuarioId, int cuentaId)
+        public ReadOperationAccount GetBalance(int usuarioId)
         {
-            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdCuenta == cuentaId && p.IdUsuarioReceptor == usuarioId).ToList();
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus !=10).ToList();
             List<ReadOperation> reads = new List<ReadOperation>();
             decimal saldo = 0;
             
@@ -133,7 +133,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             ReadOperationAccount readOperationAccount = new ReadOperationAccount()
             {
                 Monto = saldo,
-                FkIdCuenta = cuentaId,
                 FkIdUsuarioReceptor = usuarioId,
                 readOperations = reads.ToArray()
             };

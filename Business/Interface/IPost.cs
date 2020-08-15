@@ -11,7 +11,7 @@ namespace ApiRestDesarrollo.Business.Interface
 {
     public interface IPost
     {
-        ReadOperationAccount GetBalance(int usuarioId, int cuentaId);
+        ReadOperationAccount GetBalance(int usuarioId);
         List<ReadAccounts> GetAccountsUser(int userId);
         CreatePayment SolicitarPago(string users, double montog, string userr);
         List<ReadOperationReintegro> GetReintegros(int usuarioId);
