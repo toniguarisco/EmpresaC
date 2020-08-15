@@ -30,7 +30,7 @@ namespace ApiRestDesarrollo.Business.Interface
 
         List<ReadCard> GetUserCard(int IdUser);
 
-        //bool RetiroCommerce()
+        bool RetiroFondosCommerce(CreateOperacion operacion);
 
         UsuarioRead GetUserById(int IdUser);
 

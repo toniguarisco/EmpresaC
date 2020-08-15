@@ -3,6 +3,7 @@ using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Card;
+using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -130,6 +131,17 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(user);
             }
             return BadRequest("No se pudo listar las tarjetas asociadas al usuario");
+        }
+
+        [HttpPost("RetiroFondosComercio")]
+        public ActionResult<IEnumerable<ComandRead>> RetiroFondosCommerce(CreateOperacion operacion)
+        {
+            var fondos = _portal.RetiroFondosCommerce(operacion);
+            if( fondos != null)
+            {
+                return Ok(operacion);
+            }
+            return BadRequest("Los fondos no pudieron ser retirados");
         }
 
         [HttpGet("AdminListadoPersona")]

@@ -34,10 +34,10 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Hora = createOperacion.hora,
                     IdCuenta = cuenta.IdCuenta,
                     Monto = createOperacion.monto,
-                    operacion = true,
+                    operacion = true, //false
                     IdUsuarioReceptor = createOperacion.idUSuario,
                     IdOperacionCuenta = (refid+1) * 135,
-                    Referencia = "5789"+ refid * 135,
+                    Referencia = "5789"+ refid * 135, //10789
                     estatus = 0
                 };
                 _context.Add(operacionCuenta);

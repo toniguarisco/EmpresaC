@@ -232,6 +232,31 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
+        public bool RetiroFondosCommerce(CreateOperacion createOperacion)
+        {
+            var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
+            if (cuenta != null)
+            {
+                int refid = _context.OperacionCuenta.Count();
+                OperacionCuenta operacionCuenta = new OperacionCuenta()
+                {
+                    Fecha = createOperacion.fecha,
+                    Hora = createOperacion.hora,
+                    IdCuenta = cuenta.IdCuenta,
+                    Monto = createOperacion.monto,
+                    operacion = false,
+                    IdUsuarioReceptor = createOperacion.idUSuario,
+                    IdOperacionCuenta = (refid + 1) * 135,
+                    Referencia = "10789" + refid * 135, 
+                    estatus = 0
+                };
+                _context.Add(operacionCuenta);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona)
         {
             var source = _context.Usuario.FirstOrDefault(e => e.IdTipoUsuario == IdTipoPersona);
@@ -242,7 +267,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 GetUserById(source.IdUsuario);
                 var personas = (from p in _context.Persona
                              from u in _context.Usuario
-                             where (u.IdTipoUsuario == IdTipoPersona)
+                             where (u.IdTipoUsuario == IdTipoPersona) &&
+                             (p.IdUsuario == u.IdUsuario)
                              select new ReadUserPersona
                              {
                                  Nombre = sourceid.Nombre,
@@ -253,7 +279,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                                  DescripcionEstadoCivil = sourceec.Descripcion
 
                              }
-                             ).OrderBy(t => t.FkIdUsuario).ToList();
+                             ).OrderBy(t => t.Nombre).ToList();
                 return personas;
             }
             return null;
@@ -268,7 +294,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 var sourceid = _context.Comercio.FirstOrDefault(e => e.IdUsuario == source.IdUsuario);
                 var comercios = (from p in _context.Usuario
                                  from c in _context.Comercio
-                                 where (p.IdTipoUsuario == IdTipoComercio)
+                                 where (p.IdTipoUsuario == IdTipoComercio) &&
+                                 (c.IdUsuario == p.IdUsuario)
                                  select new ReadUserCommerce
                                  {
                                      RazonSocial = sourceid.RazonSocial,
