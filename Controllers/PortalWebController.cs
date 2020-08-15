@@ -167,7 +167,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("Balance")]
-        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId)
+        public ActionResult<IEnumerable<HistoryOperationAccount>> GetBalance(int usuarioId)
         {
             var saldo = _portal.GetBalance(usuarioId);
             if (saldo != null)
