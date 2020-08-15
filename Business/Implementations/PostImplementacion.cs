@@ -57,19 +57,19 @@ namespace ApiRestDesarrollo.Business.Implementations
             try
             {
                 var id_usuario = _context.Usuario.Where(src => src.IdUsuario==usuarioPerfil.idUsuario);
-                var id_comercio = _context.Comercio.Where(src => src.IdUsuario == usuarioPerfil.idUsuario);
-                 if ((id_usuario != null) && (id_comercio != null))
+                //var id_comercio = _context.Comercio.Where(src => src.IdUsuario == usuarioPerfil.idUsuario);
+                 if ((id_usuario != null)/* && (id_comercio != null)*/)
                 {
                    var usuario = id_usuario.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);
-                   var comercio = id_comercio.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);                 
+                   //var comercio = id_comercio.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);                 
                     usuario.Usuario1 = usuarioPerfil.nombreUsuario;               
                     usuario.Email = usuarioPerfil.email;              
                     usuario.Telefono = usuarioPerfil.telefono;                
                     usuario.Direccion = usuarioPerfil.direccion;               
-                    comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;                 
-                    comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+                    //comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;                 
+                    //comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
                    _context.Add(usuario);
-                   _context.Add(comercio);
+                   //_context.Add(comercio);
                    _context.SaveChanges();
                     return true;
                 }
@@ -102,9 +102,9 @@ namespace ApiRestDesarrollo.Business.Implementations
             return query;
         }
 
-        public ReadOperationAccount GetBalance(int usuarioId, int cuentaId)
+        public ReadOperationAccount GetBalance(int usuarioId)
         {
-            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdCuenta == cuentaId && p.IdUsuarioReceptor == usuarioId).ToList();
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus !=10).ToList();
             List<ReadOperation> reads = new List<ReadOperation>();
             decimal saldo = 0;
             
@@ -133,7 +133,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             ReadOperationAccount readOperationAccount = new ReadOperationAccount()
             {
                 Monto = saldo,
-                FkIdCuenta = cuentaId,
                 FkIdUsuarioReceptor = usuarioId,
                 readOperations = reads.ToArray()
             };
