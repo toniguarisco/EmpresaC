@@ -14,8 +14,6 @@ namespace ApiRestDesarrollo.Business.Interface
         TokenValidate Login(LoginModel login);
         bool recuperarContrasena(RecuperarModel usuarioRecuperar);
         bool actualizarContraseña(ModificarContraseñaModel contraseñaModificar);
-
-        void UpdateContrasena(string login);
         ReadUserPersona GetPersona(int id);
         bool DesbloquearUsuario(string usuario1);
     }
