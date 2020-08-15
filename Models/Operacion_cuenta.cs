@@ -24,6 +24,7 @@ namespace ApiRestDesarrollo.Models
         public int id_cuenta { get; set; }
 
         public int id_usuario_receptor { get; set; }
+        
 
     }
 }

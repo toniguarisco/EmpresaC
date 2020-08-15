@@ -50,6 +50,16 @@ namespace ApiRestDesarrollo.Controllers
             };
             return BadRequest("el id del usuario no es valido");
         }
+        [HttpGet("PagosPendientes")]
+        public ActionResult<IEnumerable<ComandRead>> PagosPendientes(int usuarioId)
+        {
+            var pagos = _repository.pagoSolicitud(usuarioId);
+            if (pagos != null)
+            {
+                return Ok(pagos);
+            };
+            return BadRequest("el id del usuario no es valido");
+        }
 
         [HttpGet("BalanceEmail")]
         public ActionResult<IEnumerable<ComandRead>> GetBalanceByEmail(string email)
@@ -108,5 +118,35 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("Su referencia no es valida para reintegro o el usuario no existe");
         }
 
+        [HttpPost("Transferencia")]
+        public ActionResult Reintegro(PagoDtos tranfe)
+        {
+            var log = _repository.transferencia(tranfe);
+            if (log)
+            {
+                return Ok("transferencia exitosa");
+            }
+            return BadRequest("El usuario no existe");
+        }
+        [HttpPost("PagoPaypal")]
+        public ActionResult Paypal(PagoDtos tranfe)
+        {
+            var log = _repository.paypal(tranfe);
+            if (log)
+            {
+                return Ok("Pago Exitoso");
+            }
+            return BadRequest("No posee una cuenta paypal asociado. Asocie primero una cuenta");
+        }
+        [HttpPost("PagoTienda")]
+        public ActionResult PagoTienda(PagoTiendaDtos pago)
+        {
+            var log = _repository.pagoTienda(pago);
+            if (log)
+            {
+                return Ok("Pago Exitoso");
+            }
+            return BadRequest("La tienda no existe o no tiene saldo suficiente");
+        }
     }
 }

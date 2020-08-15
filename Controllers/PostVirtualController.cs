@@ -68,9 +68,9 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPut("ActualizarReintegro")]
-        public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(int IdReintegro, string newEstatus)
+        public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(string RefReintegro, string newEstatus)
         {
-            var actualizar_reintegro = _repository.ActualizarEstatusReintegro(IdReintegro, newEstatus);
+            var actualizar_reintegro = _repository.ActualizarEstatusReintegro(RefReintegro, newEstatus);
             if (actualizar_reintegro != false)
             {
                 return Ok(actualizar_reintegro);

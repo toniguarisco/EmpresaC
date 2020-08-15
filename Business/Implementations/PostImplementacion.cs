@@ -117,39 +117,62 @@ namespace ApiRestDesarrollo.Business.Implementations
             return payment;
         }
 
-        public List<ReadRefund> GetReintegros(int usuarioId)
+        public List<ReadOperationReintegro> GetReintegros(int usuarioId)
         {
-            var query = (   from r in _context.Reintegro
+            var query = (   from o in _context.OperacionCuenta
                             from u in _context.Usuario
                             from usol in _context.Usuario
                             where
-                            r.IdUsuarioReceptor == u.IdUsuario &&
+                            o.IdUsuarioReceptor == u.IdUsuario &&
                             u.IdUsuario == usuarioId &&
-                            r.IdUsuarioSolicitante == usol.IdUsuario
-                            select new ReadRefund
+                            o.IdCuenta == usol.IdUsuario &&
+                            o.estatus == 1
+                            select new ReadOperationReintegro
                             {
-                                Referencia = r.Referencia,
-                                FechaSolicitud = r.FechaSolicitud,
+                                Referencia = o.Referencia,
+                                Estatus = o.estatus, 
+                                Fecha = o.Fecha,
                                 UsuarioSolicitante = usol.Usuario1,
                             }
-                        ).OrderBy(p=>p.FechaSolicitud).ToList();
+                        ).OrderBy(p=>p.Fecha).ToList();
 
             return query;
         }
 
-        public bool ActualizarEstatusReintegro(int idreintegro, 
-                                                       string newestatus)
+        public bool ActualizarEstatusReintegro(string refreintegro, 
+                                                    string newestatus)
         {
-            var id_reintegro = _context.Reintegro.FirstOrDefault(src => src.IdReintegro == idreintegro);
+            var id_reintegro = _context.OperacionCuenta.Where(src => src.Referencia.Equals(refreintegro));
             
-            if (id_reintegro == null){
+            if (id_reintegro != null) 
+            {
+                var reintegro = id_reintegro.FirstOrDefault(src => src.operacion == false);
+                if (newestatus == "ACEPTAR") {
+                    reintegro.estatus = 2;
+                    reintegro.operacion = !reintegro.operacion;
+                } else if (newestatus == "DENEGAR"){
+                    reintegro.estatus = 3;
+                } else{
                 return false;
+                };
+                
+                var afectado = id_reintegro.FirstOrDefault(src => src.operacion == true);
+                if (newestatus == "ACEPTAR") {
+                    afectado.estatus = 2;
+                    afectado.operacion = !afectado.operacion;
+                } else if (newestatus == "DENEGAR"){
+                    afectado.estatus = 3;
+                } else{
+                return false;
+                };
+                
+                _context.Add(afectado);
+                _context.Add(reintegro);
+                _context.SaveChanges();
+                return true;
             }
-
-             id_reintegro.Estatus = newestatus;
-             _context.SaveChanges();
-            
-            return true;
+           
+            return false;
         }
     }
 }

@@ -66,6 +66,18 @@ namespace ApiRestDesarrollo.Controllers
                 return BadRequest("Ocurrio un error");
 
         }
+        [HttpPost("modificarContraseña")]
+        public ActionResult ModificarContraseña(ModificarContraseñaModel contraseñaModificar)
+        {
+
+            if (_usuario.actualizarContraseña(contraseñaModificar))
+            {
+                return Ok();
+            }
+            else
+                return BadRequest("Ocurrio un error");
+
+        }
 
         [HttpPost("CreateUsuario")]
         public ActionResult CreateUsuario(CreateUserDto user)
