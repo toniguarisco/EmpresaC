@@ -139,27 +139,40 @@ namespace ApiRestDesarrollo.Business.Implementations
             return query;
         }
 
-        public bool ActualizarEstatusReintegro(int idreintegro, 
+        public bool ActualizarEstatusReintegro(string refreintegro, 
                                                     string newestatus)
         {
-            var id_reintegro = _context.OperacionCuenta.FirstOrDefault(src => src.IdOperacionCuenta == idreintegro);
+            var id_reintegro = _context.OperacionCuenta.Where(src => src.Referencia.Equals(refreintegro));
             
-            if (id_reintegro == null){
+            if (id_reintegro != null) 
+            {
+                var reintegro = id_reintegro.FirstOrDefault(src => src.operacion == false);
+                if (newestatus == "ACEPTAR") {
+                    reintegro.estatus = 2;
+                    reintegro.operacion = !reintegro.operacion;
+                } else if (newestatus == "DENEGAR"){
+                    reintegro.estatus = 3;
+                } else{
                 return false;
+                };
+                
+                var afectado = id_reintegro.FirstOrDefault(src => src.operacion == true);
+                if (newestatus == "ACEPTAR") {
+                    afectado.estatus = 2;
+                    afectado.operacion = !afectado.operacion;
+                } else if (newestatus == "DENEGAR"){
+                    afectado.estatus = 3;
+                } else{
+                return false;
+                };
+                
+                _context.Add(afectado);
+                _context.Add(reintegro);
+                _context.SaveChanges();
+                return true;
             }
-
-             if (newestatus == "ACEPTAR") {
-                 id_reintegro.estatus = 2;
-                 id_reintegro.operacion = !id_reintegro.operacion;
-             } else if (newestatus == "DENEGAR"){
-                id_reintegro.estatus = 3;
-             } else{
-             return false;
-             };
-            
-             _context.SaveChanges();
-            
-            return true;
+           
+            return false;
         }
     }
 }
