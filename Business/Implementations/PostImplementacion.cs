@@ -24,36 +24,62 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public bool actualizarPerfil(PerfilModel usuarioPerfil)
         {
+            //try
+            //{
+            //    Usuario a = new Usuario();
+            //    a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioPerfil.idUsuario);
+            //    Comercio c = new Comercio();
+            //    c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
+            //    if (usuarioPerfil.nombreUsuario != null)
+            //        a.Usuario1 = usuarioPerfil.nombreUsuario;
+            //    if (usuarioPerfil.email != null)
+            //        a.Email = usuarioPerfil.email;
+            //    if (usuarioPerfil.telefono != null)
+            //        a.Telefono = usuarioPerfil.telefono;
+            //    if (usuarioPerfil.direccion != null)
+            //        a.Direccion = usuarioPerfil.direccion;
+            //    if (usuarioPerfil.nombreRepresentante != null)
+            //        c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
+            //    if (usuarioPerfil.apellidoRepresentante != null)
+            //        c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+            //    _context.Usuario.Add(a);             
+            //    _context.Comercio.Add(c);
+            //    _context.SaveChanges();
+            //    return true;
+            //}
+            //catch (Exception)
+            //{
+            //    return false;
+
+
+            //}
+
             try
             {
-                Usuario a = new Usuario();
-                a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioPerfil.idUsuario);
-                Comercio c = new Comercio();
-                c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
-                if (usuarioPerfil.nombreUsuario != null)
-                    a.Usuario1 = usuarioPerfil.nombreUsuario;
-                if (usuarioPerfil.email != null)
-                    a.Email = usuarioPerfil.email;
-                if (usuarioPerfil.telefono != null)
-                    a.Telefono = usuarioPerfil.telefono;
-                if (usuarioPerfil.direccion != null)
-                    a.Direccion = usuarioPerfil.direccion;
-                if (usuarioPerfil.nombreRepresentante != null)
-                    c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
-                if (usuarioPerfil.apellidoRepresentante != null)
-                    c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-                _context.Usuario.Add(a);             
-                _context.Comercio.Add(c);
-                _context.SaveChanges();
-                return true;
+                var id_usuario = _context.Usuario.Where(src => src.IdUsuario==usuarioPerfil.idUsuario);
+                var id_comercio = _context.Comercio.Where(src => src.IdUsuario == usuarioPerfil.idUsuario);
+                 if ((id_usuario != null) && (id_comercio != null))
+                {
+                   var usuario = id_usuario.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);
+                   var comercio = id_comercio.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);                 
+                    usuario.Usuario1 = usuarioPerfil.nombreUsuario;               
+                    usuario.Email = usuarioPerfil.email;              
+                    usuario.Telefono = usuarioPerfil.telefono;                
+                    usuario.Direccion = usuarioPerfil.direccion;               
+                    comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;                 
+                    comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+                   _context.Add(usuario);
+                   _context.Add(comercio);
+                   _context.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception)
             {
                 return false;
-
-
             }
-        }
+         }
 
         public List<ReadAccounts> GetAccountsUser(int userId)
         {
