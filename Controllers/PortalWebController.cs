@@ -143,7 +143,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("No se pudo obtener los usuarios");
         }
 
-        [HttpGet("AdminListadoPersona")]
+        [HttpGet("AdminListadoComercio")]
         public ActionResult<IEnumerable<ComandRead>> AdminGetUsersCommerce(int IdTipoPersona)
         {
             var comercios = _portal.AdminGetUsersCommerce(IdTipoPersona);
