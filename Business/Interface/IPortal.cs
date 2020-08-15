@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Dtos.Card;
 
 namespace ApiRestDesarrollo.Business.Interface
 {
@@ -24,7 +25,11 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool CreateOperation(CreateOperacion operacion);
 
-        //ReadOperation GetOperationListById(int IdUser);
+        bool AddCard(CreateCard card);
+
+        List<ReadCard> GetUserCard(int IdUser);
+
+        //bool RetiroCommerce()
 
 
 

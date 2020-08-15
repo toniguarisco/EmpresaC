@@ -2,6 +2,7 @@
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Dtos.Card;
 using ApiRestDesarrollo.Models;
 using ApiRestDesarrollo.Dtos;
 using System;
@@ -153,6 +154,59 @@ namespace ApiRestDesarrollo.Business.Implementations
         {
 
             return false;
+        }
+
+        public bool AddCard(CreateCard card)
+        {
+            var sourcet = _context.Tarjeta.FirstOrDefault(e => e.NumeroTarjeta == card.NumeroTarjeta);
+            var sourceb = _context.Banco.FirstOrDefault(e => e.IdBanco == card.FkIdBanco);
+            var sourceu = _context.Usuario.FirstOrDefault(e => e.IdUsuario == card.FkIdUsuario);
+            if ((sourcet == null) && (sourceb != null) && (sourceu != null))
+            {
+                Tarjeta tarjeta = new Tarjeta
+                {
+                    NumeroTarjeta = card.NumeroTarjeta,
+                    FechaVencimiento = card.FechaVencimiento,
+                    Cvc = card.Cvc,
+                    Estatus = card.EstatusTarjeta,
+                    IdUsuario = card.FkIdUsuario,
+                    IdTipoTarjeta = card.FkIdTipoTarjeta,
+                    IdBanco = card.FkIdBanco
+                };
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public List<ReadCard> GetUserCard(int IdUser)
+        {
+            var sourcet = _context.Tarjeta.FirstOrDefault(e => e.IdUsuario == IdUser);
+            var sourceu = _context.Usuario.FirstOrDefault(e => e.IdUsuario == IdUser);
+            if ((sourcet != null) && (sourceu != null))
+            {
+                var tarjetas = (from t in _context.Tarjeta
+                                from u in _context.Usuario
+                                from tt in _context.TipoTarjeta
+                                from b in _context.Banco
+                                where (u.IdUsuario == IdUser) &&
+                                (t.IdBanco == b.IdBanco) &&
+                                (t.IdTipoTarjeta == tt.IdTipoTarjeta)
+                                select new ReadCard
+                                {
+                                    NumeroTarjeta = t.NumeroTarjeta,
+                                    FechaVencimiento = t.FechaVencimiento,
+                                    Cvc = t.Cvc,
+                                    EstatusTarjeta = t.Estatus,
+                                    DescripcionTipoTarjeta = tt.Descripcion,
+                                    NombreBanco = b.Nombre
+                                }
+
+                        ).OrderBy(t => t.EstatusTarjeta == 0).ToList();
+                return tarjetas;
+            }
+            return null;
         }
     }
 }

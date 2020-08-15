@@ -2,6 +2,7 @@
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
+using ApiRestDesarrollo.Dtos.Card;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -98,6 +99,16 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(account);
             }
             return BadRequest("No se pudo ingresar la cuenta o el usuario ya tiene asociado la cuenta");
+        }
+
+        [HttpPost("AñadirTarjeta")]
+        public ActionResult AddCard(CreateCard card)
+        {
+            if (_portal.AddCard(card))
+            {
+                return Ok(card);
+            }
+            return BadRequest("Error al ingresar los datos");
         }
     }
 }
