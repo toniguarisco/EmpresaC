@@ -17,7 +17,7 @@ namespace ApiRestDesarrollo.Business.Interface
         bool AddBalance(CreateOperacion createOperacion);
         bool AddCuenta(CreateCuenta create);
         bool reintegro(ReintegroDto reintegro);
-        bool pago(PagoDtos pago);
+        bool transferencia(PagoDtos pago);
         bool paypal(PagoDtos pagoPaypal);
         List<PagoSolicitud> pagoSolicitud(int IdUsuario);
         bool pagoTienda(PagoTiendaDtos pago);
