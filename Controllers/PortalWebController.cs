@@ -53,6 +53,8 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El usuario no es de tipo persona");
         }
 
+        
+
         [HttpPost("IngresarComercio")]
         public ActionResult UpdateUserCommerce(UpdateUserCommerce commerce)
         {
