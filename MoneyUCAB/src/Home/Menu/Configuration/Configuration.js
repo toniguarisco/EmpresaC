@@ -29,6 +29,7 @@ export default class Configuration extends Component<Props> {
       contraseña2: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
+      id: this.props.id,
       title:"",
       placeholder:"",
       placeholder2:"",

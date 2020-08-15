@@ -3,7 +3,7 @@ import {Actions} from 'react-native-router-flux';
 import Header from "./Header/Header.js";
 import SideMenu from "react-native-side-menu";
 import Menu from "./Menu/Menu.js";
-import { Table, Row, Rows} from 'react-native-table-component';
+import { Table, Row, Rows } from 'react-native-table-component';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {
@@ -122,7 +122,7 @@ componentWillMount(){
 componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
-  }, 2000);
+  }, 1000);
 }
 
 componentWillUnmount() {
