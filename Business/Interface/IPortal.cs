@@ -38,6 +38,8 @@ namespace ApiRestDesarrollo.Business.Interface
 
         List<ReadUserCommerce> AdminGetUsersCommerce(int IdTipoComercio);
 
+        //List<ReadOperation> 
+
         ReadOperationAccount GetBalance(int usuarioId);
     }
 }
