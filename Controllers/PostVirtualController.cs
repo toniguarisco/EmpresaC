@@ -80,6 +80,16 @@ namespace ApiRestDesarrollo.Controllers
             };
             return BadRequest("el id del usuario no es valido");
         }
+        [HttpGet("UsuarioDatos")]
+        public ActionResult<IEnumerable<ComandRead>> GetUsuario(int usuarioId)
+        {
+            var datosUsuario = _repository.GetUsuario(usuarioId);
+            if (datosUsuario != null)
+            {
+                return Ok(datosUsuario);
+            };
+            return BadRequest("el id del usuario no es valido");
+        }
 
         [HttpPut("ActualizarReintegro")]
         public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(string RefReintegro, string newEstatus)

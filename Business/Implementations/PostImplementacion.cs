@@ -167,6 +167,26 @@ namespace ApiRestDesarrollo.Business.Implementations
             return query;
         }
 
+        public DevolverUsuario GetUsuario(int usuarioId)
+        {
+            Usuario a = new Usuario();
+            a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioId);
+            Comercio c = new Comercio();
+            c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == usuarioId);
+            DevolverUsuario b = new DevolverUsuario();
+            b.nombreUsuario = a.Usuario1;
+            b.email = a.Email;
+            b.telefono = a.Telefono;
+            b.direccion = a.Direccion;
+            b.nombreRepresentante = c.NombreRepresentante;
+            b.apellidoRepresentante = c.ApellidoRepresentante;
+            return b;
+
+
+
+
+        }
+
         public bool ActualizarEstatusReintegro(string refreintegro, 
                                                     string newestatus)
         {
