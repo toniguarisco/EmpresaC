@@ -40,6 +40,6 @@ namespace ApiRestDesarrollo.Business.Interface
 
         //List<ReadOperation> 
 
-        ReadOperationAccount GetBalance(int usuarioId);
+        HistoryOperationAccount GetBalance(int usuarioId);
     }
 }
