@@ -10,7 +10,7 @@ import {
 const Barra = props =>{
 		return(
 			 <View style={styles.container}>
-         <Text style={{textAlign: 'left'}}> ▶ </Text>
+         <Text style={{textAlign: 'left', colorText: 'C39515'}}> ▶ </Text>
 			 </View>
 			)
   }

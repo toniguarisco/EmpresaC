@@ -181,6 +181,7 @@ export default class Configuration extends Component<Props> {
           </View>
          </Modal>
         </View>
+        </View>
        </ScrollView>
       </View>
      </View>

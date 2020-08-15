@@ -3,12 +3,12 @@ import {Actions} from 'react-native-router-flux';
 import SideMenu from "react-native-side-menu";
 import LinearGradient from 'react-native-linear-gradient';
 import { AreaChart, Path, YAxis} from 'react-native-svg-charts';
+import { Table, Row, Rows} from 'react-native-table-component';
 import * as shape from 'd3-shape'
 import Barra from "./Barra.js";
 import Menu from "./Menu.js";
 
 import {
-  FlatList,
   Platform,
   StyleSheet,
   Text,
@@ -20,7 +20,6 @@ import {
   Modal,
   TouchableHighlight
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -32,23 +31,19 @@ export default class Home extends Component<Props> {
     this.state = {
       id: this.props.id,
       correo: this.props.correo,
-      contraseña: this.props.contraseña,
+      contreseña: this.props.contraseña,
       isOpen: false,
       color: "",
-      balance: 0,
-      title1:"",
-      title2: "",
+      balanceGeneral: 0,
+      title3:"",
+      title4: "",
       error:"",
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
       message: "",
-      lista: [
-        {usuario: "",
-        monto: "",
-        fecha: "",
-        referencia: ""}
-      ]
+      tableHead: "" ,
+      tableData: []
     }
   }
 
@@ -64,25 +59,28 @@ export default class Home extends Component<Props> {
   })
  }
 
-
  getUserData = async(correo) => {
   try {
     let response = await fetch(
-      'API',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/Balance?usuarioId='+this.state.id,{
        method: 'GET',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      },
-      /* body: JSON.stringify({
-      usuario: this.state.usuario,
-      fecha: this.state.fecha
-      }) */
+      }
      }
     );
     let responseJson = await response.json();
+    let tempArray = [];
+
+    responseJson.readOperations.map((item)=>{
+      let arrayObject = [ item.fecha, item.monto, item.operation, item.referencia ];
+      tempArray.push(arrayObject);
+    })
+
     this.setState({
-      //
+      balanceGeneral: responseJson.monto,
+      tableData: tempArray
     })
   }catch (error) {
    this.setModalVisible(this.state.error, this.state.errorTipo);
@@ -102,56 +100,21 @@ componentWillMount(){
 
  this.getUserData(this.state.correo);
 
- if(this.state.charts==false){
   this.setState({
-    data: [ 1300, 1200, 1400, 1500 ],
-    color: "rgba(195, 149, 21, 0.2)"
-  })
- }else{
-  this.setState({
-    data: [ 700, 950, 800, 1000 ],
-    color: "rgba(169, 169, 169, 0.2)"
-  })
+    title3: "BALANCE GENERAL (USD)",
+    title4: "ULTIMOS MOVIMIENTOS",
+    error: "Error de conexión",
+    errorTipo: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.",
+    tableHead: ['Fecha', 'Monto','Tipo', 'Referencia']
+
+   })
+
  }
-
-  if(this.state.charts==false){
-  this.setState({
-    title3: "BALANCE GENERAL ($)",
-    title4: "ULTIMOS MOVIMIENTOS",
-    error: "Error de conexión",
-    errorTipo: "Verifique que esté conectado a la red."
-   })
-  }else{
-    this.setState({
-    title3: "BALANCE GENERAL ($)",
-    title4: "ULTIMOS MOVIMIENTOS",
-    error: "Error de conexión",
-    errorTipo: "Verifique que esté conectado a la red."
-   })
-  }
-}
-
-renderItem = ({item}) => (
-  <TouchableOpacity>
-    <View style={styles.item}>
-      <View></View>
-      <Text># {item.referencia} | {item.fecha} | {item.usuario}  |  $ {item.monto}</Text>
-    </View>
-  </TouchableOpacity>
-)
-
-FlatListseparador = () => { 
-  return(
-    <View
-    style={{height:1, width: '100%', backgroundColor:'#f5C39515'}}
-  />
-  )
-}
 
 componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
-  }, 10000);
+  }, 2000);
 }
 
 componentWillUnmount() {
@@ -159,11 +122,12 @@ componentWillUnmount() {
 }
 
   render() {
+
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} chartState={this.state.charts} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} />} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
-          <Barra onHandle={this.handleSideMenu} onSwitch={this.switchCharts}/>
+          <Barra onHandle={this.handleSideMenu}/>
         </View> 
         <View style={{flex: 1}}>
          <View style={styles.container}>
@@ -180,7 +144,7 @@ componentWillUnmount() {
              <View style={styles.infoBox}>
               <View style={styles.box}>
                <Text style={styles.text2}>
-                {this.state.balance}
+                {this.state.balanceGeneral}
                </Text>
               </View>
             </View>
@@ -193,13 +157,15 @@ componentWillUnmount() {
                </LinearGradient>
               </View>
             </View>
-            <View style={{ flex: 1, paddingTop: 5, flexDirection: 'row'}}>
-              <FlatList
-                data={this.state.lista}
-                keyExtractor={({ id }, index) => id}
-                renderItem={this.renderItem}
-                ItemSeparatorComponent = {this.FlatListseparador}
-              />
+              <View style={{ flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 1, flexDirection:"column"}}>
+                  <View style={styles.container2}>
+                    <Table borderStyle={{borderWidth: 2, borderColor: "#C39515"}}>
+                      <Row data={this.state.tableHead} style={styles.head} textStyle={styles.text}/>
+                      <Rows data={this.state.tableData} style={{backgroundColor: "black"}} textStyle={styles.text}/>
+                    </Table>
+                  </View>
+                </View>
             </View>
             <Modal
               animationType="slide"
@@ -249,6 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#111111",
 
  },
+
  welcome:{
   flexDirection: "column",
   justifyContent: "center",
@@ -304,6 +271,14 @@ const styles = StyleSheet.create({
  	backgroundColor: "#1D1D1D",
  	paddingVertical: 30
  },
+ box2:{
+  flex: 1,
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#1D1D1D",
+  paddingVertical: 30
+ },
  oro:{
     fontSize: 12,
     textAlign: 'center',
@@ -345,9 +320,39 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
 
-  item: {
-    padding: 10,
+  container2: { 
+    flex: 1, 
+    padding: 16, 
+    paddingTop: 30, 
+    backgroundColor: "#1D1D1D"
+  },
+
+  head: {  
+    height: 40,  
+    backgroundColor: "#FFC900"
+  },
+
+  wrapper: { 
+    flexDirection: 'row' 
+  },
+
+  title2: { 
+    flex: 1, 
+    backgroundColor: "#1D1D1D" 
+  },
+
+  row: {  
+    height: 28  
+  },
+
+  text6: {
     fontSize: 10,
-    height: 44,
-}
+    fontWeight: "bold",
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+    fontFamily: "Montserrat-Bold"
+  },
+
 });
