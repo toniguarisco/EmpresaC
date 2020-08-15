@@ -267,17 +267,20 @@ namespace ApiRestDesarrollo.Business.Implementations
                 GetUserById(source.IdUsuario);
                 var personas = (from p in _context.Persona
                              from u in _context.Usuario
+                             from ec in _context.EstadoCivil
                              where (u.IdTipoUsuario == IdTipoPersona) &&
-                             (p.IdUsuario == u.IdUsuario)
+                             (p.IdUsuario == u.IdUsuario) &&
+                             (p.IdEstadoCivil == ec.IdEstadoCivil)
                              select new ReadUserPersona
                              {
-                                 Nombre = sourceid.Nombre,
-                                 SegundoNombre = sourceid.SegundoNombre,
-                                 Apellido = sourceid.Apellido,
-                                 SegundoApellido = sourceid.SegundoApellido,
-                                 FechaNacimiento = sourceid.FechaNacimiento,
-                                 DescripcionEstadoCivil = sourceec.Descripcion
-
+                                 Nombre = p.Nombre,
+                                 SegundoNombre = p.SegundoNombre,
+                                 Apellido = p.Apellido,
+                                 SegundoApellido = p.SegundoApellido,
+                                 FechaNacimiento = p.FechaNacimiento,
+                                 DescripcionEstadoCivil = ec.Descripcion,
+                                 FkIdUsuario = p.IdUsuario
+                                 
                              }
                              ).OrderBy(t => t.Nombre).ToList();
                 return personas;
@@ -298,11 +301,12 @@ namespace ApiRestDesarrollo.Business.Implementations
                                  (c.IdUsuario == p.IdUsuario)
                                  select new ReadUserCommerce
                                  {
-                                     RazonSocial = sourceid.RazonSocial,
-                                     NombreRepresentante = sourceid.NombreRepresentante,
-                                     ApellidoRepresentante = sourceid.ApellidoRepresentante
+                                     RazonSocial = c.RazonSocial,
+                                     NombreRepresentante = c.NombreRepresentante,
+                                     ApellidoRepresentante = c.ApellidoRepresentante,
+                                     FkIdUsuario = c.IdUsuario
                                  }
-                                 ).OrderBy(t => t.FkIdUsuario).ToList();
+                                 ).OrderBy(t => t.RazonSocial).ToList();
                 return comercios;
             }
             return null;
