@@ -98,6 +98,8 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
+
+
         public bool CreateAccount(CreateCuenta account)
         {
             var id_usuario = _context.Usuario.FirstOrDefault(e => e.IdUsuario == account.IdUsuario);
@@ -205,6 +207,76 @@ namespace ApiRestDesarrollo.Business.Implementations
 
                         ).OrderBy(t => t.EstatusTarjeta == 0).ToList();
                 return tarjetas;
+            }
+            return null;
+        }
+
+        public UsuarioRead GetUserById(int IdUser)
+        {
+            var source = _context.Usuario.FirstOrDefault(e => e.IdUsuario == IdUser);
+            if (source != null)
+            {
+                UsuarioRead usuario = new UsuarioRead
+                {
+                    usuario = source.Usuario1,
+                    FechaRegistro = source.FechaRegistro,
+                    NumIdentificacion = source.NumIdentificacion,
+                    email = source.Email,
+                    telefono = source.Telefono,
+                    direccion = source.Direccion,
+                    FkIdTipoUsuario = source.IdTipoUsuario,
+                    FkIdTipoIdentificacion = source.IdTipoIdentificacion
+                };
+                return usuario;
+            }
+            return null;
+        }
+
+        public List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona)
+        {
+            var source = _context.Usuario.FirstOrDefault(e => e.IdTipoUsuario == IdTipoPersona);
+            if( source != null)
+            {
+                var sourceid = _context.Persona.FirstOrDefault(e => e.IdUsuario == source.IdUsuario);
+                var sourceec = _context.EstadoCivil.FirstOrDefault(e => e.IdEstadoCivil == sourceid.IdEstadoCivil);
+                GetUserById(source.IdUsuario);
+                var personas = (from p in _context.Persona
+                             from u in _context.Usuario
+                             where (u.IdTipoUsuario == IdTipoPersona)
+                             select new ReadUserPersona
+                             {
+                                 Nombre = sourceid.Nombre,
+                                 SegundoNombre = sourceid.SegundoNombre,
+                                 Apellido = sourceid.Apellido,
+                                 SegundoApellido = sourceid.SegundoApellido,
+                                 FechaNacimiento = sourceid.FechaNacimiento,
+                                 DescripcionEstadoCivil = sourceec.Descripcion
+
+                             }
+                             ).OrderBy(t => t.FkIdUsuario).ToList();
+                return personas;
+            }
+            return null;
+        }
+
+        public List<ReadUserCommerce> AdminGetUsersCommerce(int IdTipoComercio)
+        {
+            var source = _context.Usuario.FirstOrDefault(e => e.IdTipoUsuario == IdTipoComercio);
+            if (source != null)
+            {
+                GetUserById(source.IdUsuario);
+                var sourceid = _context.Comercio.FirstOrDefault(e => e.IdUsuario == source.IdUsuario);
+                var comercios = (from p in _context.Usuario
+                                 from c in _context.Comercio
+                                 where (p.IdTipoUsuario == IdTipoComercio)
+                                 select new ReadUserCommerce
+                                 {
+                                     RazonSocial = sourceid.RazonSocial,
+                                     NombreRepresentante = sourceid.NombreRepresentante,
+                                     ApellidoRepresentante = sourceid.ApellidoRepresentante
+                                 }
+                                 ).OrderBy(t => t.FkIdUsuario).ToList();
+                return comercios;
             }
             return null;
         }

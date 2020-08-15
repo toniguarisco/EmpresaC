@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
@@ -31,7 +32,11 @@ namespace ApiRestDesarrollo.Business.Interface
 
         //bool RetiroCommerce()
 
+        UsuarioRead GetUserById(int IdUser);
 
+        List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona);
+
+        List<ReadUserCommerce> AdminGetUsersCommerce(int IdTipoComercio);
 
     }
 }

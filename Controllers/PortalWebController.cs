@@ -54,7 +54,6 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El usuario no es de tipo persona");
         }
 
-        
 
         [HttpPost("IngresarComercio")]
         public ActionResult UpdateUserCommerce(UpdateUserCommerce commerce)
@@ -109,6 +108,50 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(card);
             }
             return BadRequest("Error al ingresar los datos");
+        }
+
+        [HttpGet("ListadoTarjetas")]
+        public ActionResult<IEnumerable<ComandRead>> GetUserCard(int IdUser)
+        {
+            var card = _portal.GetUserCard(IdUser);
+            if (card != null)
+            {
+                return Ok(card);
+            }
+            return BadRequest("No se pudo listar las tarjetas asociadas al usuario");
+        }
+
+        [HttpGet("UsuarioPorId")]
+        public ActionResult<IEnumerable<ComandRead>> GetUserById(int IdUser)
+        {
+            var user = _portal.GetUserById(IdUser);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return BadRequest("No se pudo listar las tarjetas asociadas al usuario");
+        }
+
+        [HttpGet("AdminListadoPersona")]
+        public ActionResult<IEnumerable<ComandRead>> AdminGetUsersPersona(int IdTipoPersona)
+        {
+            var personas = _portal.AdminGetUsersPersona(IdTipoPersona);
+            if( personas != null)
+            {
+                return Ok(personas);
+            }
+            return BadRequest("No se pudo obtener los usuarios");
+        }
+
+        [HttpGet("AdminListadoPersona")]
+        public ActionResult<IEnumerable<ComandRead>> AdminGetUsersCommerce(int IdTipoPersona)
+        {
+            var comercios = _portal.AdminGetUsersCommerce(IdTipoPersona);
+            if (comercios != null)
+            {
+                return Ok(comercios);
+            }
+            return BadRequest("No se pudo obtener los comercios");
         }
     }
 }

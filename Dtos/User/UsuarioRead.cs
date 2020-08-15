@@ -7,7 +7,13 @@ namespace ApiRestDesarrollo.Dtos
 {
     public class UsuarioRead
     {
+        public int IdUsuario { get; set; }
+
         public string usuario { get; set; }
+
+        public DateTime FechaRegistro { get; set; }
+
+        public int NumIdentificacion { get; set; }
 
         public string email { get; set; }
 
@@ -15,6 +21,12 @@ namespace ApiRestDesarrollo.Dtos
 
         public string direccion { get; set; }
 
+        public int Estatus { get; set; }
+
         public string clave { get; set; }
+
+        public int FkIdTipoUsuario { get; set; }
+
+        public int FkIdTipoIdentificacion { get; set; }
     }
 }
