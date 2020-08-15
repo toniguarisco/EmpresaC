@@ -307,5 +307,42 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return null;
         }
+
+        public ReadOperationAccount GetBalance(int usuarioId)
+        {
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
+            List<ReadOperation> reads = new List<ReadOperation>();
+            decimal saldo = 0;
+
+            foreach (var item in cuenta)
+            {
+                string operacion = "_";
+                if (item.operacion == true)
+                {
+                    saldo = saldo + item.Monto;
+                    operacion = "+";
+                }
+                else if (item.operacion == false)
+                {
+                    saldo = saldo - item.Monto;
+                    operacion = "-";
+                }
+                ReadOperation readOperations = new ReadOperation()
+                {
+                    fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
+                    monto = item.Monto,
+                    operation = operacion,
+                    referencia = item.Referencia
+                };
+                reads.Add(readOperations);
+            }
+            ReadOperationAccount readOperationAccount = new ReadOperationAccount()
+            {
+                Monto = saldo,
+                FkIdUsuarioReceptor = usuarioId,
+                readOperations = reads.ToArray()
+            };
+            return readOperationAccount;
+        }
     }
 }
