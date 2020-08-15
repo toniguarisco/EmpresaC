@@ -66,6 +66,7 @@ namespace ApiRestDesarrollo.Controllers
                 return BadRequest("Ocurrio un error");
 
         }
+
         [HttpPost("modificarContraseña")]
         public ActionResult ModificarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
@@ -126,6 +127,15 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El usuario no esta bloqueado o no existe");
         }
+
+        [HttpPut("Parametros")]
+        public ActionResult ActualizarParametro(int comision, int parametro)
+        {
+            _usuario.UpdateParameter(comision, parametro);
+            _context.saveChanges();
+            return Ok(); 
+        }
+        
     }
 
 }

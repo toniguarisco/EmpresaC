@@ -3,6 +3,7 @@ using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("Balance")]
-        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId)
+        public ActionResult<IEnumerable<ReadOperationAccount>> GetBalance(int usuarioId)
         {
             var saldo = _repository.GetBalance(usuarioId);
             if (saldo != null) {
@@ -41,7 +42,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("Cuentas")]
-        public ActionResult<IEnumerable<ComandRead>> GetAccountByUser(int usuarioId)
+        public ActionResult<IEnumerable<ReadAccounts>> GetAccountByUser(int usuarioId)
         {
             var accounts = _repository.GetAccountsUser(usuarioId);
             if (accounts != null)
@@ -51,7 +52,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el id del usuario no es valido");
         }
         [HttpGet("PagosPendientes")]
-        public ActionResult<IEnumerable<ComandRead>> PagosPendientes(int usuarioId)
+        public ActionResult<IEnumerable<PagoSolicitud>> PagosPendientes(int usuarioId)
         {
             var pagos = _repository.pagoSolicitud(usuarioId);
             if (pagos != null)
@@ -62,7 +63,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("BalanceEmail")]
-        public ActionResult<IEnumerable<ComandRead>> GetBalanceByEmail(string email)
+        public ActionResult<IEnumerable<ReadOperationAccount>> GetBalanceByEmail(string email)
         {
             var accounts = _repository.GetBalanceByEmail(email);
             if (accounts != null)
@@ -73,7 +74,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("InfoPersona")]
-        public ActionResult<IEnumerable<ComandRead>> GetPersonaId(int id)
+        public ActionResult<ReadUserPersona> GetPersonaId(int id)
         {
             var person = _usuarios.GetPersona(id);
             if (person != null)
@@ -128,6 +129,7 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El usuario no existe");
         }
+
         [HttpPost("PagoPaypal")]
         public ActionResult Paypal(PagoDtos tranfe)
         {
@@ -138,6 +140,7 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("No posee una cuenta paypal asociado. Asocie primero una cuenta");
         }
+
         [HttpPost("PagoTienda")]
         public ActionResult PagoTienda(PagoTiendaDtos pago)
         {

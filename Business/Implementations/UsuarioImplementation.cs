@@ -133,6 +133,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Estatus = 1,
                 IdTipoUsuario = user.tipo.GetHashCode(),
                 IdTipoIdentificacion = user.tipo.GetHashCode(),
+                parametro = _context.Parametro.FirstOrDefault(p=> p.IdParametro == 1 ).Estatus
                 };
                 _context.Usuario.Add(usu);
                 _context.saveChanges();
@@ -252,6 +253,20 @@ namespace ApiRestDesarrollo.Business.Implementations
             return nuevaContrasena;
         }
 
-       
+        public void UpdateParameter(int comision, int parametro)
+        {
+            Parametro parameter = _context.Parametro.FirstOrDefault(p=>p.IdParametro == 1);
+            if (comision > 0)
+            {
+                parameter.comision = comision;
+            }
+            if (parametro > 0) 
+            {
+                parameter.Estatus = parametro; 
+            }
+            
+            
+            
+        }
     }
 }
