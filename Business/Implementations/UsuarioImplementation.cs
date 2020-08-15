@@ -209,7 +209,7 @@ namespace ApiRestDesarrollo.Business.Implementations
         private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
         {
 
-            string contraseña = "c16542947r";
+            string contraseña = "viwipkvmgnqfscjj";
             string mensaje = string.Empty;
             //Creando el correo electronico
             string destinatario = correo;

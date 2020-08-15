@@ -40,9 +40,9 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("Balance")]
-        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId, int cuentaId)
+        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId)
         {
-            var saldo = _repository.GetBalance(usuarioId,cuentaId);
+            var saldo = _repository.GetBalance(usuarioId);
             if (saldo != null) {
                 return Ok(saldo);
             };
