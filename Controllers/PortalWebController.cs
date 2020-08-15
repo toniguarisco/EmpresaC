@@ -153,5 +153,16 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("No se pudo obtener los comercios");
         }
+
+        [HttpGet("Balance")]
+        public ActionResult<IEnumerable<ComandRead>> GetBalance(int usuarioId)
+        {
+            var saldo = _portal.GetBalance(usuarioId);
+            if (saldo != null)
+            {
+                return Ok(saldo);
+            };
+            return BadRequest("el id del usuario no es valido o el id de la cuenta no es valido ");
+        }
     }
 }
