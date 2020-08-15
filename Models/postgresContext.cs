@@ -570,7 +570,7 @@ namespace ApiRestDesarrollo.Models
                     .HasColumnName("nombre")
                     .HasMaxLength(45);
 
-                entity.Property(e => e.Comision)
+                entity.Property(e => e.comision)
                     .IsRequired()
                     .HasColumnType("comision");
 

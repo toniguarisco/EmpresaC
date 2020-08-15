@@ -223,10 +223,11 @@ namespace ApiRestDesarrollo.Business.Implementations
                 var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pago.Usuario);
                 int refid = _context.OperacionCuenta.Count();
                 var parametro = _context.Parametro.FirstOrDefault(p=> p.IdParametro == 0);
+                var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
                 DateTime fecha = DateTime.Now;
                 TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
-                decimal comision = pago.monto * 0.10m;
-                decimal total = pago.monto - comision; 
+                decimal comision = pago.monto * (Convert.ToDecimal(comisionPorcentaje) / 100);
+                decimal total = pago.monto - comision;
                 OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
                 {
                     Fecha = fecha,
@@ -314,20 +315,35 @@ namespace ApiRestDesarrollo.Business.Implementations
             if (persona != null)
             {
                 var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pagoPaypal.Usuario);
+                var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
                 int refid = _context.OperacionCuenta.Count();
                 DateTime fecha = DateTime.Now;
                 TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
+                decimal comision = pagoPaypal.monto * (Convert.ToDecimal(comisionPorcentaje)/100);
+                decimal total = pagoPaypal.monto - comision;     
                 OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
                 {
                     Fecha = fecha,
                     Hora = hora,
                     IdCuenta = 1,
-                    Monto = pagoPaypal.monto,
+                    Monto = total,
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
                     IdOperacionCuenta = (refid + 3) * 135,
                     Referencia = "4789" + refid * 135,
                     estatus = 0
+                };
+                OperacionCuenta operacionCuentaReceptor2 = new OperacionCuenta()
+                {
+                    Fecha = fecha,
+                    Hora = hora,
+                    IdCuenta = 1,
+                    Monto = comision,
+                    operacion = true,
+                    IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
+                    IdOperacionCuenta = (refid + 4) * 135,
+                    Referencia = "4789" + refid * 135,
+                    estatus = 10
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                 {
@@ -356,6 +372,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 _context.Add(operacionCuentaReceptor);
                 _context.Add(operacionCuentaEnvia);
                 _context.Add(operacionCuentaEnvia2);
+                _context.Add(operacionCuentaReceptor2);
                 _context.saveChanges();
                 return true;
             }
