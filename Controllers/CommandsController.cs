@@ -31,7 +31,7 @@ namespace ApiRestDesarrollo.Controllers
 
         //get api/commands
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<IEnumerable<ComandRead>> GetAllCommands()
         {
             var commandItems = _repository.GetAppCommands();
@@ -41,14 +41,14 @@ namespace ApiRestDesarrollo.Controllers
 
         //get 
         [HttpGet("Estado200")]
-        public ActionResult<Usuario> Estado200(string algo)
+        public ActionResult<Usuario> Estado200()
         {
             //usuario usuario = new usuario() { nombre = algo, clave ="5" , id = 0};
-            if (algo == null)
-            {
-                return BadRequest();
-            }
-            return Ok();
+            //if (algo == null)
+            //{
+            //    return BadRequest();
+            //}
+            return Ok("Feliz cumpleaños lidux");
         }
 
         //get api/commands/{5}
