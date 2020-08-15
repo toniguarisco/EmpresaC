@@ -117,37 +117,46 @@ namespace ApiRestDesarrollo.Business.Implementations
             return payment;
         }
 
-        public List<ReadRefund> GetReintegros(int usuarioId)
+        public List<ReadOperationReintegro> GetReintegros(int usuarioId)
         {
-            var query = (   from r in _context.Reintegro
+            var query = (   from o in _context.OperacionCuenta
                             from u in _context.Usuario
                             from usol in _context.Usuario
                             where
-                            r.IdUsuarioReceptor == u.IdUsuario &&
+                            o.IdUsuarioReceptor == u.IdUsuario &&
                             u.IdUsuario == usuarioId &&
-                            r.IdUsuarioSolicitante == usol.IdUsuario
-                            select new ReadRefund
+                            o.IdCuenta == usol.IdUsuario &&
+                            o.estatus == 1
+                            select new ReadOperationReintegro
                             {
-                                Referencia = r.Referencia,
-                                EstatusReintegro = r.Estatus, 
-                                FechaSolicitud = r.FechaSolicitud,
+                                Referencia = o.Referencia,
+                                Estatus = o.estatus, 
+                                Fecha = o.Fecha,
                                 UsuarioSolicitante = usol.Usuario1,
                             }
-                        ).OrderBy(p=>p.FechaSolicitud).ToList();
+                        ).OrderBy(p=>p.Fecha).ToList();
 
             return query;
         }
 
         public bool ActualizarEstatusReintegro(int idreintegro, 
-                                                       string newestatus)
+                                                    string newestatus)
         {
-            var id_reintegro = _context.Reintegro.FirstOrDefault(src => src.IdReintegro == idreintegro);
+            var id_reintegro = _context.OperacionCuenta.FirstOrDefault(src => src.IdOperacionCuenta == idreintegro);
             
             if (id_reintegro == null){
                 return false;
             }
 
-             id_reintegro.Estatus = newestatus;
+             if (newestatus == "ACEPTAR") {
+                 id_reintegro.estatus = 2;
+                 id_reintegro.operacion = !id_reintegro.operacion;
+             } else if (newestatus == "DENEGAR"){
+                id_reintegro.estatus = 3;
+             } else{
+             return false;
+             };
+            
              _context.SaveChanges();
             
             return true;
