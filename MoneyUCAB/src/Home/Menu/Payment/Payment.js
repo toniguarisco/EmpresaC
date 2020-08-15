@@ -30,6 +30,7 @@ export default class Configuration extends Component<Props> {
       monto: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
+      id: this.props.id,
       title:"",
       placeholder:"",
       placeholder2:"",
@@ -39,7 +40,7 @@ export default class Configuration extends Component<Props> {
       modalVisible: false,
       modalTitle: "",
       message: "",
-      descripcion: ""
+      descripcion: "",
     }
   }
 
@@ -57,7 +58,7 @@ export default class Configuration extends Component<Props> {
 
   handlePress = () =>{
   if ((this.state.correoDestino!="")&&(this.state.monto!="")){
-   Actions.pop();
+   this.sendPayment();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -75,7 +76,7 @@ export default class Configuration extends Component<Props> {
         description: this.state.descripcion+this.state.correoDestino,
         acceptCreditCards: false
     }).then(response => {
-        Actions.pop();
+        this.sendPaypalPayment();
     }).catch(err => {
         console.log(err.message)
     })
@@ -85,23 +86,67 @@ export default class Configuration extends Component<Props> {
   }
  }
 
- sendPayment = async(correo) => {
+ sendPayment = async() => {
+
+ 	let _Monto = parseFloat(this.state.monto);
+
   try {
     let response = await fetch(
-      'API',{
-       method: 'GET',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/Transferencia',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+      idUsuario: this.state.id,
+      monto: _Monto,
+      usuario: this.state.correoDestino,
+      cuenta: " "
+      })
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
+    if (responseJson == "transferencia exitosa"){
+        Actions.pop();
+    }else{
+      this.setModalVisible("Error", this.state.errorTipo2);
+    }
+  } catch (error) {
+
+   this.setModalVisible("Error", this.state.errorTipo3)
+  }
+}
+
+sendPaypalPayment = async() => {
+
+ 	let _Monto = parseFloat(this.state.monto);
+
+  try {
+    let response = await fetch(
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/PagoPaypal',{
+       method: 'POST',
+       headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+      idUsuario: this.state.id,
+      monto: _Monto,
+      usuario: this.state.correoDestino,
+      cuenta: "Paypal"
+      })
+     }
+    );
+    let responseJson = await response.json();
+    if (responseJson == "Pago Exitoso"){
+        Actions.pop();
+    }else{
+      this.setModalVisible("Error", this.state.errorTipo2);
+    }
+  } catch (error) {
+
+   this.setModalVisible("Error", this.state.errorTipo3)
   }
 }
 
@@ -115,6 +160,8 @@ export default class Configuration extends Component<Props> {
       button2: "PAYPAL",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
+      errorTipo2: "Ha ocurrido un error",
+      errorTipo3: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.",
       subtitle: "Por favor, ingrese el correo de la persona a la que le hará el pago y luego el monto.",
       descripcion: "Usted enviará mediante Paypal dinero a: "
     })
@@ -127,6 +174,8 @@ export default class Configuration extends Component<Props> {
       button2: "PAYPAL",
       error: "Error",
       errorTipo: "Some field is empty.",
+      errorTipo2: "An error has ocurred.",
+      errorTipo3: "Check out you are connected to a WiFi network or that you have your mobile data activated.",
       subtitle: "Please, set the e-mail of the other person who you want to make a pay and then set the amount.",
       descripcion: "You will send money using Paypal to: "
     })
