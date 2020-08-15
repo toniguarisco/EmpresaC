@@ -30,14 +30,19 @@ namespace ApiRestDesarrollo.Business.Implementations
                 a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioPerfil.idUsuario);
                 Comercio c = new Comercio();
                 c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
-                a.Usuario1 = usuarioPerfil.nombreUsuario;
-                a.Email = usuarioPerfil.email;
-                a.Telefono = usuarioPerfil.telefono;
-                a.Direccion = usuarioPerfil.direccion;
-                c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
-                c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-                _context.Usuario.Add(a);
-                _context.SaveChanges();
+                if (usuarioPerfil.nombreUsuario != null)
+                    a.Usuario1 = usuarioPerfil.nombreUsuario;
+                if (usuarioPerfil.email != null)
+                    a.Email = usuarioPerfil.email;
+                if (usuarioPerfil.telefono != null)
+                    a.Telefono = usuarioPerfil.telefono;
+                if (usuarioPerfil.direccion != null)
+                    a.Direccion = usuarioPerfil.direccion;
+                if (usuarioPerfil.nombreRepresentante != null)
+                    c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
+                if (usuarioPerfil.apellidoRepresentante != null)
+                    c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+                _context.Usuario.Add(a);             
                 _context.Comercio.Add(c);
                 _context.SaveChanges();
                 return true;
