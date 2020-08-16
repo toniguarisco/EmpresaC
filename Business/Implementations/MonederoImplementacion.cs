@@ -188,7 +188,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             if (IsPersona(pago.IdUsuario) && IsPersona(_context.Usuario.FirstOrDefault(p=> p.Usuario1.Equals(pago.Usuario)).IdUsuario))
             {
                 var par = Convert.ToDecimal(_context.Usuario.FirstOrDefault(p => p.IdUsuario == pago.IdUsuario).parametro);
-                var sal = SaldoDia(pago.IdUsuario);
+                var sal = pago.monto;
                 if ( sal >= par ) 
                 {
                     mensaje.mesage = "Cantidad maxima de transferencia alcanzada";
@@ -198,14 +198,14 @@ namespace ApiRestDesarrollo.Business.Implementations
                 if (saldo != null && saldo.Monto > pago.monto)
                 {
                     var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pago.Usuario);
-                    int refid = _context.OperacionCuenta.Count() * 135;
+                    int refid = (_context.OperacionCuenta.Count() +1 ) * 135;
                     DateTime fecha = DateTime.Now;
                     TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
                     OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
                     {
                         Fecha = fecha,
                         Hora = hora,
-                        IdCuenta = 1,
+                        IdCuenta = 0,
                         Monto = pago.monto,
                         operacion = true,
                         IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
@@ -217,11 +217,11 @@ namespace ApiRestDesarrollo.Business.Implementations
                     {
                         Fecha = fecha,
                         Hora = hora,
-                        IdCuenta = 1,
+                        IdCuenta = 0,
                         Monto = pago.monto,
                         operacion = false,
                         IdUsuarioReceptor = pago.IdUsuario,
-                        IdOperacionCuenta = (refid + 1) ,
+                        IdOperacionCuenta = refid + 1 ,
                         Referencia = "3789" + refid,
                         estatus = 0
                     };
@@ -492,6 +492,9 @@ namespace ApiRestDesarrollo.Business.Implementations
                             select new { 
                             tipo = tipo.IdTipoUsuario
                             }).FirstOrDefault();
+            if (usuarios == null) {
+                return false;
+            }
             if (usuarios.tipo == 2 || usuarios.tipo == 3) 
             {
                 return true;
@@ -558,26 +561,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             return false;
         }
 
-        private decimal SaldoDia(int idUsuario) 
-        {
-            var date = DateTime.Now.Date;
-            var saldo = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == idUsuario).ToList(); // && p.Fecha == date ).ToList(); 
-            return saldoLista(saldo);
-        }
-
-        private decimal saldoLista(List<OperacionCuenta> list) 
-        {
-            decimal total = 0;
-            foreach (var item in list)
-            {
-                if (item.operacion) 
-                { 
-                total = item.Monto + total;
-                }
-            }
-            return total;
-        }
-
+        
         
     }
 }

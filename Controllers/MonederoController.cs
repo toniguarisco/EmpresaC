@@ -194,9 +194,14 @@ namespace ApiRestDesarrollo.Controllers
 
         private bool bloqueado(int id) {
             var bloqueado = _context.Usuario.FirstOrDefault(p => p.IdUsuario == id);
-            if (bloqueado.Estatus == 5) {
-                return true;
+            if (bloqueado != null) 
+            {
+                if (bloqueado.Estatus == 5)
+                {
+                    return true;
+                }
             }
+            
             return false;
         }
 
