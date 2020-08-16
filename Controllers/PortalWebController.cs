@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiRestDesarrollo.Business.Interface;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ApiRestDesarrollo.Controllers
 {
@@ -192,5 +193,15 @@ namespace ApiRestDesarrollo.Controllers
         {
             return Ok(_portal.RecaudoComision());
         }
+
+        [HttpGet("CambiarEstado")]
+        public ActionResult BloquearOperaciones(CambiarEstatus cambiarEstado)
+        {
+            if (_portal.BloqueoOperaciones( cambiarEstado))
+            return Ok("el estado se ha actualizado correctamente");
+            return BadRequest("el usuario no existe");
+        
+        }
+        
     }
 }

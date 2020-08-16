@@ -462,6 +462,21 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-      
+        public bool BloqueoOperaciones (CambiarEstatus cambiarEstado)
+        {
+            var usuario = _context.Usuario.FirstOrDefault(p => p.IdUsuario == (cambiarEstado.idUsuario));
+
+            if (usuario == null)
+            {
+                return false;
+            }
+            
+            usuario.Estatus = cambiarEstado.estatus;
+            _context.saveChanges();
+            return true;
+
+        }
+
+       
     }
 }

@@ -163,6 +163,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             var password = _context.Contrasena.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario && p.Contrasena1 == contraseñaModificar.ContrasenaVieja);
             if (password != null) 
             { 
+          
                 password.Contrasena1 = contraseñaModificar.nuevaContrasena;
                 _context.saveChanges();
                 return true;
