@@ -21,16 +21,19 @@ namespace ApiRestDesarrollo.Controllers
         private readonly IMonedero _repository;
         private readonly IUsuarios _usuarios;
         private readonly IMapper _mapper;
+        private readonly postgresContext _context;
 
         public MonederoController(IMonedero repository,
                                   IMapper mapper,
-                                  IUsuarios usuarios)
+                                  IUsuarios usuarios,
+                                  postgresContext context)
         {
             _repository = repository;
             _mapper = mapper;
             _usuarios = usuarios;
+            _context = context;
         }
-
+        
         [HttpGet("Balance")]
         public ActionResult<IEnumerable<ReadOperationAccount>> GetBalance(int usuarioId)
         {
@@ -85,7 +88,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el id no es valido");
         }
 
-        [HttpPost("ActualizarPersona")]//<-----------------------------------------
+        [HttpPost("ActualizarPersona")]
         public ActionResult ActualizarPersona(PersonaUpdate persona)
         {
             var log = _repository.UpdatePersona(persona);
@@ -114,6 +117,10 @@ namespace ApiRestDesarrollo.Controllers
         {
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
+            if (bloqueado(operacion.idUSuario))
+            {
+                return BadRequest("Tu usuario esta bloqueado ingresa por el portal web para desbloquearlo");
+            }
             var log = _repository.AddBalance(operacion);
             if (log.flag)
             {
@@ -125,6 +132,10 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("Reintegro")]
         public ActionResult Reintegro(ReintegroDto reintegro)
         {
+            if (bloqueado(reintegro.idUser))
+            {
+                return BadRequest("Tu usuario esta bloqueado ingresa por el portal web para desbloquearlo");
+            }
             var log = _repository.reintegro(reintegro);
             if (log.flag)
             {
@@ -136,6 +147,10 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("Transferencia")]
         public ActionResult Reintegro(PagoDtos tranfe)
         {
+            if (bloqueado(tranfe.IdUsuario))
+            {
+                return BadRequest("Tu usuario esta bloqueado ingresa por el portal web para desbloquearlo");
+            }
             var log = _repository.transferencia(tranfe);
             if (log.flag)
             {
@@ -147,6 +162,10 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("PagoPaypal")]
         public ActionResult Paypal(PagoDtos tranfe)
         {
+            if (bloqueado(tranfe.IdUsuario))
+            {
+                return BadRequest("Tu usuario esta bloqueado ingresa por el portal web para desbloquearlo");
+            }
             var log = _repository.paypal(tranfe);
             if (log.flag)
             {
@@ -158,6 +177,10 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("PagoTienda")]
         public ActionResult PagoTienda(PagoTiendaDtos pago)
         {
+            if (bloqueado(pago.IdUsuario)) 
+            {
+                return BadRequest("Tu usuario esta bloqueado ingresa por el portal web para desbloquearlo");
+            }
             var log = _repository.pagoTienda(pago);
             if (log.flag)
             {
@@ -166,6 +189,13 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest(log.mesage);
         }
 
+        private bool bloqueado(int id) {
+            var bloqueado = _context.Usuario.FirstOrDefault(p => p.IdUsuario == id);
+            if (bloqueado.Estatus == 5) {
+                return true;
+            }
+            return false;
+        }
 
     }
 }

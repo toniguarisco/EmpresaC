@@ -195,9 +195,9 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("CambiarEstado")]
-        public ActionResult BloquearOperaciones(CambiarEstatus cambiarEstado)
+        public ActionResult BloquearOperaciones(int cambiarEstado, int UsuarioId)
         {
-            if (_portal.BloqueoOperaciones( cambiarEstado))
+            if (_portal.BloqueoOperaciones(cambiarEstado,  UsuarioId))
             return Ok("el estado se ha actualizado correctamente");
             return BadRequest("el usuario no existe");
         
