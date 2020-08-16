@@ -114,21 +114,22 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public ReadOperationAccount GetBalanceByEmail(string email)
         {
-            var query = (from usu in _context.Usuario
-                         from c in _context.Cuenta
-                         from oc in _context.OperacionCuenta
-                         where 
-                         oc.IdUsuarioReceptor == usu.IdUsuario &&
-                         usu.Email.Contains(email)
-                         select oc
-                        ).ToList().OrderBy(p => p.Fecha);
-            ReadOperationAccount readOperationAccount = new ReadOperationAccount();
-            if (query != null) 
+            ReadOperationAccount readOperationAccount = new ReadOperationAccount() {
+                Monto = Convert.ToDecimal(0)
+            };
+            var query = _context.Usuario.FirstOrDefault(p=>p.Email == email).IdUsuario;
+            if (query < 0)
+            {
+                return readOperationAccount;
+            }
+            decimal saldo = Convert.ToDecimal(0);
+            var query2 = _context.OperacionCuenta.Where(p => p.IdOperacionCuenta == query);
+            if (query2 != null) 
             { 
                 List<ReadOperation> reads = new List<ReadOperation>();
-                decimal saldo = 0;
+                
 
-                foreach (var item in query)
+                foreach (var item in query2)
                 {
                     string operacion = "_";
                     if (item.operacion == true)
@@ -149,10 +150,14 @@ namespace ApiRestDesarrollo.Business.Implementations
                         referencia = item.Referencia
                     };
                     reads.Add(readOperations);
+                    
+                }
+                if (readOperationAccount.Monto == 0) {
+                    return readOperationAccount;
                 }
                 readOperationAccount.Monto = saldo;
-                readOperationAccount.FkIdCuenta = query.FirstOrDefault().IdCuenta;
-                readOperationAccount.FkIdUsuarioReceptor = query.FirstOrDefault().IdUsuarioReceptor;
+                readOperationAccount.FkIdCuenta = query2.FirstOrDefault().IdCuenta;
+                readOperationAccount.FkIdUsuarioReceptor = query2.FirstOrDefault().IdUsuarioReceptor;
                 readOperationAccount.readOperations = reads.Take(4).ToArray();
             }
             return readOperationAccount;

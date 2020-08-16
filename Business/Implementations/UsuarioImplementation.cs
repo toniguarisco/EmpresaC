@@ -53,15 +53,11 @@ namespace ApiRestDesarrollo.Business.Implementations
         public ReadUserPersona GetPersona(int id)
         {
             var Persona = (from usu in _context.Usuario
-                           from tipo in _context.TipoUsuario
                            from p in _context.Persona
-                           
                            where
-                           usu.IdTipoUsuario == tipo.IdTipoUsuario &&
-                           p.IdUsuario == usu.IdUsuario 
-                           
-                           && usu.IdUsuario == id &&
-                           (tipo.IdTipoUsuario == 2 || tipo.IdTipoUsuario == 3)
+                           usu.IdUsuario == p.IdUsuario
+                           && usu.IdUsuario == id 
+                           //&& usu.IdTipoUsuario == 2 
                             select new ReadUserPersona
                             {
                                 Apellido = p.Apellido,
@@ -153,8 +149,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Direccion = user.Direccion,
                 Contrasena = contrasenas,
                 Estatus = 1,
-                IdTipoUsuario = 1,
-                IdTipoIdentificacion = 1,
+                IdTipoUsuario = 2,
+                IdTipoIdentificacion = 2,
                 parametro = _context.Parametro.FirstOrDefault(p=> p.IdParametro == 1 ).Estatus
                 };
                 Persona persona = new Persona()
@@ -203,8 +199,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Direccion = user.Direccion,
                     Contrasena = contrasenas,
                     Estatus = 1,
-                    IdTipoUsuario = 2,
-                    IdTipoIdentificacion = 2,
+                    IdTipoUsuario = 1,
+                    IdTipoIdentificacion = 1,
                     parametro = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).Estatus,
                     Comercio = comercios
                 };
