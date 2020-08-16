@@ -337,7 +337,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 mensaje.mesage = "saldo insuficiente";
                 return mensaje;
             }
-            int refid = _context.OperacionCuenta.Count();
+            int refid = _context.OperacionCuenta.Count() * 135;
             var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
             DateTime fecha = DateTime.Now;
             TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
@@ -351,8 +351,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Monto = total,
                 operacion = true,
                 IdUsuarioReceptor = IdComercio,
-                IdOperacionCuenta = (refid + 1) * 135,
-                Referencia = "11578" + refid * 135,
+                IdOperacionCuenta = refid  ,
+                Referencia = "11578" + refid ,
                 estatus = 0
             };
             OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
@@ -363,8 +363,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Monto = factura.Monto,
                 operacion = false,
                 IdUsuarioReceptor = IdPersona,
-                IdOperacionCuenta = (refid + 2) * 135,
-                Referencia = "11578" + refid * 135,
+                IdOperacionCuenta = refid + 1,
+                Referencia = "11578" + refid + 1,
                 estatus = 0
             };
             OperacionCuenta operacionCuentaReceptor1 = new OperacionCuenta()
@@ -375,8 +375,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Monto = comision,
                 operacion = true,
                 IdUsuarioReceptor = IdComercio,
-                IdOperacionCuenta = (refid + 3) * 135,
-                Referencia = "11578" + refid * 135,
+                IdOperacionCuenta = refid + 2,
+                Referencia = "11578" + refid + 2,
                 estatus = 10
             };
             factura.Estatus = "pagado";
