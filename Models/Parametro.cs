@@ -11,7 +11,6 @@ namespace ApiRestDesarrollo.Models
         public int comision { get; set; }
         public int IdTipoParametro { get; set; }
         public int IdFrecuencia { get; set; }
-
         public virtual Frecuencia IdFrecuenciaNavigation { get; set; }
         public virtual TipoParametro IdTipoParametroNavigation { get; set; }
     }

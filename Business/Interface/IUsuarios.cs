@@ -16,5 +16,6 @@ namespace ApiRestDesarrollo.Business.Interface
         bool actualizarContraseña(ModificarContraseñaModel contraseñaModificar);
         ReadUserPersona GetPersona(int id);
         bool DesbloquearUsuario(string usuario1);
+        void UpdateParameter(int comision, int parametro);
     }
 }

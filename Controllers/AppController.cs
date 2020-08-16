@@ -60,19 +60,20 @@ namespace ApiRestDesarrollo.Controllers
 
             if (_usuario.recuperarContrasena(usuarioRecuperar))
             {
-                return Ok();
+                return Ok("Se envio un correo a: " + usuarioRecuperar.email + "con su nueva clave");
             }
             else
                 return BadRequest("Ocurrio un error");
 
         }
+
         [HttpPost("modificarContraseña")]
         public ActionResult ModificarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
 
             if (_usuario.actualizarContraseña(contraseñaModificar))
             {
-                return Ok();
+                return Ok("Contraseña actualizada");
             }
             else
                 return BadRequest("Ocurrio un error");
@@ -126,6 +127,15 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El usuario no esta bloqueado o no existe");
         }
+
+        [HttpPut("Parametros")]
+        public ActionResult ActualizarParametro(int comision, int parametro)
+        {
+            _usuario.UpdateParameter(comision, parametro);
+            _context.saveChanges();
+            return Ok(); 
+        }
+        
     }
 
 }

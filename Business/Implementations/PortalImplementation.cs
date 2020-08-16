@@ -98,8 +98,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-
-
         public bool CreateAccount(CreateCuenta account)
         {
             var id_usuario = _context.Usuario.FirstOrDefault(e => e.IdUsuario == account.IdUsuario);
@@ -311,11 +309,45 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return null;
         }
-
-        public ReadOperationAccount GetBalance(int usuarioId)
+     
+        public HistoryOperationAccount GetBalance(int usuarioId)
         {
             List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
-            List<ReadOperation> reads = new List<ReadOperation>();
+            List<HistoryOperation> reads = new List<HistoryOperation>();
+
+            static string CalcularTipoOperacion(string referencia)
+            {
+                // guardamos los primeros cuatro valores del campo de referencia para compararlo
+                // con el tipo de operacion al que corresponden
+                int identificadorTipoOperacion = (System.Convert.ToInt32(referencia.Substring(0, 4)));
+
+                switch (identificadorTipoOperacion)
+                {
+                    case 5789:
+                        return "recarga banco tarjeta";
+
+                    case 3789:
+                        return "transferencia de saldo para persona";
+
+                    case 7543:
+                        return "pago recibido";
+
+                    case 1789:
+                        return "pago por paypal";
+
+                    case 4789:
+                        return "reintegro";
+
+                    case 2789:
+                        return "pago a comercio";
+
+                    default:
+                        return "no aplica";
+
+
+                }
+            }
+
             decimal saldo = 0;
 
             foreach (var item in cuenta)
@@ -331,22 +363,49 @@ namespace ApiRestDesarrollo.Business.Implementations
                     saldo = saldo - item.Monto;
                     operacion = "-";
                 }
-                ReadOperation readOperations = new ReadOperation()
+                HistoryOperation readOperations = new HistoryOperation()
                 {
                     fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                     monto = item.Monto,
                     operation = operacion,
-                    referencia = item.Referencia
+                    referencia = item.Referencia,
+                    tipoOperacion = CalcularTipoOperacion(item.Referencia)
                 };
                 reads.Add(readOperations);
             }
-            ReadOperationAccount readOperationAccount = new ReadOperationAccount()
+            HistoryOperationAccount readOperationAccount = new HistoryOperationAccount()
             {
                 Monto = saldo,
                 FkIdUsuarioReceptor = usuarioId,
-                readOperations = reads.ToArray()
+                historyOperations = reads.ToArray()
             };
             return readOperationAccount;
+        }
+
+        public List<ReadListOperation> AdminGetOperation(int IdUsuario)
+        {
+            var source = _context.OperacionCuenta.FirstOrDefault(e => e.IdUsuarioReceptor == IdUsuario);
+            if (source != null)
+            {
+                GetUserById(IdUsuario);
+                var operaciones = (from oc in _context.OperacionCuenta
+                                   from u in _context.Usuario
+                                   where oc.IdUsuarioReceptor == u.IdUsuario
+                                   select new ReadListOperation
+                                   {
+                                       Fecha = oc.Fecha,
+                                       Monto = oc.Monto,
+                                       Operacion = oc.operacion,
+                                       Referencia = oc.Referencia
+                                   }
+
+                    ).OrderBy(e => e.Fecha).ToList();
+
+
+                return operaciones;
+            }
+
+            return null;
         }
     }
 }
