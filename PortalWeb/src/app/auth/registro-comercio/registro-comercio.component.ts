@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormControl, Validators, } from '@angular/forms';
 import { BsDatepickerModule, BsDatepickerConfig, DateFormatter } from 'ngx-bootstrap/datepicker';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro-comercio',
@@ -12,39 +13,24 @@ export class RegistroComercioComponent implements OnInit {
 
 
   registerForm = new FormGroup({
-    usuario : new FormControl('ricardoPersona', Validators.required),
-    email : new FormControl('bastvai@gmail.com', [Validators.required, Validators.email]),
+    usuario : new FormControl('ricardoComercio', Validators.required),
+    email : new FormControl('rabastardo.11@est.ucab.edu.ve', [Validators.required, Validators.email]),
     password : new FormControl('1234', [Validators.required]),
-    nombre : new FormControl('Ricardo', Validators.required),
-    segundoNombre : new FormControl('Alejandro', Validators.required),
-    apellido: new FormControl('Bastardo', Validators.required),
-    segundoApellido: new FormControl('Rodruiguez', Validators.required),
-    fechaNacimiento : new FormControl(null, Validators.required),
-    telefono : new FormControl('04149334665', [Validators.required, Validators.pattern('^[0-9]*$')]),
-    direccion : new FormControl('Caricuao', Validators.required)
+    nombreRepresentante : new FormControl('Ricardo', Validators.required),
+    apellidoRepresentante: new FormControl('Bastardo', Validators.required),
+    telefono : new FormControl('04127140849', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    direccion : new FormControl('Caricuao', Validators.required),
+    razon_social : new FormControl('Nestle S.A.', Validators.required)
 
   });
-/* 
-{
-  "usuario": "string",
-  "fechaRegistro": "2020-08-16T22:06:08.713Z",
-  "numIdentificacion": 0,
-  "email": "string",
-  "telefono": "string",
-  "direccion": "string",
-  "direrazon_socialccion": "string",
-  "nombreRepresentante": "string",
-  "apellidoRepresentante": "string",
-  "contrasena": "string"
-}
- */
-  constructor( private userService: UserService) { }
+
+  constructor( private userService: UserService,
+               private router: Router) { }
 
   ngOnInit(): void {
   }
 
   formatoDate(fecha: Date){
-    // "Sun Aug 16 2020 14:30:19 GMT-0400 (hora de Venezuela)"
     // Con formato
     let dia: string;
     let mes: string;
@@ -96,32 +82,27 @@ export class RegistroComercioComponent implements OnInit {
   registrarComercio(){
     console.log('registrar');
     console.log('Form -> ', this.registerForm.value);
-    console.log('fechaaNacimiento -> ', this.formatoDate(this.registerForm.value.fechaNacimiento));
     console.log('fechaaRegistro -> ', this.formatoDate(new Date()));
-    let fechaNac = this.formatoDate(this.registerForm.value.fechaNacimiento);
     let fechaRegistro =  this.formatoDate(new Date());
 
-    this.userService.registrarPersona(this.registerForm.value.usuario,
+    this.userService.registrarComercio(this.registerForm.value.usuario,
+                                      fechaRegistro,
                                       this.registerForm.value.email,
-                                      this.registerForm.value.password,
-                                      this.registerForm.value.nombre,
-                                      this.registerForm.value.segundoNombre ,
-                                      this.registerForm.value.apellido,
-                                      this.registerForm.value.segundoApellido,
-                                      fechaNac,
                                       this.registerForm.value.telefono,
                                       this.registerForm.value.direccion,
-                                      fechaRegistro)
+                                      this.registerForm.value.razon_social,
+                                      this.registerForm.value.nombreRepresentante,
+                                      this.registerForm.value.apellidoRepresentante,
+                                      this.registerForm.value.password
+                                      )
     .subscribe(
-      res =>{
-        alert('Persona Registrada con exito');
+      res => {
+        alert('Comercio Registrado con exito');
+        this.router.navigate(['/login']);
       },
       error => {
-        alert('Persona no pudo ser regitrada');
+        alert('El Comercio no pudo ser regitrado');
       });
-
   }
-  
-
 }
 

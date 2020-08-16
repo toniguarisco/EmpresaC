@@ -57,7 +57,6 @@ formatDate(){
 
 
   formatoDate(fecha: Date){
-    // "Sun Aug 16 2020 14:30:19 GMT-0400 (hora de Venezuela)"
     // Con formato
     let dia: string;
     let mes: string;

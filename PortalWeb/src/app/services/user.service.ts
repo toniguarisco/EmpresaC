@@ -14,24 +14,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-
- /*  getUserById(id: string): Observable <any>{
-    return this.http.post<any>('/api/App/User/' + id, null);
-  } */
-/* 
-
-
-  actualizarDatosPersona(id: string,
-                        nombre: string,
-                        apellido: string,
-                        fechaNac: string,
-                        telefono: string,
-                        correo: string){
-    return this.http.put<any>('/api/App/UserUpdate/' + id, {nombre, apellido, fechaNac, telefono, correo}).
-            subscribe(res => {});
-  }
- */
-
   registrarPersona(usuario: string,
                   email: string,
                   contrasena: string,
@@ -61,10 +43,35 @@ export class UserService {
    // https://localhost:44361/api/App/CreatePersona
   }
 
+
+  registrarComercio(usuario: string,
+                  fechaRegistro: string,
+                  email: string,
+                  telefono: string,
+                  direccion: string,
+                  razon_social: string,
+                  nombreRepresentante: string,
+                  apellidoRepresentante: string,
+                  contrasena: string){
+
+   let numIdentificacion = 0;
+
+   return this.http.post<any>('api/App/CreateComercio', {usuario ,
+                                                        fechaRegistro ,
+                                                        numIdentificacion ,
+                                                        email ,
+                                                        telefono ,
+                                                        direccion ,
+                                                        razon_social ,
+                                                        nombreRepresentante ,
+                                                        apellidoRepresentante ,
+                                                        contrasena});
+   // https://localhost:44361/api/App/CreatePersona
+  }
+
   getBalance( id: string): Observable<any>{
     console.log(`api/PortalWeb/Balance?usuarioId=${id}`);
     return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=${id}`);
-
   }
 
   registrarCuenta(cuenta: string, banco: string, tipo: string): Observable <any> {
@@ -81,7 +88,6 @@ export class UserService {
     return this.http.get<any>(`api/Monedero/InfoPersona?id=${id}`);
   }
 
-  // https://localhost:44361/api/PortalWeb/UsuarioPorId?IdUser=0
   getUsuarioPorId(id: string): Observable<any>{
     return this.http.get<any>(`api/PortalWeb/UsuarioPorId?IdUser=${id}`);
   }
