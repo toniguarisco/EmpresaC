@@ -28,6 +28,7 @@ export default class Configuration extends Component<Props> {
       correoDestino: "",
       monto: "",
       correo: this.props.correo,
+      id: this.this.props.id,
       referencia: "",
       title:"",
       placeholder:"",
