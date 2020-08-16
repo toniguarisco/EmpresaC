@@ -43,6 +43,9 @@ namespace ApiRestDesarrollo.Business.Interface
         HistoryOperationAccount GetBalance(int usuarioId);
 
         TotalComisiones RecaudoComision();
+
+        List<CantidadOperaciones> CantidadOperacion();
+
         bool BloqueoOperaciones (int cambiarEstado, string UsuarioId);
 
 

@@ -11,6 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore.Internal;
+using ApiRestDesarrollo.Enum;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
@@ -33,6 +36,40 @@ namespace ApiRestDesarrollo.Business.Implementations
             return comision;
 
         }
+
+        private string CalcularTipoOperacion(string referencia)
+        {
+            // guardamos los primeros cuatro valores del campo de referencia para compararlo
+            // con el tipo de operacion al que corresponden
+            int identificadorTipoOperacion = Convert.ToInt32(referencia.Substring(0, 4));
+
+            switch (identificadorTipoOperacion)
+            {
+                case 5789:
+                    return "recarga banco tarjeta";
+
+                case 3789:
+                    return "transferencia de saldo para persona";
+
+                case 7543:
+                    return "pago recibido";
+
+                case 1789:
+                    return "pago por paypal";
+
+                case 4789:
+                    return "reintegro";
+
+                case 2789:
+                    return "pago a comercio";
+
+                default:
+                    return "no aplica";
+
+
+            }
+        }
+
 
         public PortalImplementation(postgresContext context,IMapper mapper)
         {
@@ -331,38 +368,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
             List<HistoryOperation> reads = new List<HistoryOperation>();
 
-            string CalcularTipoOperacion(string referencia)
-            {
-                // guardamos los primeros cuatro valores del campo de referencia para compararlo
-                // con el tipo de operacion al que corresponden
-                int identificadorTipoOperacion = (System.Convert.ToInt32(referencia.Substring(0, 4)));
-
-                switch (identificadorTipoOperacion)
-                {
-                    case 5789:
-                        return "recarga banco tarjeta";
-
-                    case 3789:
-                        return "transferencia de saldo para persona";
-
-                    case 7543:
-                        return "pago recibido";
-
-                    case 1789:
-                        return "pago por paypal";
-
-                    case 4789:
-                        return "reintegro";
-
-                    case 2789:
-                        return "pago a comercio";
-
-                    default:
-                        return "no aplica";
-
-
-                }
-            }
 
             decimal saldo = 0;
 
@@ -477,6 +482,43 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         }
 
-       
+        public List<CantidadOperaciones> CantidadOperacion()
+        {
+            List<CantidadOperaciones> listaOperacion = new List<CantidadOperaciones>();
+
+            var lista = _context.OperacionCuenta.OrderByDescending(p=> p.Referencia);
+
+            List<string> referencias = new List<string>()
+            {"7543","5789","4789","3789","2789","1789" };
+
+            int cont = 0;
+            decimal montoacum = 0;
+            int cantidad = 0;
+
+            foreach (var item in lista)
+            {
+
+                 montoacum += item.Monto;
+                 cantidad++;
+
+                if (item.Referencia.Substring(0, 4) != referencias[cont])
+                {
+                    cont++;
+                    CantidadOperaciones read = new CantidadOperaciones()
+                    {
+                        referencia = item.Referencia,
+                        tipoOperacion = CalcularTipoOperacion(item.Referencia),
+                        cantidadOperacion = cantidad++,
+                        monto = montoacum,
+
+                    };
+                    listaOperacion.Add(read);
+                }
+                
+
+               }
+
+            return listaOperacion;
+        } 
     }
 }
