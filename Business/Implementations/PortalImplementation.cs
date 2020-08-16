@@ -321,16 +321,31 @@ namespace ApiRestDesarrollo.Business.Implementations
                 // con el tipo de operacion al que corresponden
                 int identificadorTipoOperacion = (System.Convert.ToInt32(referencia.Substring(0, 4)));
 
-                return identificadorTipoOperacion switch
+                switch (identificadorTipoOperacion)
                 {
-                    5789 => "recarga banco tarjeta",
-                    3789 => "transferencia de saldo para persona",
-                    7543 => "pago recibido",
-                    1789 => "pago por paypal",
-                    4789 => "reintegro",
-                    2789 => "pago a comercio",
-                    _ => "no aplica",
-                };
+                    case 5789:
+                        return "recarga banco tarjeta";
+
+                    case 3789:
+                        return "transferencia de saldo para persona";
+
+                    case 7543:
+                        return "pago recibido";
+
+                    case 1789:
+                        return "pago por paypal";
+
+                    case 4789:
+                        return "reintegro";
+
+                    case 2789:
+                        return "pago a comercio";
+
+                    default:
+                        return "no aplica";
+
+
+                }
             }
 
             decimal saldo = 0;
