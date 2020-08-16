@@ -169,7 +169,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                                from usu in _context.Usuario
                                where
                                pago.IdUsuarioSolicitante == usu.IdUsuario &&
-                               pago.IdUsuarioSolicitante == IdUsuario
+                               pago.IdUsuarioReceptor == IdUsuario
                                select new PagoSolicitud
                                {
                                    Estatus = pago.Estatus,
