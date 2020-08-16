@@ -61,9 +61,9 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("SolicitarPago")]
-        public ActionResult<IEnumerable<ComandRead>> SolicitarPago(string UserSolicita, double Monto, string UserRecibe)
+        public ActionResult<IEnumerable<ComandRead>> SolicitarPago(SolicitarPago pago)
         {
-            var solicitud = _repository.SolicitarPago(UserSolicita,Monto,UserRecibe);
+            var solicitud = _repository.SolicitarPago(pago);
             if (solicitud != null)
             {
                 return Ok(solicitud);

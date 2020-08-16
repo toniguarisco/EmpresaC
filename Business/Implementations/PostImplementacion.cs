@@ -114,20 +114,18 @@ namespace ApiRestDesarrollo.Business.Implementations
             return readOperationAccount;
         }
 
-        public CreatePayment SolicitarPago(string users,
-                                           double montog,
-                                           string userr)
+        public CreatePayment SolicitarPago(SolicitarPago pago)
         {
             
             int referencia = (_context.Pago.Count() + 1)*1007;
-            var usuarios = _context.Usuario.FirstOrDefault(src => src.Usuario1 == users);
-            var usuarior = _context.Usuario.FirstOrDefault(src => src.Usuario1 == userr);
+            var usuarios = _context.Usuario.FirstOrDefault(src => src.Usuario1 == pago.users);
+            var usuarior = _context.Usuario.FirstOrDefault(src => src.Usuario1 == pago.userr);
             
                 _context.Pago.Add(
                     new Pago { 
                         IdPago = _context.Pago.Count() + 1,
                         FechaSolicitud = DateTime.Now,
-                        Monto = (decimal)montog, 
+                        Monto = (decimal)pago.montog, 
                         Estatus = "En proceso",
                         Referencia = ""+referencia+"",
                         IdUsuarioSolicitante = usuarios.IdUsuario,
@@ -138,13 +136,13 @@ namespace ApiRestDesarrollo.Business.Implementations
 
             CreatePayment payment = new CreatePayment(){
                 FechaSolicitud = DateTime.Now,
-                Monto = (decimal)montog, 
+                Monto = (decimal)pago.montog, 
                 EstatusPago = "En proceso",
                 Referencia = ""+referencia+"",
                 FkIdUsuarioSolicitante = usuarios.IdUsuario,
                 FkIdUsuarioReceptor = usuarior.IdUsuario,
-                UsuarioReceptor = userr,
-                UsuarioSolicitante = users
+                UsuarioReceptor = pago.userr,
+                UsuarioSolicitante = pago.users
             };
 
             return payment;
@@ -174,18 +172,26 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public DevolverUsuario GetUsuario(int usuarioId)
         {
-            Usuario a = new Usuario();
-            a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioId);
-            Comercio c = new Comercio();
-            c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == usuarioId);
-            DevolverUsuario b = new DevolverUsuario();
-            b.nombreUsuario = a.Usuario1;
-            b.email = a.Email;
-            b.telefono = a.Telefono;
-            b.direccion = a.Direccion;
-            b.nombreRepresentante = c.NombreRepresentante;
-            b.apellidoRepresentante = c.ApellidoRepresentante;
-            return b;
+            
+
+            var query = (from u in _context.Usuario
+                         from c in _context.Comercio
+                         where
+                         u.IdUsuario == c.IdUsuario &&
+                         u.IdUsuario == usuarioId 
+                         select new DevolverUsuario
+                         {                          
+
+                             nombreUsuario=u.Usuario1,
+                             email=u.Email,
+                             telefono=u.Telefono,
+                             direccion=u.Direccion,
+                             nombreRepresentante=c.NombreRepresentante,
+                             apellidoRepresentante=c.ApellidoRepresentante
+                         }
+                       ).FirstOrDefault();
+
+            return query;
 
 
 

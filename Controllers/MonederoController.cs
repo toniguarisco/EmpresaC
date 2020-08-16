@@ -89,11 +89,11 @@ namespace ApiRestDesarrollo.Controllers
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
             var log = _repository.AddCuenta(cuenta);
-            if (log)
+            if (log.flag)
             {
                 return Ok("cuenta añadida exitosamente");
             }
-            return BadRequest("Puede ser que el usuario que ingreso o el banco no sean validos");
+            return BadRequest(log.mesage);
         }
         [HttpPost("AddSaldo")]
         public ActionResult AddSaldo(CreateOperacion operacion)
@@ -101,55 +101,55 @@ namespace ApiRestDesarrollo.Controllers
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
             var log = _repository.AddBalance(operacion);
-            if (log)
+            if (log.flag)
             {
                 return Ok("saldo añadido exitosamente");
             }
-            return BadRequest("La cuenta no es valida");
+            return BadRequest(log.mesage);
         }
 
         [HttpPost("Reintegro")]
         public ActionResult Reintegro(ReintegroDto reintegro)
         {
             var log = _repository.reintegro(reintegro);
-            if (log)
+            if (log.flag)
             {
                 return Ok("reintegro exitoso");
             }
-            return BadRequest("Su referencia no es valida para reintegro o el usuario no existe");
+            return BadRequest(log.mesage);
         }
 
         [HttpPost("Transferencia")]
         public ActionResult Reintegro(PagoDtos tranfe)
         {
             var log = _repository.transferencia(tranfe);
-            if (log)
+            if (log.flag)
             {
                 return Ok("transferencia exitosa");
             }
-            return BadRequest("El usuario no existe");
+            return BadRequest(log.mesage);
         }
 
         [HttpPost("PagoPaypal")]
         public ActionResult Paypal(PagoDtos tranfe)
         {
             var log = _repository.paypal(tranfe);
-            if (log)
+            if (log.flag)
             {
                 return Ok("Pago Exitoso");
             }
-            return BadRequest("No posee una cuenta paypal asociado. Asocie primero una cuenta");
+            return BadRequest(log.mesage);
         }
 
         [HttpPost("PagoTienda")]
         public ActionResult PagoTienda(PagoTiendaDtos pago)
         {
             var log = _repository.pagoTienda(pago);
-            if (log)
+            if (log.flag)
             {
                 return Ok("Pago Exitoso");
             }
-            return BadRequest("La tienda no existe o no tiene saldo suficiente");
+            return BadRequest(log.mesage);
         }
     }
 }
