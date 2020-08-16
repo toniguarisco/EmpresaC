@@ -66,7 +66,7 @@ export default class Forgot extends Component<Props> {
   })
   try {
     let response = await fetch(
-      'URL API',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/recuperarContaseña',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
@@ -78,16 +78,16 @@ export default class Forgot extends Component<Props> {
      }
     );
     let responseJson = await response.json();
-    if (responseJson.success == 0){
+    if (responseJson == "Se envio un correo a: "+this.state.correo+"con su nueva clave"){
         this.setState({
          data: null
         })
-      this.setModalVisible("Hecho",responseJson.message, true);
+      this.setModalVisible("Se envio un correo a: "+this.state.correo+" con su nueva clave",responseJson.message, true);
     }else{
      this.setState({
       data: null
      })
-     this.setModalVisible("Error",responseJson.message, false);
+     this.setModalVisible("Error","Algo falló en el intento de recuperar la contraseña", false);
     }
   } catch (error) {
     this.setState({
