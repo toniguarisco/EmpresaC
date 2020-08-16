@@ -24,62 +24,37 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public bool actualizarPerfil(PerfilModel usuarioPerfil)
         {
-            //try
-            //{
-            //    Usuario a = new Usuario();
-            //    a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioPerfil.idUsuario);
-            //    Comercio c = new Comercio();
-            //    c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == a.IdUsuario);
-            //    if (usuarioPerfil.nombreUsuario != null)
-            //        a.Usuario1 = usuarioPerfil.nombreUsuario;
-            //    if (usuarioPerfil.email != null)
-            //        a.Email = usuarioPerfil.email;
-            //    if (usuarioPerfil.telefono != null)
-            //        a.Telefono = usuarioPerfil.telefono;
-            //    if (usuarioPerfil.direccion != null)
-            //        a.Direccion = usuarioPerfil.direccion;
-            //    if (usuarioPerfil.nombreRepresentante != null)
-            //        c.NombreRepresentante = usuarioPerfil.nombreRepresentante;
-            //    if (usuarioPerfil.apellidoRepresentante != null)
-            //        c.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-            //    _context.Usuario.Add(a);             
-            //    _context.Comercio.Add(c);
-            //    _context.SaveChanges();
-            //    return true;
-            //}
-            //catch (Exception)
-            //{
-            //    return false;
+           
+            var comercio = (from usu in _context.Usuario
+                            from c in _context.Comercio
+                            where
+                            usu.IdUsuario == c.IdUsuario &&
+                            usu.IdUsuario == usuarioPerfil.idUsuario
+                            select new
+                            {
+                                comercio = c,
+                                usuario = usu
+                            }).FirstOrDefault();
 
-
-            //}
-
-            try
+            if ((comercio != null))
             {
-                var id_usuario = _context.Usuario.Where(src => src.IdUsuario==usuarioPerfil.idUsuario);
-                //var id_comercio = _context.Comercio.Where(src => src.IdUsuario == usuarioPerfil.idUsuario);
-                 if ((id_usuario != null)/* && (id_comercio != null)*/)
-                {
-                   var usuario = id_usuario.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);
-                   //var comercio = id_comercio.FirstOrDefault(src => src.IdUsuario == usuarioPerfil.idUsuario);                 
-                    usuario.Usuario1 = usuarioPerfil.nombreUsuario;               
-                    usuario.Email = usuarioPerfil.email;              
-                    usuario.Telefono = usuarioPerfil.telefono;                
-                    usuario.Direccion = usuarioPerfil.direccion;               
-                    //comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;                 
-                    //comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-                   _context.Add(usuario);
-                   //_context.Add(comercio);
-                   _context.SaveChanges();
-                    return true;
-                }
-                return false;
+                if (usuarioPerfil.direccion != null)
+                    comercio.usuario.Direccion = usuarioPerfil.direccion;
+                if (usuarioPerfil.email != null)
+                    comercio.usuario.Email = usuarioPerfil.email;
+                if (usuarioPerfil.nombreUsuario != null)
+                    comercio.usuario.Usuario1 = usuarioPerfil.nombreUsuario;
+                if (usuarioPerfil.telefono != null)
+                    comercio.usuario.Telefono = usuarioPerfil.telefono;
+                if (usuarioPerfil.apellidoRepresentante!= null)
+                    comercio.comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
+                if (usuarioPerfil.nombreRepresentante != null)
+                    comercio.comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;
+                _context.SaveChanges();
+                return true;
             }
-            catch (Exception)
-            {
-                return false;
-            }
-         }
+            return false;
+        }
 
         public List<ReadAccounts> GetAccountsUser(int userId)
         {
