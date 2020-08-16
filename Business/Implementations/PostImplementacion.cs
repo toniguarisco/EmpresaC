@@ -174,18 +174,26 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public DevolverUsuario GetUsuario(int usuarioId)
         {
-            Usuario a = new Usuario();
-            a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == usuarioId);
-            Comercio c = new Comercio();
-            c = _context.Comercio.FirstOrDefault(p => p.IdUsuario == usuarioId);
-            DevolverUsuario b = new DevolverUsuario();
-            b.nombreUsuario = a.Usuario1;
-            b.email = a.Email;
-            b.telefono = a.Telefono;
-            b.direccion = a.Direccion;
-            b.nombreRepresentante = c.NombreRepresentante;
-            b.apellidoRepresentante = c.ApellidoRepresentante;
-            return b;
+            
+
+            var query = (from u in _context.Usuario
+                         from c in _context.Comercio
+                         where
+                         u.IdUsuarioReceptor == c.IdUsuario &&
+                         u.IdUsuario == usuarioId 
+                         select new DevolverUsuario
+                         {                          
+
+                             nombreUsuario=u.Usuario1,
+                             email=u.Email,
+                             telefono=u.Telefono,
+                             direccion=u.Direccion,
+                             nombreRepresentante=c.NombreRepresentante,
+                             apellidoRepresentante=c.ApellidoRepresentante
+                         }
+                       ).FirstOrDefault();
+
+            return query;
 
 
 
