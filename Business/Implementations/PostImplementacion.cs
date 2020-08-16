@@ -179,7 +179,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             var query = (from u in _context.Usuario
                          from c in _context.Comercio
                          where
-                         u.IdUsuarioReceptor == c.IdUsuario &&
+                         u.IdUsuario == c.IdUsuario &&
                          u.IdUsuario == usuarioId 
                          select new DevolverUsuario
                          {                          
