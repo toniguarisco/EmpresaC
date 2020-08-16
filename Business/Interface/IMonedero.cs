@@ -16,11 +16,11 @@ namespace ApiRestDesarrollo.Business.Interface
         List<ReadAccounts> GetAccountsUser(int userId);
         ReadOperationAccount GetBalanceByEmail(string email);
         mensaje AddBalance(CreateOperacion createOperacion);
-        bool AddCuenta(CreateCuenta create);
-        bool reintegro(ReintegroDto reintegro);
-        bool transferencia(PagoDtos pago);
-        bool paypal(PagoDtos pagoPaypal);
+        mensaje AddCuenta(CreateCuenta create);
+        mensaje reintegro(ReintegroDto reintegro);
+        mensaje transferencia(PagoDtos pago);
+        mensaje paypal(PagoDtos pagoPaypal);
         List<PagoSolicitud> pagoSolicitud(int IdUsuario);
-        bool pagoTienda(PagoTiendaDtos pago);
+        mensaje pagoTienda(PagoTiendaDtos pago);
     }
 }
