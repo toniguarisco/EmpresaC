@@ -15,11 +15,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ApiRestDesarrollo.Business.Implementations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/App")]
     [ApiController]
+    
     public class AppController : ControllerBase
     {
         private readonly IUsuarios _usuario;
@@ -43,7 +46,7 @@ namespace ApiRestDesarrollo.Controllers
         
         
         [HttpPost("login")]
-        public ActionResult GetAllCommands(LoginModel user)
+        public ActionResult Login(LoginModel user)
         {
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
@@ -55,6 +58,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("recuperarContaseña")]
+       
         public ActionResult RecuperarContaseña(RecuperarModel usuarioRecuperar)
         {
 
@@ -68,6 +72,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("modificarContraseña")]
+        
         public ActionResult ModificarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
 
@@ -81,6 +86,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("CreateUsuario")]
+        
         public ActionResult CreateUsuario(CreateUserDto user)
         {
             if (_usuario.RegisterUser(user)) {
@@ -119,6 +125,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPut("EstadoUsuario")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult ActualizarEstado(string usuario)
         {
             if (_usuario.DesbloquearUsuario(usuario))
@@ -129,6 +136,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPut("Parametros")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult ActualizarParametro(int comision, int parametro)
         {
             _usuario.UpdateParameter(comision, parametro);

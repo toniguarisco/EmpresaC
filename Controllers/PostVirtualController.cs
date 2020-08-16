@@ -3,6 +3,8 @@ using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/PostVirtual")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostController : ControllerBase
     {
         private readonly IPost _repository;
@@ -26,7 +29,7 @@ namespace ApiRestDesarrollo.Controllers
             _mapper = mapper;
         }
 
-        [HttpPut("actualizarperfil")]
+        [HttpPost("actualizarperfil")]
         public ActionResult actualizarPerfil(PerfilModel usuarioPerfil)
         {
 

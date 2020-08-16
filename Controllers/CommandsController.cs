@@ -15,7 +15,7 @@ namespace ApiRestDesarrollo.Controllers
     //api/comands
     [Route("api/commands")]
     [ApiController]
-    
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CommandsController : ControllerBase
     {
         private readonly IcommanderRepo _repository;

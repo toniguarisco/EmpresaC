@@ -13,11 +13,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiRestDesarrollo.Business.Interface;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/PortalWeb")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PortalWebController : ControllerBase
     {
         private readonly IcommanderRepo _repository;

@@ -6,6 +6,8 @@ using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/Monedero")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MonederoController : ControllerBase
     {
         private readonly IMonedero _repository;
