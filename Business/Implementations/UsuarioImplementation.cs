@@ -160,24 +160,14 @@ namespace ApiRestDesarrollo.Business.Implementations
         }
         public bool actualizarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
-            try
-            {
-              Usuario a = new Usuario();
-              a = _context.Usuario.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario);
-              Contrasena b = new Contrasena();
-              b.IdContrasena = _context.Contrasena.Count() * 135;
-              b.Contrasena1 = Convert.ToString(contraseñaModificar.nuevaContraseña);
-              b.IdUsuario = a.IdUsuario;
-              b.IntentosFallidos = 0;
-              b.Estatus = 1;
-             _context.Contrasena.Add(b);
+            var password = _context.Contrasena.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario && p.Contrasena1 == contraseñaModificar.ContrasenaVieja);
+            if (password != null) 
+            { 
+                password.Contrasena1 = contraseñaModificar.nuevaContrasena;
+                _context.saveChanges();
                 return true;
             }
-            catch (Exception )
-            {
-                return false;
-            }
-
+            return false;
         }
         private bool buscarCorreo(string email) // se verifica que el correo exista en la base de datos
         {
@@ -188,23 +178,17 @@ namespace ApiRestDesarrollo.Business.Implementations
             else
                 return false;
         }
-        private void modificarContarseña(string email, int nuevaContraseña) // metodo que inserta la nueva contraseña en la base de datos
+        private void modificarContarseña(string email, int nuevaContrasena) // metodo que inserta la nueva contraseña en la base de datos
         {
-            Usuario a = new Usuario();
-            a = _context.Usuario.FirstOrDefault(p => p.Email == email);
-            Contrasena b = new Contrasena();
-            b.IdContrasena = _context.Contrasena.Count() + 1;
-            b.Contrasena1 = Convert.ToString(nuevaContraseña);
-            b.IdUsuario = a.IdUsuario;
-            b.IntentosFallidos = 0;
-            b.Estatus = 1;
-            _context.Contrasena.Add(b);
-            //_context.Usuario.Update(a);
+            var usuario = _context.Usuario.FirstOrDefault(p => p.Email == email).IdUsuario;
+            if (usuario > 0)
+            {
+                var password = _context.Contrasena.FirstOrDefault(p=>p.IdUsuario == usuario);
+                password.Contrasena1 = nuevaContrasena.ToString();
+            
+            };
             _context.saveChanges();
-            /* a.Direccion = Convert.ToString(nuevaContraseña);
-             _context.Usuario.Update(a);
-             _context.SaveChanges();*/
-
+            
 
         }
         private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
