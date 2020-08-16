@@ -1,5 +1,6 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Controllers;
+using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.Payment;
@@ -20,31 +21,6 @@ namespace ApiRestDesarrollo.Business.Implementations
         {
             _context = context;
             _mapper = mapper;
-        }
-
-        public bool AddBalance(CreateOperacion createOperacion)
-        {
-            var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
-            if (cuenta != null)
-            { 
-                int refid = _context.OperacionCuenta.Count();
-                OperacionCuenta operacionCuenta = new OperacionCuenta()
-                {
-                    Fecha = createOperacion.fecha,
-                    Hora = createOperacion.hora,
-                    IdCuenta = cuenta.IdCuenta,
-                    Monto = createOperacion.monto,
-                    operacion = true, //false
-                    IdUsuarioReceptor = createOperacion.idUSuario,
-                    IdOperacionCuenta = (refid+1) * 135,
-                    Referencia = "5789"+ refid * 135, //10789
-                    estatus = 0
-                };
-                _context.Add(operacionCuenta);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
         }
 
         public bool AddCuenta(CreateCuenta create)
@@ -174,6 +150,25 @@ namespace ApiRestDesarrollo.Business.Implementations
             return readOperationAccount;
         }
 
+        public List<PagoSolicitud> pagoSolicitud(int IdUsuario)
+        {
+            var solicitudes = (from pago in _context.Pago
+                               from usu in _context.Usuario
+                               where
+                               pago.IdUsuarioSolicitante == usu.IdUsuario &&
+                               pago.IdUsuarioSolicitante == IdUsuario
+                               select new PagoSolicitud
+                               {
+                                   Estatus = pago.Estatus,
+                                   FechaSolicitud = pago.FechaSolicitud,
+                                   Monto = pago.Monto,
+                                   Referencia = pago.Referencia,
+                                   Solicitante = usu.Usuario1,
+                                   IdPago = pago.IdPago
+                               }).OrderBy(p => p.Estatus.Contains("en proceso")).ToList();
+            return solicitudes;
+        }
+
         public bool transferencia(PagoDtos pago)
         {
             var saldo = GetBalance(pago.IdUsuario);
@@ -271,25 +266,6 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return true;
             }
             return false;
-        }
-
-        public List<PagoSolicitud> pagoSolicitud(int IdUsuario)
-        {
-            var solicitudes = (from pago in _context.Pago
-                               from usu in _context.Usuario
-                               where
-                               pago.IdUsuarioSolicitante == usu.IdUsuario &&
-                               pago.IdUsuarioSolicitante == IdUsuario
-                               select new PagoSolicitud
-                               {
-                                   Estatus = pago.Estatus,
-                                   FechaSolicitud = pago.FechaSolicitud,
-                                   Monto = pago.Monto,
-                                   Referencia = pago.Referencia,
-                                   Solicitante = usu.Usuario1,
-                                   IdPago = pago.IdPago
-                               }).OrderBy(p=>p.Estatus.Contains("en proceso")).ToList();
-            return solicitudes;
         }
 
         public bool pagoTienda(PagoTiendaDtos pago)
@@ -402,6 +378,53 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return true;
             }
            
+            return false;
+        }
+
+        public mensaje AddBalance(CreateOperacion createOperacion)
+        {
+            mensaje mensaje = new mensaje() { flag = false, mesage = "No eres un usuario valido"};
+            if(IsPersona(createOperacion.idUSuario))
+            {
+                var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
+                if (cuenta != null)
+                {
+                    int refid = _context.OperacionCuenta.Count();
+                    OperacionCuenta operacionCuenta = new OperacionCuenta()
+                    {
+                        Fecha = createOperacion.fecha,
+                        Hora = createOperacion.hora,
+                        IdCuenta = cuenta.IdCuenta,
+                        Monto = createOperacion.monto,
+                        operacion = true, //false
+                        IdUsuarioReceptor = createOperacion.idUSuario,
+                        IdOperacionCuenta = (refid + 1) * 135,
+                        Referencia = "5789" + refid * 135, //10789
+                        estatus = 0
+                    };
+                    _context.Add(operacionCuenta);
+                    _context.SaveChanges();
+                    mensaje.flag = true;
+                    return mensaje;
+                }
+            }
+            return mensaje;
+        }
+
+        private bool IsPersona(int id) 
+        {
+            var usuarios = (from usu in _context.Usuario
+                            from tipo in _context.TipoUsuario
+                            where 
+                            usu.IdTipoUsuario == tipo.IdTipoUsuario
+                            && usu.IdUsuario == id
+                            select new { 
+                            tipo = tipo.IdTipoUsuario
+                            }).FirstOrDefault();
+            if (usuarios.tipo == 2 || usuarios.tipo == 3) 
+            {
+                return true;
+            };
             return false;
         }
     }

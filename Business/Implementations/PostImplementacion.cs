@@ -114,20 +114,18 @@ namespace ApiRestDesarrollo.Business.Implementations
             return readOperationAccount;
         }
 
-        public CreatePayment SolicitarPago(string users,
-                                           double montog,
-                                           string userr)
+        public CreatePayment SolicitarPago(SolicitarPago pago)
         {
             
             int referencia = (_context.Pago.Count() + 1)*1007;
-            var usuarios = _context.Usuario.FirstOrDefault(src => src.Usuario1 == users);
-            var usuarior = _context.Usuario.FirstOrDefault(src => src.Usuario1 == userr);
+            var usuarios = _context.Usuario.FirstOrDefault(src => src.Usuario1 == pago.users);
+            var usuarior = _context.Usuario.FirstOrDefault(src => src.Usuario1 == pago.userr);
             
                 _context.Pago.Add(
                     new Pago { 
                         IdPago = _context.Pago.Count() + 1,
                         FechaSolicitud = DateTime.Now,
-                        Monto = (decimal)montog, 
+                        Monto = (decimal)pago.montog, 
                         Estatus = "En proceso",
                         Referencia = ""+referencia+"",
                         IdUsuarioSolicitante = usuarios.IdUsuario,
@@ -138,13 +136,13 @@ namespace ApiRestDesarrollo.Business.Implementations
 
             CreatePayment payment = new CreatePayment(){
                 FechaSolicitud = DateTime.Now,
-                Monto = (decimal)montog, 
+                Monto = (decimal)pago.montog, 
                 EstatusPago = "En proceso",
                 Referencia = ""+referencia+"",
                 FkIdUsuarioSolicitante = usuarios.IdUsuario,
                 FkIdUsuarioReceptor = usuarior.IdUsuario,
-                UsuarioReceptor = userr,
-                UsuarioSolicitante = users
+                UsuarioReceptor = pago.userr,
+                UsuarioSolicitante = pago.users
             };
 
             return payment;

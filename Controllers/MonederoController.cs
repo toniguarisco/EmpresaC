@@ -101,11 +101,11 @@ namespace ApiRestDesarrollo.Controllers
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
             var log = _repository.AddBalance(operacion);
-            if (log)
+            if (log.flag)
             {
                 return Ok("saldo añadido exitosamente");
             }
-            return BadRequest("La cuenta no es valida");
+            return BadRequest(log.mesage);
         }
 
         [HttpPost("Reintegro")]

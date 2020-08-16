@@ -13,7 +13,7 @@ namespace ApiRestDesarrollo.Business.Interface
     {
         ReadOperationAccount GetBalance(int usuarioId);
         List<ReadAccounts> GetAccountsUser(int userId);
-        CreatePayment SolicitarPago(string users, double montog, string userr);
+        CreatePayment SolicitarPago(SolicitarPago pago);
         List<ReadOperationReintegro> GetReintegros(int usuarioId);
         DevolverUsuario GetUsuario(int usuarioId);
         bool ActualizarEstatusReintegro(string refreintegro, string newestatus);

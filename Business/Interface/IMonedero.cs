@@ -1,4 +1,5 @@
 ﻿using ApiRestDesarrollo.Controllers;
+using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.Payment;
@@ -14,7 +15,7 @@ namespace ApiRestDesarrollo.Business.Interface
         ReadOperationAccount GetBalance(int usuarioId);
         List<ReadAccounts> GetAccountsUser(int userId);
         ReadOperationAccount GetBalanceByEmail(string email);
-        bool AddBalance(CreateOperacion createOperacion);
+        mensaje AddBalance(CreateOperacion createOperacion);
         bool AddCuenta(CreateCuenta create);
         bool reintegro(ReintegroDto reintegro);
         bool transferencia(PagoDtos pago);
