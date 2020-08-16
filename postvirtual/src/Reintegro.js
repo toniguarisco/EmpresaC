@@ -90,9 +90,12 @@ export default class Configuration extends Component<Props> {
       );
       let responseJson = await response.json();
       let tempArray = [];
-
-      responseJson.readOperations.map((item)=>{
-        let arrayObject = [ item.fecha, item.solicitante, item.monto, item.referencia, item.estatus ];
+      let estado = "";
+      responseJson.map((item)=>{
+        if (item.estatus == 1){
+            estado = "En espera"
+        }
+        let arrayObject = [ item.fecha, item.usuarioSolicitante, item.monto, item.referencia, estado ];
         tempArray.push(arrayObject);
       })
   

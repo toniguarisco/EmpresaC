@@ -77,12 +77,10 @@ export default class Configuration extends Component<Props> {
      }
     );
     let responseJson = await response.json();
-    if (responseJson == "transferencia exitosa"){
+    if (responseJson == "Contraseña actualizada"){
       Actions.pop();
-  }else{
-    this.setModalVisible("Error", this.state.errorTipo2);
-  }
-  }catch (error) {
+      Actions.login();
+  }}catch (error) {
    this.setModalVisible(this.state.error, this.state.errorTipo);
   }
 }

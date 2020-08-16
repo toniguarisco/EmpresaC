@@ -78,16 +78,16 @@ export default class Forgot extends Component<Props> {
      }
     );
     let responseJson = await response.json();
-    if (responseJson.success == 0){
+    if (responseJson == "Se envio un correo a "+this.state.correo+" con su nueva clave"){
         this.setState({
          data: null
         })
-      this.setModalVisible("Hecho",responseJson.message, true);
+      this.setModalVisible("Se envio un correo a "+this.state.correo+" con su nueva clave",responseJson.message, true);
     }else{
      this.setState({
       data: null
      })
-     this.setModalVisible("Error",responseJson.message, false);
+     this.setModalVisible("Error","Algo fallo al recuperar contraseña", false);
     }
   } catch (error) {
     this.setState({
