@@ -186,5 +186,11 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("La lista no pudo ser procesada");
         }
+
+        [HttpGet("TotalRecaudoComisiones")]
+        public ActionResult<IEnumerable<TotalComisiones>> RecaudoComision()
+        {
+            return Ok(_portal.RecaudoComision());
+        }
     }
 }

@@ -41,5 +41,10 @@ namespace ApiRestDesarrollo.Business.Interface
         List<ReadListOperation> AdminGetOperation(int IdUsuario);
 
         HistoryOperationAccount GetBalance(int usuarioId);
+
+        TotalComisiones RecaudoComision();
+
+
+
     }
 }
