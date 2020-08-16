@@ -53,8 +53,8 @@ export default class Configuration extends Component<Props> {
   }
 
   handlePress = () =>{
-  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")&&(this.state.contraseña==this.state.contraseña2)){
-   Actions.pop();
+  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")){
+    this.passwordChanger();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -63,18 +63,25 @@ export default class Configuration extends Component<Props> {
  passwordChanger = async(correo) => {
   try {
     let response = await fetch(
-      'API',{
-       method: 'GET',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/modificarContraseña',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+        nuevaContrasena: this.state.contraseña2,
+        contrasenaVieja: this.state.contraseña,
+        idUsuario: this.state.id
+        })
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
+    if (responseJson == "transferencia exitosa"){
+      Actions.pop();
+  }else{
+    this.setModalVisible("Error", this.state.errorTipo2);
+  }
   }catch (error) {
    this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -83,8 +90,8 @@ export default class Configuration extends Component<Props> {
  componentWillMount(){
     this.setState({
       title: "CAMBIAR CONTRASEÑA",
-      placeholder: "Contraseña",
-      placeholder2: "Confirmar contraseña",
+      placeholder: "Contraseña actual:",
+      placeholder2: "Nueva contraseña",
       button: "GUARDAR",
       error: "Error",
       errorTipo: "Algún campo está vacío o las contraseñas no coinciden.",

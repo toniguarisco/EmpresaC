@@ -34,10 +34,11 @@ export default class Configuration extends Component<Props> {
       estatus: "",
       fecha: "",
       correo: this.props.correo,
-      id: this.this.props.id,
+      id: this.props.id,
+      payref:"",
       title:"",
-      title2:"",
-      title3:"",
+      button:"",
+      button2:"",
       error:"",
       errorTipo:"",
       modalVisible: false,
@@ -47,6 +48,34 @@ export default class Configuration extends Component<Props> {
       tableData: []
     }
   }
+  
+  sendReintegro = async() => {
+    try {
+      let response = await fetch(         
+        'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/ActualizarReintegro',{
+         method: 'POST',
+         headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          //: this.state.payref,
+          //: this.state.estatus
+          })
+       }
+      );
+      let responseJson = await response.json();
+      if (responseJson == "Reintegro Exitoso"){
+          Actions.pop();
+      }else{
+        this.setModalVisible("Error", this.state.errorTipo2);
+      }
+    } catch (error) {
+  
+     this.setModalVisible("Error", this.state.errorTipo3)
+    }
+  }
+  
 
   getUserData = async(correo) => {
     try {
@@ -75,18 +104,44 @@ export default class Configuration extends Component<Props> {
     }
   }
 
+  handlePayRef= (Text) =>{
+    this.setState({
+      payref: Text
+    })
+  }
 
+  handlePress2 = () =>{
+    if (this.state.payref!=""){
+      this.setState({
+        estatus: "ACEPTAR"
+      })
+      this.sendReintegro();
+    }else{
+      this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
+   }
+
+  handlePress3 = () =>{
+    if (this.state.payref!=""){
+      this.setState({
+        estatus: "DENEGAR"
+      })
+      this.sendReintegro();
+    }else{
+      this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
+   }
  componentWillMount(){
 
   this.getUserData(this.state.correo);
 
     this.setState({
       title: "SOLICITUDES DE REINTEGRO",
-      title2: "ACEPTAR",
-      title3: "DENEGAR",
+      button: "ACEPTAR",
+      button2: "DENEGAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
-      tableHead: ['Fecha', 'Usuario','Monto', 'Referencia', 'Estatus']
+      tableHead: ['Fecha', 'Usuario','$', '#', 'Estatus' ]
     })
  }
 
@@ -100,14 +155,7 @@ export default class Configuration extends Component<Props> {
 
   render() {
 
-    const state = this.state;
-    const element = (data, index) => (
-      <TouchableOpacity onPress={() => this._alertIndex(index)}>
-        <View style={styles.butons}>
-          <Text style={styles.buttonText}>O</Text>
-        </View>
-      </TouchableOpacity>
-    );
+    this.getUserData();
 
     return (
      <View style={{flex: 1}}>
@@ -122,29 +170,50 @@ export default class Configuration extends Component<Props> {
             </LinearGradient>
            </View>
           </View>
+          <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+          <View style={styles.inputContainer}>
+            <TextInput
+                style={styles.input}
+                placeholder= "#"
+                placeholderTextColor="#A1A1A1"
+                underlineColorAndroid="#C39515"
+                selectionColor="#C39515"
+                onChangeText={this.handlePayRef}
+                value={this.state.payref} />
+          </View>
+          <TouchableOpacity onPress={this.handlePress2}>
+           <View style={styles.buttons}>
+            <View style={styles.button}>
+             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
+                <Text style={styles.buttonText}>
+                 {this.state.button}
+                </Text>
+              </LinearGradient>
+            </View>
+            </View>
+          </TouchableOpacity>  
 
-            <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <View style={{ flex: 1, flexDirection: 'row'}}>
+          <TouchableOpacity onPress={this.handlePress3}>
+            <View style={styles.buttons}>
+            <View style={styles.button}>
+             <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
+                <Text style={styles.buttonText}>
+                 {this.state.button2}
+                </Text>
+              </LinearGradient>
+            </View>
+            </View>
+          </TouchableOpacity>
+           <View style={{ flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1, flexDirection:"column"}}>
                   <View style={styles.container2}>
                     <Table borderStyle={{borderWidth: 2, borderColor: "#C39515"}}>
-                      <Row data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-                      {
-                      state.tableData.map((rowData, index) => (
-                        <TableWrapper key={index} style={styles.row}>
-                          {
-                            rowData.map((cellData, cellIndex) => (
-                              <Cell key={cellIndex} data={cellIndex === 5 ? element(cellData, index) : cellData} style={{backgroundColor: "black"}} textStyle={styles.text}/>
-                            ))
-                          }
-                        </TableWrapper>
-                      ))
-                    }
+                      <Row data={this.state.tableHead} style={styles.head} textStyle={styles.text}/>
+                      <Rows data={this.state.tableData} style={{backgroundColor: "black"}} textStyle={styles.text}/>
                     </Table>
                   </View>
                 </View>
-            </View>
- 
+          </View>       
           <Modal
            animationType="slide"
            transparent={false}
@@ -166,7 +235,7 @@ export default class Configuration extends Component<Props> {
              <View style={styles.button}>
               <LinearGradient style={{paddingLeft: 40, paddingRight: 40}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
                <Text style={styles.buttonText}>
-                CONFIRMAR
+                OK
                </Text>
               </LinearGradient>
              </View>
@@ -265,13 +334,29 @@ const styles = StyleSheet.create({
  titles:{
   flexDirection: "row"
  },
- 
- row: {  
-  height: 28  
-},
-
  title:{
   flex: 1,
   height: 30
  },
+ container2: { 
+    flex: 1, 
+    padding: 16, 
+    paddingTop: 30, 
+    backgroundColor: "#111111"
+  },
+
+  head: {  
+    height: 40,  
+    backgroundColor: "#FFC900"
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+    fontFamily: "Montserrat-Bold"
+  },
+
 });

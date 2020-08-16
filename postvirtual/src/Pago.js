@@ -28,7 +28,7 @@ export default class Configuration extends Component<Props> {
       correoDestino: "",
       monto: "",
       correo: this.props.correo,
-      id: this.this.props.id,
+      id: this.props.id,
       referencia: "",
       title:"",
       placeholder:"",
@@ -71,6 +71,11 @@ export default class Configuration extends Component<Props> {
        Accept: 'application/json',
        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        montog: this.state.monto,
+        userr: this.state.correoDestino,
+        users: this.state.correo
+        })
      }
     );
     let responseJson = await response.json();

@@ -70,13 +70,21 @@ export default class Configuration extends Component<Props> {
   sendCambios = async() => {
    try {
      let response = await fetch(
-       'API',{
+       'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/actualizarperfil',{
         method: 'POST',
         headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
        },
-// Send datos
+      body: JSON.stringify({
+        idUsuario: this.state.id,
+        nombreUsuario: this.state.usuario,
+        email: this.state.correo,
+        telefono: this.state.telefono,
+        direccion: this.state.direccion,
+        nombreRepresentante: this.state.nombrerep,
+        apellidoRepresentante: this.state.apellidorep
+        })
        })
      let responseJson = await response.json();
      if (responseJson == "Envio Exitoso"){
@@ -327,6 +335,15 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     backgroundColor: 'transparent'
    },
+   text: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+    fontFamily: "Montserrat-Bold"
+  },
   text2: {
     fontSize: 14,
     fontWeight: "bold",
@@ -370,4 +387,8 @@ const styles = StyleSheet.create({
   flex: 1,
   height: 30
  },
+ head: {  
+  height: 40,  
+  backgroundColor: "#FFC900"
+}
 });

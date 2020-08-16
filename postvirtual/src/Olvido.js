@@ -66,7 +66,7 @@ export default class Forgot extends Component<Props> {
   })
   try {
     let response = await fetch(
-      'URL API',{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/recuperarContaseña',{
        method: 'POST',
        headers: {
        Accept: 'application/json',
