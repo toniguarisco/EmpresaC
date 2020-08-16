@@ -28,7 +28,7 @@ export default class Menu extends Component<Props>{
       id: this.props.id,
       correo: this.props.correo,
       contraseña: this.props.contraseña,
-      charts: this.props.chartState,
+      token: this.props.token,
       idioma: this.props.idiomaState,
       option: "",
       option2: "",
@@ -47,48 +47,48 @@ export default class Menu extends Component<Props>{
  handleConfiguration = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     Actions.configuration({title:"Configuración", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.configuration({title:"Configuración", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }else{
      this.props.onHandle();
-     Actions.configuration({title:"Configuration", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.configuration({title:"Configuration", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }
   }
   
  handleBalance = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     Actions.money({title:"Añadir dinero", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.money({title:"Añadir dinero", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }else{
      this.props.onHandle();
-     Actions.money({title:"Add money", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.money({title:"Add money", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }
  }
 
  handlePayment = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     Actions.payment({title:"Realizar pago", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.payment({title:"Realizar pago", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }else{
      this.props.onHandle();
-     Actions.payment({title:"Payment", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.payment({title:"Payment", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }
   }
 
   handleRequest = () =>{
   if (this.state.idioma=="es"){
      this.props.onHandle();
-     Actions.request({title:"Solicitar dinero", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.request({title:"Solicitar dinero", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }else{
      this.props.onHandle();
-     Actions.request({title:"Request money", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id});
+     Actions.request({title:"Request money", idioma: this.state.idioma, correo: this.state.correo, id: this.state.id, token: this.state.token});
    }
   }
 
  handleLanguage = () =>{
   if (this.state.idioma=="es"){
-      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "en"});
+      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "en", token: this.state.token});
     }else{
-      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es"});
+      Actions.home({id: this.state.id, correo: this.state.correo, contraseña: this.state.contraseña, idioma: "es", token: this.state.token});
     }
  }
 

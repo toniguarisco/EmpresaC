@@ -27,12 +27,15 @@ export default class Configuration extends Component<Props> {
     this.state = {
       contraseña: "",
       contraseña2: "",
+      contraseña3: "",
       idioma: this.props.idioma,
       correo: this.props.correo,
       id: this.props.id,
+      token: this.props.token,
       title:"",
       placeholder:"",
       placeholder2:"",
+      placeholder3:"",
       button:"",
       error:"",
       errorTipo:"",
@@ -54,29 +57,41 @@ export default class Configuration extends Component<Props> {
     })
   }
 
+  handlePassword3Change= (Text) =>{
+    this.setState({
+      contraseña3: Text
+    })
+  }
+
   handlePress = () =>{
-  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")&&(this.state.contraseña==this.state.contraseña2)){
-   Actions.pop();
+  if ((this.state.contraseña!="")&&(this.state.contraseña2!="")&&(this.state.contraseña3!="")&&(this.state.contraseña==this.state.contraseña2)){
+   this.passwordChanger();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
- passwordChanger = async(correo) => {
+ passwordChanger = async() => {
   try {
     let response = await fetch(
-      'API',{
-       method: 'GET',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/App/modificarContraseña',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+      nuevaContrasena: this.state.contraseña,
+      contrasenaVieja: this.state.contraseña3,
+      idUsuario: this.state.id
+      })
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
+    if (responseJson == "Contraseña actualizada"){
+      Actions.pop();
+      Actions.login();
+    }
   }catch (error) {
    this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -86,8 +101,9 @@ export default class Configuration extends Component<Props> {
   if(this.state.idioma=="es"){
     this.setState({
       title: "CAMBIAR CONTRASEÑA",
-      placeholder: "Contraseña",
+      placeholder: "Nueva contraseña",
       placeholder2: "Confirmar contraseña",
+      placeholder3: "Contraseña actual",
       button: "ACEPTAR",
       error: "Error",
       errorTipo: "Algún campo está vacío o las contraseñas no coinciden.",
@@ -96,8 +112,9 @@ export default class Configuration extends Component<Props> {
   }else{
     this.setState({
       title: "CHANGE PASSWORD",
-      placeholder: "Password",
+      placeholder: "New password",
       placeholder2: "Confirm password",
+      placeholder3: "Current password",
       button: "ACCEPT",
       error: "Error",
       errorTipo: "Some field is empty or passwords doesn't match.",
@@ -132,6 +149,17 @@ export default class Configuration extends Component<Props> {
            <Text style={styles.text3}>
             {this.state.subtitle}
            </Text>
+           <View style={styles.inputContainer}>
+            <TextInput
+                style={styles.input}
+                placeholder={this.state.placeholder3}
+                placeholderTextColor="#A1A1A1"
+                underlineColorAndroid="#C39515"
+                selectionColor="#C39515"
+                secureTextEntry={true}
+                onChangeText={this.handlePassword3Change}
+                value={this.state.contraseña3} />
+          </View>
            <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}

@@ -29,6 +29,7 @@ export default class Configuration extends Component<Props> {
       idioma: this.props.idioma,
       correo: this.props.correo,
       id: this.props.id,
+      token: this.props.token,
       title:"",
       placeholder:"",
       placeholder2:"",
@@ -64,6 +65,7 @@ requestMoney = async() => {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+this.state.token
       },
       body: JSON.stringify({
       idUser: this.state.id,

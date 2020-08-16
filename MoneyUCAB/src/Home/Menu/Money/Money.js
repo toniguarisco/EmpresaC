@@ -31,6 +31,7 @@ export default class Configuration extends Component<Props> {
       idioma: this.props.idioma,
       correo: this.props.correo,
       id: this.props.id,
+      token: this.props.token,
       descripcion:"",
       title:"",
       placeholder:"",
@@ -112,6 +113,7 @@ getCurrentDate = () => {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+this.state.token
       },
       body: JSON.stringify({
       fecha: this.state.fecha,

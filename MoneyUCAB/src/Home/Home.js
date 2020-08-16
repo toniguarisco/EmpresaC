@@ -27,6 +27,7 @@ export default class Home extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
+      token: this.props.token,
       id: this.props.id,
       correo: this.props.correo,
       contreseña: this.props.contraseña,
@@ -58,7 +59,7 @@ export default class Home extends Component<Props> {
   })
  }
 
- getUserData = async(correo) => {
+ getUserData = async() => {
   try {
     let response = await fetch(
       'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/Balance?usuarioId='+this.state.id,{
@@ -66,6 +67,7 @@ export default class Home extends Component<Props> {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+this.state.token
       }
      }
     );
@@ -122,7 +124,7 @@ componentWillMount(){
 componentDidMount() {
   this.interval = setInterval(() => {
     this.getUserData(this.state.correo);
-  }, 1000);
+  }, 10000);
 }
 
 componentWillUnmount() {
@@ -133,7 +135,7 @@ componentWillUnmount() {
 
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu token={this.state.token} id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} idiomaState={this.state.idioma}/>} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
           <Header onHandle={this.handleSideMenu}/>
         </View> 
