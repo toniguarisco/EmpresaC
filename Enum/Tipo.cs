@@ -5,7 +5,7 @@
         administrador,
         comercio,
         persona,
-        ambos
+        ambos,
 
     }
 }

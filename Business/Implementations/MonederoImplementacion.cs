@@ -114,21 +114,22 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public ReadOperationAccount GetBalanceByEmail(string email)
         {
-            var query = (from usu in _context.Usuario
-                         from c in _context.Cuenta
-                         from oc in _context.OperacionCuenta
-                         where 
-                         oc.IdUsuarioReceptor == usu.IdUsuario &&
-                         usu.Email.Contains(email)
-                         select oc
-                        ).ToList().OrderBy(p => p.Fecha);
-            ReadOperationAccount readOperationAccount = new ReadOperationAccount();
-            if (query != null) 
+            ReadOperationAccount readOperationAccount = new ReadOperationAccount() {
+                Monto = Convert.ToDecimal(0)
+            };
+            var query = _context.Usuario.FirstOrDefault(p=>p.Email == email).IdUsuario;
+            if (query < 0)
+            {
+                return readOperationAccount;
+            }
+            decimal saldo = Convert.ToDecimal(0);
+            var query2 = _context.OperacionCuenta.Where(p => p.IdOperacionCuenta == query);
+            if (query2 != null) 
             { 
                 List<ReadOperation> reads = new List<ReadOperation>();
-                decimal saldo = 0;
+                
 
-                foreach (var item in query)
+                foreach (var item in query2)
                 {
                     string operacion = "_";
                     if (item.operacion == true)
@@ -149,10 +150,14 @@ namespace ApiRestDesarrollo.Business.Implementations
                         referencia = item.Referencia
                     };
                     reads.Add(readOperations);
+                    
+                }
+                if (readOperationAccount.Monto == 0) {
+                    return readOperationAccount;
                 }
                 readOperationAccount.Monto = saldo;
-                readOperationAccount.FkIdCuenta = query.FirstOrDefault().IdCuenta;
-                readOperationAccount.FkIdUsuarioReceptor = query.FirstOrDefault().IdUsuarioReceptor;
+                readOperationAccount.FkIdCuenta = query2.FirstOrDefault().IdCuenta;
+                readOperationAccount.FkIdUsuarioReceptor = query2.FirstOrDefault().IdUsuarioReceptor;
                 readOperationAccount.readOperations = reads.Take(4).ToArray();
             }
             return readOperationAccount;
@@ -193,7 +198,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 if (saldo != null && saldo.Monto > pago.monto)
                 {
                     var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pago.Usuario);
-                    int refid = _context.OperacionCuenta.Count();
+                    int refid = _context.OperacionCuenta.Count() * 135;
                     DateTime fecha = DateTime.Now;
                     TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
                     OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
@@ -204,8 +209,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = pago.monto,
                         operacion = true,
                         IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                        IdOperacionCuenta = (refid + 1) * 135,
-                        Referencia = "3789" + refid * 135,
+                        IdOperacionCuenta = refid ,
+                        Referencia = "3789" + refid ,
                         estatus = 0
                     };
                     OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
@@ -216,8 +221,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = pago.monto,
                         operacion = false,
                         IdUsuarioReceptor = pago.IdUsuario,
-                        IdOperacionCuenta = (refid + 2) * 135,
-                        Referencia = "3789" + refid * 135,
+                        IdOperacionCuenta = (refid + 1) ,
+                        Referencia = "3789" + refid,
                         estatus = 0
                     };
                     _context.Add(operacionCuentaReceptor);
@@ -270,12 +275,36 @@ namespace ApiRestDesarrollo.Business.Implementations
                 if (persona != null)
                 {
                     var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pagoPaypal.Usuario);
+                    if (UsuarioReceptor == null) 
+                    {
+                        return mensaje;
+                    }
                     var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
-                    int refid = _context.OperacionCuenta.Count();
+                    int refid = _context.OperacionCuenta.Count() * 135;
                     DateTime fecha = DateTime.Now;
                     TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
-                    decimal comision = pagoPaypal.monto * (Convert.ToDecimal(comisionPorcentaje)/100);
-                    decimal total = pagoPaypal.monto - comision;     
+                    decimal total = pagoPaypal.monto;
+                    if (!IsPersona(UsuarioReceptor.IdUsuario))
+                    {
+                        decimal comision = pagoPaypal.monto * (Convert.ToDecimal(comisionPorcentaje) / 100);
+                        total = pagoPaypal.monto - comision;
+                        OperacionCuenta operacionCuentaReceptor2 = new OperacionCuenta()
+                        {
+                            Fecha = fecha,
+                            Hora = hora,
+                            IdCuenta = 1,
+                            Monto = comision,
+                            operacion = true,
+                            IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
+                            IdOperacionCuenta = (refid + 1),
+                            Referencia = "4789" + refid,
+                            estatus = 10
+                        };
+                        var PagoFactura = _context.Pago.LastOrDefault(p => p.Monto == pagoPaypal.monto && p.IdUsuarioReceptor == pagoPaypal.IdUsuario);
+                        PagoFactura.Estatus = "pagado";
+                        _context.Add(operacionCuentaReceptor2);
+                    }
+                    
                     OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
                     {
                         Fecha = fecha,
@@ -284,22 +313,11 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = total,
                         operacion = true,
                         IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                        IdOperacionCuenta = (refid + 3) * 135,
-                        Referencia = "4789" + refid * 135,
+                        IdOperacionCuenta = refid,
+                        Referencia = "4789" + refid,
                         estatus = 0
                     };
-                    OperacionCuenta operacionCuentaReceptor2 = new OperacionCuenta()
-                    {
-                        Fecha = fecha,
-                        Hora = hora,
-                        IdCuenta = 1,
-                        Monto = comision,
-                        operacion = true,
-                        IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                        IdOperacionCuenta = (refid + 4) * 135,
-                        Referencia = "4789" + refid * 135,
-                        estatus = 10
-                    };
+                    
                     OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
                     {
                         Fecha = fecha,
@@ -308,8 +326,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = pagoPaypal.monto,
                         operacion = true,
                         IdUsuarioReceptor = pagoPaypal.IdUsuario,
-                        IdOperacionCuenta = (refid + 1)* 135,
-                        Referencia = "4789" + refid * 135,
+                        IdOperacionCuenta = refid + 2,
+                        Referencia = "4789" + refid,
                         estatus = 0
                     };
                     OperacionCuenta operacionCuentaEnvia2 = new OperacionCuenta()
@@ -320,14 +338,14 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = pagoPaypal.monto,
                         operacion = false,
                         IdUsuarioReceptor = pagoPaypal.IdUsuario,
-                        IdOperacionCuenta = (refid + 2) * 135,
-                        Referencia = "4789" + refid * 135,
+                        IdOperacionCuenta = refid + 3,
+                        Referencia = "4789" + refid ,
                         estatus = 0
                     };
                     _context.Add(operacionCuentaReceptor);
                     _context.Add(operacionCuentaEnvia);
                     _context.Add(operacionCuentaEnvia2);
-                    _context.Add(operacionCuentaReceptor2);
+                    
                     _context.saveChanges();
                     mensaje.flag = true;
                     return mensaje;
@@ -346,15 +364,15 @@ namespace ApiRestDesarrollo.Business.Implementations
             
                 if (tipoOperacion != null && tipoOperacion.FirstOrDefault(p=>p.IdUsuarioReceptor == reintegroDto.idUser).operacion == false) 
                 {
-                    int refid = _context.OperacionCuenta.Count();
+                    int refid = _context.OperacionCuenta.Count() * 135;
                     var reintegro = tipoOperacion.FirstOrDefault(p => p.operacion == false);
-                    reintegro.IdOperacionCuenta = (refid+2) * 135;
-                    reintegro.Referencia = "1789" + refid * 135;
+                    reintegro.IdOperacionCuenta = refid ;
+                    reintegro.Referencia = "1789" + refid ;
                     reintegro.operacion = false;
                     reintegro.estatus = 1;
                     var afectado = tipoOperacion.FirstOrDefault(p => p.operacion == true);
-                    afectado.IdOperacionCuenta = (refid + 1) * 135;
-                    afectado.Referencia = "1789" + refid * 135;
+                    afectado.IdOperacionCuenta = (refid + 1) ;
+                    afectado.Referencia = "1789" + refid ;
                     afectado.operacion = true;
                     afectado.estatus = 1;
                     _context.Add(afectado);
@@ -374,10 +392,10 @@ namespace ApiRestDesarrollo.Business.Implementations
             mensaje mensaje = new mensaje();
             if(IsPersona(createOperacion.idUSuario))
             {
-                var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
+                var cuenta = _context.Cuenta.FirstOrDefault(p => p.IdUsuario == createOperacion.idUSuario && p.NumeroCuenta.Equals(createOperacion.cuenta));
                 if (cuenta != null)
                 {
-                    int refid = _context.OperacionCuenta.Count();
+                    int refid = _context.OperacionCuenta.Count() * 135;
                     OperacionCuenta operacionCuenta = new OperacionCuenta()
                     {
                         Fecha = createOperacion.fecha,
@@ -386,8 +404,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                         Monto = createOperacion.monto,
                         operacion = true, //false
                         IdUsuarioReceptor = createOperacion.idUSuario,
-                        IdOperacionCuenta = (refid + 1) * 135,
-                        Referencia = "5789" + refid * 135, //10789
+                        IdOperacionCuenta = refid,
+                        Referencia = "5789" + refid, //10789
                         estatus = 0
                     };
                     _context.Add(operacionCuenta);
@@ -395,7 +413,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     mensaje.flag = true;
                     return mensaje;
                 }
-                mensaje.mesage = "usuario no valido";
+                mensaje.mesage = "La cuenta no es valida";
                 return mensaje;
             }
             return mensaje;
@@ -481,14 +499,14 @@ namespace ApiRestDesarrollo.Business.Implementations
             return false;
         }
 
-        private bool Payment(PagoDtos pago, string reference)
+        public bool Payment(PagoDtos pago, string reference)
         {
             var saldo = GetBalance(pago.IdUsuario);
             var a = pago.Cuenta;
             if (saldo != null && saldo.Monto > pago.monto)
             {
                 var UsuarioReceptor = _context.Usuario.FirstOrDefault(p => p.Usuario1 == pago.Usuario);
-                int refid = _context.OperacionCuenta.Count();
+                int refid = _context.OperacionCuenta.Count() * 135;
                 var parametro = _context.Parametro.FirstOrDefault(p => p.IdParametro == 0);
                 var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
                 DateTime fecha = DateTime.Now;
@@ -503,8 +521,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = total,
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                    IdOperacionCuenta = (refid + 1) * 135,
-                    Referencia = reference + refid * 135,
+                    IdOperacionCuenta = refid,
+                    Referencia = reference + refid,
                     estatus = 0
                 };
                 OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
@@ -515,8 +533,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = pago.monto,
                     operacion = false,
                     IdUsuarioReceptor = pago.IdUsuario,
-                    IdOperacionCuenta = (refid + 2) * 135,
-                    Referencia = reference + refid * 135,
+                    IdOperacionCuenta = refid + 2,
+                    Referencia = reference + refid,
                     estatus = 0
                 };
                 OperacionCuenta operacionCuentaReceptor1 = new OperacionCuenta()
@@ -527,8 +545,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = comision,
                     operacion = true,
                     IdUsuarioReceptor = UsuarioReceptor.IdUsuario,
-                    IdOperacionCuenta = (refid + 3) * 135,
-                    Referencia = reference + refid * 135,
+                    IdOperacionCuenta = refid + 3,
+                    Referencia = reference + refid ,
                     estatus = 10
                 };
                 _context.Add(operacionCuentaReceptor1);

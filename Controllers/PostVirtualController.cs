@@ -15,7 +15,7 @@ namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/PostVirtual")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostController : ControllerBase
     {
         private readonly IPost _repository;
@@ -94,7 +94,7 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el id del usuario no es valido");
         }
 
-        [HttpPut("ActualizarReintegro")]
+        [HttpPost("ActualizarReintegro")]
         public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(string RefReintegro, string newEstatus)
         {
             var actualizar_reintegro = _repository.ActualizarEstatusReintegro(RefReintegro, newEstatus);

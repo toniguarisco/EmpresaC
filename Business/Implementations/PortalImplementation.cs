@@ -288,7 +288,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             var cuenta = _context.Cuenta.FirstOrDefault(p => p.NumeroCuenta.Contains(createOperacion.cuenta));
             if (cuenta != null)
             {
-                int refid = _context.OperacionCuenta.Count();
+                int refid = _context.OperacionCuenta.Count() * 135;
                 OperacionCuenta operacionCuenta = new OperacionCuenta()
                 {
                     Fecha = createOperacion.fecha,
@@ -297,8 +297,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     Monto = createOperacion.monto,
                     operacion = false,
                     IdUsuarioReceptor = createOperacion.idUSuario,
-                    IdOperacionCuenta = (refid + 1) * 135,
-                    Referencia = "10789" + refid * 135, 
+                    IdOperacionCuenta = refid  ,
+                    Referencia = "10789" + refid , 
                     estatus = 0
                 };
                 _context.Add(operacionCuenta);

@@ -85,18 +85,29 @@ namespace ApiRestDesarrollo.Controllers
 
         }
 
-        [HttpPost("CreateUsuario")]
-        
-        public ActionResult CreateUsuario(CreateUserDto user)
-        {
-            if (_usuario.RegisterUser(user)) {
+        [HttpPost("CreatePersona")]
 
+        public ActionResult CreatePersona(CreateUserDto user)
+        {
+            if (_usuario.RegisterUser(user))
+            {
                 _context.SaveChanges();
                 return Ok();
             }
-            return BadRequest("El usuario ya existe");
+            return BadRequest("El usuario o correo ya existe");
         }
+        [HttpPost("CreateComercio")]
 
+        public ActionResult CreatePersona(CreateComercio user)
+        {
+            if (_usuario.RegisterComercio(user))
+            {
+                _context.SaveChanges();
+                return Ok();
+            }
+            return BadRequest("El usuario o correo ya existe");
+        }
+        
         private IActionResult BuildToken(LoginModel user, int idUser, string tipo) 
         {
             var Claims = new[] { 
@@ -141,9 +152,53 @@ namespace ApiRestDesarrollo.Controllers
         {
             _usuario.UpdateParameter(comision, parametro);
             _context.saveChanges();
-            return Ok(); 
+            return Ok();
         }
-        
+
+        [HttpPost("BotonPago")]
+        public ActionResult<BotonPago> BotonPago(BotonPagoParticipantes participantes)
+        {
+            if (TipoPersona(participantes.persona) == 1 || TipoPersona(participantes.persona) == 0)
+            {
+                return BadRequest("El usuario no es valido ");
+            }
+            if (TipoPersona(participantes.comercio) == 2 && TipoPersona(participantes.comercio) == 0)
+            {
+                return BadRequest("El comercio no es valido ");
+            }
+            var a = _usuario.ValidacionPago(participantes);
+            if (a.flag) 
+            {
+                var factura = _context.Pago.FirstOrDefault(p => p.Referencia.Equals(participantes.referencia));
+                BotonPago boton = new BotonPago() { 
+                    comercio = participantes.comercio,
+                    persona = participantes.persona,
+                    referencia = participantes.referencia,
+                    estatus = factura.Estatus,
+                    fecha = DateTime.Now,
+                    monto = factura.Monto
+                };
+                return Ok(boton);
+            }
+            return BadRequest(a.mesage);
+        }
+
+        private int TipoPersona(string persona)
+        {
+            var usuarios = (from usu in _context.Usuario
+                            from tipo in _context.TipoUsuario
+                            where
+                            usu.IdTipoUsuario == tipo.IdTipoUsuario
+                            && usu.Usuario1 == persona
+                            select new
+                            {
+                                tipo = tipo.IdTipoUsuario
+                            }).FirstOrDefault();
+
+            return usuarios.tipo;
+
+        }
+
     }
 
 }
