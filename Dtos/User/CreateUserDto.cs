@@ -26,10 +26,11 @@ namespace ApiRestDesarrollo.Dtos
 
         [MaxLength(500)]
         public string Direccion { get; set; }
-
-        public Tipo tipo { get; set; }
-
-
+        public string nombre { get; set; }
+        public string segundoNombre { get; set; }
+        public string apelllido { get; set; }
+        public string SegundoApelllido { get; set; }
+        public DateTime fechaNacimiento { get; set; } 
         //CONTRASENA
         public string Contrasena { get; set; }
 

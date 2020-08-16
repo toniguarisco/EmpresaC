@@ -85,12 +85,11 @@ namespace ApiRestDesarrollo.Controllers
 
         }
 
-        [HttpPost("CreateUsuario")]
+        [HttpPost("CreatePersona")]
         
-        public ActionResult CreateUsuario(CreateUserDto user)
+        public ActionResult CreatePersona(CreateUserDto user)
         {
             if (_usuario.RegisterUser(user)) {
-
                 _context.SaveChanges();
                 return Ok();
             }

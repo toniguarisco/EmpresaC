@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Operation;
+using ApiRestDesarrollo.Enum;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
@@ -152,13 +153,23 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Direccion = user.Direccion,
                 Contrasena = contrasenas,
                 Estatus = 1,
-                IdTipoUsuario = user.tipo.GetHashCode(),
-                IdTipoIdentificacion = user.tipo.GetHashCode(),
+                IdTipoUsuario = 2,
+                IdTipoIdentificacion = 2,
                 parametro = _context.Parametro.FirstOrDefault(p=> p.IdParametro == 1 ).Estatus
                 };
-                _context.Usuario.Add(usu);
+                Persona persona = new Persona()
+                {
+                    IdUsuarioNavigation = usu,
+                    Apellido = user.apelllido,
+                    FechaNacimiento = user.fechaNacimiento,
+                    Nombre = user.nombre,
+                    SegundoApellido = user.SegundoApelllido,
+                    SegundoNombre = user.segundoNombre,
+                    IdPersona = _context.Persona.Count() * 135
+                };
+                //_context.Usuario.Add(usu);
+                _context.Persona.Add(persona);
                 _context.saveChanges();
-                
                 return true;    
             }
             return false;
