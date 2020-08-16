@@ -17,5 +17,7 @@ namespace ApiRestDesarrollo.Business.Interface
         ReadUserPersona GetPersona(int id);
         bool DesbloquearUsuario(string usuario1);
         void UpdateParameter(int comision, int parametro);
+        mensaje ValidacionPago(BotonPagoParticipantes participantes);
+
     }
 }

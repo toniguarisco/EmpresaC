@@ -12,6 +12,7 @@ using AutoMapper;
 using System.Net;
 using System.Net.Mail;
 using ApiRestDesarrollo.Dtos.User;
+using ApiRestDesarrollo.Dtos.Operation;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
@@ -19,6 +20,7 @@ namespace ApiRestDesarrollo.Business.Implementations
     {
         private readonly postgresContext _context;
         private readonly IMapper _mapper;
+        
 
         public UsuarioImplementation(postgresContext context, IMapper mapper)
         {
@@ -62,7 +64,6 @@ namespace ApiRestDesarrollo.Business.Implementations
                             select new ReadUserPersona
                             {
                                 Apellido = p.Apellido,
-                                
                                 direccion = usu.Direccion,
                                 email = usu.Direccion,
                                 Nombre = p.Nombre,
@@ -273,5 +274,127 @@ namespace ApiRestDesarrollo.Business.Implementations
             
             
         }
+
+        public mensaje ValidacionPago(BotonPagoParticipantes participantes)
+        {
+            mensaje mensaje = new mensaje();
+            int IdPersona = GetUserIdByName(participantes.persona);
+            int IdComercio = GetUserIdByName(participantes.comercio);
+            var persona = _context.Usuario.FirstOrDefault(p=> p.IdUsuario == IdPersona);
+            var saldo = GetBalance(IdPersona).Monto;
+            var factura = _context.Pago.FirstOrDefault(p=>p.Referencia.Equals(participantes.referencia));
+            if (saldo < factura.Monto) 
+            {
+                mensaje.mesage = "saldo insuficiente";
+                return mensaje;
+            }
+            int refid = _context.OperacionCuenta.Count();
+            var comisionPorcentaje = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).comision;
+            DateTime fecha = DateTime.Now;
+            TimeSpan hora = TimeSpan.Parse(fecha.Hour + ":" + fecha.Minute);
+            decimal comision = factura.Monto * (Convert.ToDecimal(comisionPorcentaje) / 100);
+            decimal total = factura.Monto - comision;
+            OperacionCuenta operacionCuentaReceptor = new OperacionCuenta()
+            {
+                Fecha = fecha,
+                Hora = hora,
+                IdCuenta = 1,
+                Monto = total,
+                operacion = true,
+                IdUsuarioReceptor = IdComercio,
+                IdOperacionCuenta = (refid + 1) * 135,
+                Referencia = "11578" + refid * 135,
+                estatus = 0
+            };
+            OperacionCuenta operacionCuentaEnvia = new OperacionCuenta()
+            {
+                Fecha = fecha,
+                Hora = hora,
+                IdCuenta = 1,
+                Monto = factura.Monto,
+                operacion = false,
+                IdUsuarioReceptor = IdPersona,
+                IdOperacionCuenta = (refid + 2) * 135,
+                Referencia = "11578" + refid * 135,
+                estatus = 0
+            };
+            OperacionCuenta operacionCuentaReceptor1 = new OperacionCuenta()
+            {
+                Fecha = fecha,
+                Hora = hora,
+                IdCuenta = 1,
+                Monto = comision,
+                operacion = true,
+                IdUsuarioReceptor = IdComercio,
+                IdOperacionCuenta = (refid + 3) * 135,
+                Referencia = "11578" + refid * 135,
+                estatus = 10
+            };
+            factura.Estatus = "pagado";
+            _context.Add(operacionCuentaReceptor1);
+            _context.Add(operacionCuentaReceptor);
+            _context.Add(operacionCuentaEnvia);
+            _context.saveChanges();
+            mensaje.flag = true;
+            mensaje.mesage = "se realizo el pago exitosamente";
+            return mensaje;
+        }
+
+        private ReadOperationAccount GetBalance(int usuarioId)
+        {
+            List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
+            List<ReadOperation> reads = new List<ReadOperation>();
+            decimal saldo = 0;
+
+            foreach (var item in cuenta)
+            {
+                string operacion = "_";
+                if (item.operacion == true)
+                {
+                    saldo = saldo + item.Monto;
+                    operacion = "+";
+                }
+                else if (item.operacion == false)
+                {
+                    saldo = saldo - item.Monto;
+                    operacion = "-";
+                }
+                ReadOperation readOperations = new ReadOperation()
+                {
+                    fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
+                    monto = item.Monto,
+                    operation = operacion,
+                    referencia = item.Referencia
+                };
+                reads.Add(readOperations);
+            }
+            ReadOperationAccount readOperationAccount = new ReadOperationAccount()
+            {
+                Monto = saldo,
+                FkIdUsuarioReceptor = usuarioId,
+                readOperations = reads.ToArray()
+            };
+            return readOperationAccount;
+        }
+
+        private int GetUserIdByName(string usuario) 
+        {
+            int Id = _context.Usuario.FirstOrDefault(p => p.Usuario1 == usuario).IdUsuario;
+            if (Id >= 0) 
+            {
+                return Id;
+            };
+            return -1;
+        }
+
+        //public BotonPago BotonPago(BotonPagoParticipantes participantes)
+        //{
+        //    var pago = ValidacionPago(participantes);
+        //    if (pago.flag)
+        //    { 
+        //        var factura = _context.Pago
+        //    }
+        //    return pago;
+        //}
     }
 }
