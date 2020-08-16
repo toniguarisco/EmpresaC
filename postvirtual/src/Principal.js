@@ -62,7 +62,7 @@ export default class Home extends Component<Props> {
  getUserData = async(correo) => {
   try {
     let response = await fetch(
-      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/Balance?usuarioId='+this.state.id,{
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/Monedero/Balance?usuarioId='+this.state.id,{
        method: 'GET',
        headers: {
        Accept: 'application/json',

@@ -41,22 +41,22 @@ export default class Menu extends Component<Props>{
 
  handlePerfil = () =>{
   this.props.onHandle();
-  Actions.opciones({title:"Perfil", correo: this.state.correo});
+  Actions.opciones({title:"Perfil", correo: this.state.correo, id: this.state.id});
   }
 
  handlePago = () =>{
      this.props.onHandle();
-     Actions.pago({title:"Solicitar pago", correo: this.state.correo});
+     Actions.pago({title:"Solicitar pago", correo: this.state.correo, id: this.state.id});
   }
 
   handleOperaciones = () =>{
 	this.props.onHandle();
-	Actions.operaciones({title:"Operaciones", correo: this.state.correo});
+	Actions.operaciones({title:"Operaciones", correo: this.state.correo, id: this.state.id});
  }
 
  handleReintegro = () =>{
      this.props.onHandle();
-     Actions.reintegro({title:"Reintegros", correo: this.state.correo});
+     Actions.reintegro({title:"Reintegros", correo: this.state.correo, id: this.state.id});
   }
 
  componentWillMount(){
