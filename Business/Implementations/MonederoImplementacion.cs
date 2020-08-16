@@ -4,6 +4,7 @@ using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.Payment;
+using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -400,14 +401,69 @@ namespace ApiRestDesarrollo.Business.Implementations
             return mensaje;
         }
 
+        public mensaje UpdatePersona(PersonaUpdate persona)
+        {
+            mensaje mensaje = new mensaje();
+            var person = (from usu in _context.Usuario
+                           from tipo in _context.TipoUsuario
+                           from p in _context.Persona
+                           where
+                           usu.IdTipoUsuario == tipo.IdTipoUsuario &&
+                           p.IdUsuario == usu.IdUsuario
+                           && usu.IdUsuario == persona.IdUsuario &&
+                           (tipo.IdTipoUsuario == 2 || tipo.IdTipoUsuario == 3)
+                           select new 
+                           {
+                               usuario = usu,
+                               persona = p
+                           }).FirstOrDefault();
+            if (person != null) 
+            {
+                if (!String.IsNullOrEmpty(persona.usuario)) {
+                    person.usuario.Usuario1 = persona.usuario;
+                }
+                if (!String.IsNullOrEmpty(persona.email))
+                {
+                    person.usuario.Email = persona.email;
+                }
+                if (!String.IsNullOrEmpty(persona.telefono))
+                {
+                    person.usuario.Telefono = persona.telefono;
+                }
+                if (!String.IsNullOrEmpty(persona.direccion))
+                {
+                    person.usuario.Direccion = persona.direccion;
+                }
+                if (!String.IsNullOrEmpty(persona.Nombre))
+                {
+                    person.persona.Nombre = persona.Nombre;
+                }
+                if (!String.IsNullOrEmpty(persona.SegundoApellido))
+                {
+                    person.persona.SegundoApellido = persona.SegundoApellido;
+                }
+                if (!String.IsNullOrEmpty(persona.Apellido))
+                {
+                    person.persona.Apellido = persona.Apellido;
+                }
+                if (!String.IsNullOrEmpty(persona.SegundoNombre))
+                {
+                    person.persona.SegundoNombre = persona.SegundoNombre;
+                }
+                _context.saveChanges();
+                mensaje.flag = true;
+                return mensaje;
+            }
+            return mensaje;
+        }
 
 
 
 
 
-        
+
         // ---------------------------- Metodos privados ----------------------------
-        
+
         private bool IsPersona(int id) 
         {
             var usuarios = (from usu in _context.Usuario
@@ -503,5 +559,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return total;
         }
+
+        
     }
 }

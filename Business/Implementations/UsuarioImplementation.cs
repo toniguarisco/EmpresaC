@@ -52,17 +52,17 @@ namespace ApiRestDesarrollo.Business.Implementations
             var Persona = (from usu in _context.Usuario
                            from tipo in _context.TipoUsuario
                            from p in _context.Persona
-                           from e in _context.EstadoCivil
+                           
                            where
                            usu.IdTipoUsuario == tipo.IdTipoUsuario &&
-                           p.IdUsuario == usu.IdUsuario &&
-                           e.IdEstadoCivil == p.IdEstadoCivil
+                           p.IdUsuario == usu.IdUsuario 
+                           
                            && usu.IdUsuario == id &&
                            (tipo.IdTipoUsuario == 2 || tipo.IdTipoUsuario == 3)
                             select new ReadUserPersona
                             {
                                 Apellido = p.Apellido,
-                                DescripcionEstadoCivil = e.Descripcion,
+                                
                                 direccion = usu.Direccion,
                                 email = usu.Direccion,
                                 Nombre = p.Nombre,

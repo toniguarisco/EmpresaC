@@ -38,19 +38,33 @@ namespace ApiRestDesarrollo.Business.Implementations
 
             if ((comercio != null))
             {
-                if (usuarioPerfil.direccion != null)
+                if (!String.IsNullOrEmpty(usuarioPerfil.direccion))
+                {
                     comercio.usuario.Direccion = usuarioPerfil.direccion;
-                if (usuarioPerfil.email != null)
+                }
+                if (!String.IsNullOrEmpty(usuarioPerfil.email))
+                {
                     comercio.usuario.Email = usuarioPerfil.email;
-                if (usuarioPerfil.nombreUsuario != null)
+                }
+                if (!String.IsNullOrEmpty(usuarioPerfil.nombreUsuario))
+                {
                     comercio.usuario.Usuario1 = usuarioPerfil.nombreUsuario;
-                if (usuarioPerfil.telefono != null)
+                }
+                if (!String.IsNullOrEmpty(usuarioPerfil.telefono))
+                {
                     comercio.usuario.Telefono = usuarioPerfil.telefono;
-                if (usuarioPerfil.apellidoRepresentante!= null)
+                }
+                if (!String.IsNullOrEmpty(usuarioPerfil.apellidoRepresentante))
+                {
                     comercio.comercio.ApellidoRepresentante = usuarioPerfil.apellidoRepresentante;
-                if (usuarioPerfil.nombreRepresentante != null)
+                }
+                if (!String.IsNullOrEmpty(usuarioPerfil.nombreRepresentante))
+                {
                     comercio.comercio.NombreRepresentante = usuarioPerfil.nombreRepresentante;
+                }
                 _context.SaveChanges();
+
+               
                 return true;
             }
             return false;
