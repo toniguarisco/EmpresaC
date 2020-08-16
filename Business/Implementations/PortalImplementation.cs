@@ -10,13 +10,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
+
     public class PortalImplementation : IPortal
     {
         private readonly postgresContext _context;
         private readonly IMapper _mapper;
+      
+        private decimal CalcularComision(List<OperacionCuenta> lista)
+        {
+
+            decimal comision = 0;
+
+            foreach (var item in lista)
+            {
+                comision += item.Monto;
+            }
+
+            return comision;
+
+        }
 
         public PortalImplementation(postgresContext context,IMapper mapper)
         {
@@ -365,6 +381,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 }
                 HistoryOperation readOperations = new HistoryOperation()
                 {
+                 
                     fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                     monto = item.Monto,
                     operation = operacion,
@@ -373,6 +390,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 };
                 reads.Add(readOperations);
             }
+
             HistoryOperationAccount readOperationAccount = new HistoryOperationAccount()
             {
                 Monto = saldo,
@@ -380,6 +398,42 @@ namespace ApiRestDesarrollo.Business.Implementations
                 historyOperations = reads.ToArray()
             };
             return readOperationAccount;
+        }
+
+        public TotalComisiones RecaudoComision()
+        {
+          
+            //trae a la variable comercio, lista de comercios de en los usuarios
+            var comercio = _context.Usuario.Where(p => p.IdTipoUsuario == 1);
+
+            //trae a la variable comisiones, lista de operaciones de tipo comision
+            var comisiones = _context.OperacionCuenta.Where(p => p.estatus == 10).ToList();
+            decimal total = 0;
+
+            List<ReadComisiones> reads = new List<ReadComisiones>();
+            //por cada comercio
+            foreach (var item in comercio)
+            {
+                //calcular el total de comisiones por empresa
+                var lista = comisiones.Where(p => p.IdUsuarioReceptor == item.IdUsuario).ToList();
+                    total = CalcularComision(lista);
+
+                ReadComisiones read = new ReadComisiones()
+                {
+                    monto = total,
+                    usuario = item.Usuario1
+                };
+
+                reads.Add(read);
+                
+            }
+
+            return new TotalComisiones() { 
+            readComisiones = reads.OrderByDescending(p=>p.monto).ToList(),
+            TotalComision = CalcularComision(comisiones),
+            };
+               
+           
         }
 
         public List<ReadListOperation> AdminGetOperation(int IdUsuario)
@@ -407,5 +461,7 @@ namespace ApiRestDesarrollo.Business.Implementations
 
             return null;
         }
+
+      
     }
 }
