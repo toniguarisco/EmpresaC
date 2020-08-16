@@ -86,16 +86,28 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("CreatePersona")]
-        
+
         public ActionResult CreatePersona(CreateUserDto user)
         {
-            if (_usuario.RegisterUser(user)) {
+            if (_usuario.RegisterUser(user))
+            {
                 _context.SaveChanges();
                 return Ok();
             }
-            return BadRequest("El usuario ya existe");
+            return BadRequest("El usuario o correo ya existe");
         }
+        [HttpPost("CreateComercio")]
 
+        public ActionResult CreatePersona(CreateComercio user)
+        {
+            if (_usuario.RegisterComercio(user))
+            {
+                _context.SaveChanges();
+                return Ok();
+            }
+            return BadRequest("El usuario o correo ya existe");
+        }
+        
         private IActionResult BuildToken(LoginModel user, int idUser, string tipo) 
         {
             var Claims = new[] { 

@@ -153,8 +153,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Direccion = user.Direccion,
                 Contrasena = contrasenas,
                 Estatus = 1,
-                IdTipoUsuario = 2,
-                IdTipoIdentificacion = 2,
+                IdTipoUsuario = 1,
+                IdTipoIdentificacion = 1,
                 parametro = _context.Parametro.FirstOrDefault(p=> p.IdParametro == 1 ).Estatus
                 };
                 Persona persona = new Persona()
@@ -171,6 +171,48 @@ namespace ApiRestDesarrollo.Business.Implementations
                 _context.Persona.Add(persona);
                 _context.saveChanges();
                 return true;    
+            }
+            return false;
+        }
+
+        public bool RegisterComercio(CreateComercio user)
+        {
+            var correo = _context.Usuario.FirstOrDefault(src => src.Email == user.Email);
+            var usuario = _context.Usuario.FirstOrDefault(src => src.Usuario1 == user.Usuario);
+            if (usuario == null && correo == null)
+            {
+                Contrasena contrasena = new Contrasena() { IdContrasena = _context.Contrasena.Count() * 135, Contrasena1 = user.Contrasena };
+                IList<Contrasena> contrasenas = new List<Contrasena>() { contrasena };
+                Comercio comercio = new Comercio()
+                {
+                    IdComercio = _context.Persona.Count() * 135,
+                    ApellidoRepresentante = user.ApellidoRepresentante,
+                    NombreRepresentante = user.nombreRepresentante,
+                    RazonSocial = user.Direrazon_socialccion
+                   
+                };
+                IList<Comercio> comercios = new List<Comercio>() { comercio };
+                Usuario usu = new Usuario()
+                {
+                    IdUsuario = _context.Usuario.Count() * 135,
+                    Email = user.Email,
+                    Usuario1 = user.Usuario,
+                    FechaRegistro = user.FechaRegistro,
+                    NumIdentificacion = user.NumIdentificacion,
+                    Telefono = user.Telefono,
+                    Direccion = user.Direccion,
+                    Contrasena = contrasenas,
+                    Estatus = 1,
+                    IdTipoUsuario = 2,
+                    IdTipoIdentificacion = 2,
+                    parametro = _context.Parametro.FirstOrDefault(p => p.IdParametro == 1).Estatus,
+                    Comercio = comercios
+                };
+                
+                //_context.Usuario.Add(usu);
+                _context.Usuario.Add(usu);
+                _context.saveChanges();
+                return true;
             }
             return false;
         }
