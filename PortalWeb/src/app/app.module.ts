@@ -26,12 +26,12 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     BrowserAnimationsModule,
     HttpClientModule
   ],exports:[],
-  providers: [AuthGuard/* ,
+  providers: [AuthGuard ,
               {     // ACTIVAR PARA MODIFICAR EL TOKEN
                 provide: HTTP_INTERCEPTORS,
                 useClass: TokenInterceptorService,
                 multi: true
-              } */
+              } 
             ],
   bootstrap: [AppComponent]
 })

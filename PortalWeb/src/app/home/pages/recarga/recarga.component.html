@@ -4,7 +4,7 @@
       <div class="card">
           <div class="card-body">
               
-              <form [formGroup]="registerForm" (ngSubmit)="registrarCuenta()">
+              <form [formGroup]="registerForm" (ngSubmit)="recargarSaldo()">
                   <fieldset>
                     <legend class="text-center">Recargar Saldo</legend>
 
@@ -13,8 +13,8 @@
                       <label for="exampleInputPassword1">Seleccione su cuenta</label>
                       <select type="text" class="form-control" id="exampleSelect1" formControlName="cuenta">
                          
-                            <option *ngFor="let cuenta of cuentas" [value]="cuenta">
-                              {{cuenta}}
+                            <option *ngFor="let cuenta of cuentas" [value]="cuenta.mostrar">
+                              {{cuenta.mostrar}}
                             </option>
 
                           <!-- <option>Paypal</option>
@@ -29,7 +29,7 @@
                     </div>
                   
                    
-                    <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Registrarse</button>
+                    <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Recargar</button>
                   </fieldset>
                 </form>  
               

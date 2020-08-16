@@ -33,7 +33,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ConsultarSubUsuariosComponent } from './pages/consultar-sub-usuarios/consultar-sub-usuarios.component';
 import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/eliminar-sub-usuarios.component';
 import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta.component';
-import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component'
+import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from '../interceptors/interceptor.service';
 
 
 
@@ -76,6 +78,11 @@ import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas
     BsDatepickerModule.forRoot(),
     NgbModule
 
-  ]
+  ],
+ /*  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true
+  }] */
 })
 export class HomeModule { }

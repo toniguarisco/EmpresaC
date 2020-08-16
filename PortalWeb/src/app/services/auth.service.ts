@@ -62,9 +62,8 @@ login(usuario, clave): Observable <any> {
     console.log('estoy en logout');
     localStorage.removeItem('token');
     localStorage.removeItem('tipoUsuario');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('fakeUser');
-    localStorage.removeItem('fakeCommerce');
+    localStorage.removeItem('idUsuario');
+
     this.router.navigate(['/login']);
   }
 
