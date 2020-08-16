@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import { Table, TableWrapper, Cell, Row, Rows} from 'react-native-table-component';
+import * as shape from 'd3-shape'
 
 import {
   FlatList,
@@ -32,10 +28,10 @@ export default class Configuration extends Component<Props> {
   constructor(props){
     super(props);
     this.state = {
-      correoDestino: "",
+      solicitante: "",
       monto: "",
       referencia: "",
-      usuario: "",
+      estatus: "",
       fecha: "",
       correo: this.props.correo,
       id: this.this.props.id,
@@ -46,63 +42,51 @@ export default class Configuration extends Component<Props> {
       errorTipo:"",
       modalVisible: false,
       modalTitle: "",
-      message: ""
+      message: "",
+      tableHead: "" ,
+      tableData: []
     }
   }
 
-  handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
-   Actions.pop();
-  }else{
-    this.setModalVisible(this.state.error, this.state.errorTipo);
+  getUserData = async(correo) => {
+    try {
+      let response = await fetch(
+        'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/Reintegros?usuarioId='+this.state.id,{
+         method: 'GET',
+         headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+        }
+       }
+      );
+      let responseJson = await response.json();
+      let tempArray = [];
+
+      responseJson.readOperations.map((item)=>{
+        let arrayObject = [ item.fecha, item.solicitante, item.monto, item.referencia, item.estatus ];
+        tempArray.push(arrayObject);
+      })
+  
+      this.setState({
+        tableData: tempArray
+      })
+    }catch (error) {
+     this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
   }
- }
 
- requestMoney = async(correo) => {
-  try {
-    let response = await fetch(
-      'API',{
-       method: 'GET',
-       headers: {
-       Accept: 'application/json',
-       'Content-Type': 'application/json',
-      }
-     }
-    );
-    let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
-  }
-}
-
-renderItem = ({item}) => (
-  <TouchableOpacity>
-    <View style={styles.item}>
-      <View></View>
-      <Text># {item.referencia} | {item.fecha}</Text>
-      <Text>{item.usuario}    $ {item.monto}</Text>
-    </View>
-  </TouchableOpacity>
-)
-
-FlatListseparador = () => { 
-  return(
-    <View
-    style={{height:1, width: '100%', backgroundColor:'#f5C39515'}}
-  />
-  )
-}
 
  componentWillMount(){
+
+  this.getUserData(this.state.correo);
+
     this.setState({
       title: "SOLICITUDES DE REINTEGRO",
       title2: "ACEPTAR",
       title3: "DENEGAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
+      tableHead: ['Fecha', 'Usuario','Monto', 'Referencia', 'Estatus']
     })
  }
 
@@ -115,6 +99,16 @@ FlatListseparador = () => {
   }
 
   render() {
+
+    const state = this.state;
+    const element = (data, index) => (
+      <TouchableOpacity onPress={() => this._alertIndex(index)}>
+        <View style={styles.butons}>
+          <Text style={styles.buttonText}>O</Text>
+        </View>
+      </TouchableOpacity>
+    );
+
     return (
      <View style={{flex: 1}}>
       <View style={styles.container}>
@@ -130,21 +124,25 @@ FlatListseparador = () => {
           </View>
 
             <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <View style={styles.inputContainer}>
-            <FlatList
-              data={this.state.lista}
-              keyExtractor={({ id }, index) => id}
-              renderItem={({ item }) => (
-                <Menu onSelect={value => Alert.alert(value)}>
-                  <MenuTrigger text={'Opciones:' + item.value} />
-                  <MenuOptions>
-                    <MenuOption value="aceptar" text="ACEPTAR" />
-                    <MenuOption value="aceptar" text="DENEGAR" />
-                </MenuOptions>
-              </Menu>
-              )}
-              ItemSeparatorComponent = {this.FlatListseparador}
-            />
+            <View style={{ flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 1, flexDirection:"column"}}>
+                  <View style={styles.container2}>
+                    <Table borderStyle={{borderWidth: 2, borderColor: "#C39515"}}>
+                      <Row data={state.tableHead} style={styles.head} textStyle={styles.text}/>
+                      {
+                      state.tableData.map((rowData, index) => (
+                        <TableWrapper key={index} style={styles.row}>
+                          {
+                            rowData.map((cellData, cellIndex) => (
+                              <Cell key={cellIndex} data={cellIndex === 5 ? element(cellData, index) : cellData} style={{backgroundColor: "black"}} textStyle={styles.text}/>
+                            ))
+                          }
+                        </TableWrapper>
+                      ))
+                    }
+                    </Table>
+                  </View>
+                </View>
             </View>
  
           <Modal
@@ -267,6 +265,11 @@ const styles = StyleSheet.create({
  titles:{
   flexDirection: "row"
  },
+ 
+ row: {  
+  height: 28  
+},
+
  title:{
   flex: 1,
   height: 30

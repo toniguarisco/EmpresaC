@@ -25,7 +25,6 @@ export default class Menu extends Component<Props>{
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       charts: this.props.chartState,
-      option: "",
       option1: "",
       option2: "",
       option3: "",
@@ -49,11 +48,6 @@ export default class Menu extends Component<Props>{
      Actions.pago({title:"Solicitar pago", correo: this.state.correo, id: this.state.id});
   }
 
-  handleOperaciones = () =>{
-	this.props.onHandle();
-	Actions.operaciones({title:"Operaciones", correo: this.state.correo, id: this.state.id});
- }
-
  handleReintegro = () =>{
      this.props.onHandle();
      Actions.reintegro({title:"Reintegros", correo: this.state.correo, id: this.state.id});
@@ -61,7 +55,6 @@ export default class Menu extends Component<Props>{
 
  componentWillMount(){
  		this.setState({
-     option: "OPERACIONES",
      option1: "SOLICITAR PAGO",
      option2: "REINTEGROS",
  		 option3: "PERFIL",
@@ -78,16 +71,7 @@ export default class Menu extends Component<Props>{
 	  		 	 </Text>
   		 	  </View>
   		 	  <View style={styles.optionSection}>
-  		 	    <View style={styles.options}>
-  		 	     <TouchableHighlight onPress={this.handleOperaciones}>
-	  		 	    <View style={styles.option}>
-	              <Text style={styles.text}>
-	               {this.state.option}
-		  		 	    </Text>
-		  		    </View>
-		  		 </TouchableHighlight>
-		  		</View>
-          <View style={styles.options}>
+               <View style={styles.options}>
 	           <TouchableHighlight onPress={this.handlePago}>
 	            <View style={styles.option}>
 	             <Text style={styles.text}>

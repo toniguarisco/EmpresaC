@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import SideMenu from "react-native-side-menu";
 import LinearGradient from 'react-native-linear-gradient';
-import { AreaChart, Path, YAxis} from 'react-native-svg-charts';
 import { Table, Row, Rows} from 'react-native-table-component';
 import * as shape from 'd3-shape'
 import Barra from "./Barra.js";

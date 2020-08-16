@@ -26,13 +26,12 @@ export default class Configuration extends Component<Props> {
     super(props);
     this.state = {
       usuario: "",
-      numidentificacion: "",
       telefono: "",
       direccion: "",
       nombrerep: "",
       apellidorep: "",
       correo: this.props.correo,
-      id: this.this.props.id,
+      id: this.props.id,
       title:"",
       button:"",
       error:"",
@@ -43,27 +42,57 @@ export default class Configuration extends Component<Props> {
     }
   }
 
-  handleDestinyEmailChange= (Text) =>{
+  handleTelefonoChange= (Text) =>{
     this.setState({
-      correoDestino: Text
+      telefono: Text
     })
   }
 
-  handleAmountChange= (Text) =>{
+  handleDireccionChange= (Text) =>{
     this.setState({
-      monto: Text
+      direccion: Text
     })
   }
 
-  handleReferenceChange= (Text) =>{
+  handleapellidoRepChange= (Text) =>{
     this.setState({
-      referencia: Text
+      apellidorep: Text
     })
   }
+
+  handlenombreRepChange= (Text) =>{
+    this.setState({
+      nombrerep: Text
+    })
+  }
+
+
+  sendCambios = async() => {
+   try {
+     let response = await fetch(
+       'API',{
+        method: 'POST',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+       },
+// Send datos
+       })
+     let responseJson = await response.json();
+     if (responseJson == "Envio Exitoso"){
+         Actions.pop();
+     }else{
+       this.setModalVisible("Error", this.state.errorTipo2);
+     }
+   } catch (error) {
+ 
+    this.setModalVisible("Error", this.state.errorTipo3)
+   }
+ }
 
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.monto!="")&&(this.state.referencia!="")){
-   Actions.pop();
+  if ((this.state.correo!="")&&(this.state.usuario!="")&&(this.state.telefono!="")&&(this.state.direccion!="")&&(this.state.nombrerep!="")&&(this.state.apellidorep!="")){
+   this.sendCambios();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
@@ -73,27 +102,36 @@ export default class Configuration extends Component<Props> {
   Actions.cambioclave({title:"Cambiar Contraseña", correo: this.state.correo});
   }
 
- requestMoney = async(correo) => {
-  try {
-    let response = await fetch(
-      'API',{
-       method: 'GET',
-       headers: {
-       Accept: 'application/json',
-       'Content-Type': 'application/json',
-      }
-     }
-    );
-    let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
+
+  getUserData = async(correo) => {
+    try {
+      let response = await fetch(
+        'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/UsuarioDatos?usuarioId='+this.state.id,{
+         method: 'GET',
+         headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+        }
+       }
+      );
+      let responseJson = await response.json();
+      this.setState({
+        usuario: responseJson.nombreUsuario, 
+        telefono: responseJson.telefono, 
+        direccion: responseJson.direccion,
+        nombrerep: responseJson.nombreRepresentante,
+        apellidorep: responseJson.apellidoRepresentante
+      })
+    }catch (error) {
+     this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
   }
-}
- 
+
+
 componentWillMount(){
+
+  this.getUserData(this.state.correo);
+
   this.setState({
     title: "OPCIONES DE PERFIL",
     error: "Error",
@@ -125,34 +163,22 @@ componentWillMount(){
           </View>
           <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
            <View style={styles.inputContainer}>
-            <TextInput
+            <TextInput editable={false} selectTextOnFocus={false}
                 style={styles.input}
                 placeholder={this.state.usuario}
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleDestinyEmailChange}
-                value={this.state.correoDestino} />
+                value={this.state.usuario} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput editable={false} selectTextOnFocus={false}
-                style={styles.input}
-                placeholder={this.state.numidentificacion}
-                placeholderTextColor="#A1A1A1"
-                underlineColorAndroid="#C39515"
-                selectionColor="#C39515"
-                onChangeText={this.handleReferenceChange}
-                value={this.state.referencia} />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
                 style={styles.input}
                 placeholder={this.state.correo}
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                value={this.state.correo} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -161,8 +187,8 @@ componentWillMount(){
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                onChangeText={this.handleTelefonoChange}
+                value={this.state.telefono} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -171,8 +197,8 @@ componentWillMount(){
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                onChangeText={this.handleDireccionChange} 
+                value={this.state.direccion} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -181,8 +207,8 @@ componentWillMount(){
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                onChangeText={this.handlenombreRepChange} 
+                value={this.state.nombrerep} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -191,8 +217,8 @@ componentWillMount(){
                 placeholderTextColor="#A1A1A1"
                 underlineColorAndroid="#C39515"
                 selectionColor="#C39515"
-                onChangeText={this.handleAmountChange}
-                value={this.state.monto} />
+                onChangeText={this.handleapellidoRepChange}
+                value={this.state.apellidorep} />
           </View>       
           <TouchableOpacity onPress={this.handleCambio}>
            <View style={styles.buttons}>

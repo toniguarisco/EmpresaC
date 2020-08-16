@@ -9,7 +9,6 @@ import Olvido from './Olvido.js';
 import Principal from './Principal.js';
 import Opciones from './Opciones.js';
 import Pago from './Pago.js';
-import Operaciones from './Operaciones.js';
 import Reintegro from './Reintegro.js';
 import CambioClave from './CambioClave.js';
 
@@ -32,7 +31,6 @@ export default class App extends Component<Props> {
         <Scene key="principal" component={Principal} title="Inicio" type="reset" hideNavBar/>
         <Scene key="cambioclave" component={CambioClave} title="Cambiar contraseña" hideNavBar={false}/>
         <Scene key="pago" component={Pago} title="Solicitar pago" hideNavBar={false}/>
-        <Scene key="operaciones" component={Operaciones} title="Operaciones" hideNavBar={false}/>
         <Scene key="reintegro" component={Reintegro} title="Reintegros" hideNavBar={false}/>
         <Scene key="opciones" component={Opciones} title="Perfil" hideNavBar={false}/>
        </Stack>

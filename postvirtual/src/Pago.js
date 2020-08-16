@@ -65,20 +65,23 @@ export default class Configuration extends Component<Props> {
  sendRequest = async(correo) => {
   try {
     let response = await fetch(
-      'API',{
-       method: 'PUT',
+      'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/SolicitarPago',{
+       method: 'POST',
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
-      }
+      },
      }
     );
     let responseJson = await response.json();
-    this.setState({
-      //Asignacion de valores 
-    })
-  }catch (error) {
-   this.setModalVisible(this.state.error, this.state.errorTipo);
+    if (responseJson == "Solicitud Exitosa"){
+        Actions.pop();
+    }else{
+      this.setModalVisible("Error", this.state.errorTipo2);
+    }
+  } catch (error) {
+
+   this.setModalVisible("Error", this.state.errorTipo3)
   }
 }
 
