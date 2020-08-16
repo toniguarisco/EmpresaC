@@ -315,7 +315,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
             List<HistoryOperation> reads = new List<HistoryOperation>();
 
-            static string CalcularTipoOperacion(string referencia)
+            string CalcularTipoOperacion(string referencia)
             {
                 // guardamos los primeros cuatro valores del campo de referencia para compararlo
                 // con el tipo de operacion al que corresponden
