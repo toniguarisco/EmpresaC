@@ -12,16 +12,21 @@
             <legend class="text-center">Saldo Disponible</legend>
           </div>
           <div class="card-body">
-              <form [formGroup]="saldoForm" (ngSubmit)="saldoActual()">
+              <!-- <form [formGroup]="saldoForm" (ngSubmit)="saldoActual()">
                 <fieldset>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Su saldo actual es de</label>
+                    <strong>{{saldo}}</strong>
                     <input type="text" class="form-control" id="exampleMonto" placeholder="50050" 
                             formControlName="saldo">
                   </div>
                 </fieldset>
-              </form>  
-              
+              </form>   -->
+              <label for="exampleInputPassword1">Su saldo actual es de:</label>
+              <br>
+              <div class="text-center">
+              <label><strong>{{this.saldo}}</strong></label>
+            </div>
         </div>
     </div>
 </div>
@@ -33,18 +38,18 @@
 
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Monto</th>
         <th>Fecha</th>
-        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Nro de Referencia</th>
+        <th>Tipo de Operacion</th>
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let operacion of operaciones">
-            <td>{{ operacion.id }}</td>
-            <td>{{ operacion.monto }}</td>
+        <tr *ngFor="let operacion of misOperaciones">
             <td>{{ operacion.fecha }}</td>
-            <td>{{ operacion.concepto }}</td>
+            <td>{{ operacion.monto }}</td>
+            <td>{{ operacion.referencia }}</td>
+            <td>{{ operacion.tipoOperacion }}</td>
           </tr>
     </tbody>
   </table>

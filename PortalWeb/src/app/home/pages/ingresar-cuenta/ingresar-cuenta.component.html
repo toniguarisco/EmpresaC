@@ -1,0 +1,48 @@
+
+<div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+        <div class="card">
+            <div class="card-body">
+                
+                <form [formGroup]="registerForm" (ngSubmit)="registrarCuenta()">
+                    <fieldset>
+                      <legend class="text-center">Registro Cuenta</legend>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Numero de Cuenta</label>
+                        <input type="text" class="form-control" id="exampleInputNombre" placeholder="Numero de cuenta" 
+                                formControlName="cuenta" required>
+                      </div>
+                     <!--  <div class="form-group">
+                        <label for="exampleInputPassword1">Banco</label>
+                        <input type="text" class="form-control" id="exampleInputBanco" placeholder="Nombre del Banco" 
+                                formControlName="banco" required>
+                      </div> -->
+                      
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Banco</label>
+                        <select type="text" class="form-control" id="exampleSelect1" formControlName="banco">
+                            <option>Mercantil</option>
+                            <option>Banesco</option>
+                            <option>Provincial</option>
+                            <!-- <option>Paypal</option>
+                            <option>Stripe</option> -->
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <select type="text" class="form-control" id="exampleSelect1" formControlName="tipo">
+                            <option>ahorro</option>
+                            <option>corriente</option>
+                        </select>
+                      </div>
+                    
+                     
+                      <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Registrarse</button>
+                    </fieldset>
+                  </form>  
+                
+            </div>
+        </div>
+    </div>
+</div>
+

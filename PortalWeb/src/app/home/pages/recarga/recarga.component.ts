@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -9,49 +10,56 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class RecargaComponent implements OnInit {
 
- 
-  billeteraForm = new FormGroup({
-    monto : new FormControl('', Validators.required)
+  public cuentas = [];
 
-  });
-
-  tarjetaForm = new FormGroup({
-    monto2 : new FormControl('', Validators.required),
-    banco : new FormControl('', Validators.required),
-    numeroTarjeta : new FormControl('', Validators.required),
-    codigoSeguridad : new FormControl('', Validators.required)
-  });
-
-  sortOrders: string[] = ["Billetera 1", "Billetera 2", "Billetera 3"];
-  selectedSortOrder: string = "Seleccionar Billetera";
-
-
-
- 
+  registerForm = new FormGroup({
+    cuenta : new FormControl('', Validators.required),
+    monto: new FormControl('', [Validators.required,Validators.pattern("^[0-9]*$")]),
+    });
 
  
   
   
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
+  ngOnInit(  ): void {
+
+    this.userService.getCuentas(localStorage.getItem('idUsuario'))
+    .subscribe(res => {
+
+      console.log(res);
+      res.forEach(element => {
+        this.cuentas.push(element.banco + ' ' + element.cuenta);
+      });
+      
+  });
+
+    /* {
+  "fecha": "2020-08-16T07:43:13.724Z",
+  "hora": {},
+  "monto": 0,
+  "idUSuario": 0,
+  "cuenta": "string"
+} */
+  }
+  recargarSaldo(): void{
+    console.log('recargar');
+    console.log('Form -> ', this.registerForm.value);
+
+    /* this.userService.registrarCuenta(this.registerForm.value.cuenta,
+                                    this.registerForm.value.banco,
+                                    this.registerForm.value.tipo)
+    .subscribe(
+     resp => {
+      console.log('res ->' , resp);
+      alert('Cuenta agregada exitosamente');
+     },
+     error => {
+      console.log('error ->' , error.error.text);
+      alert(error.error.text);
+     }); */
   }
 
-  ChangeSortOrder(newSortOrder: string) { 
-    this.selectedSortOrder = newSortOrder;
-  }
-
-  porBilletera(): void{
-    console.log('Recarga por billetera');
-    console.log('Form -> ',this.billeteraForm.value);
-
-  }
-
-  porTarjeta(): void{
-    console.log('Recarga por tarjeta');
-    console.log('Form -> ',this.tarjetaForm.value);
-
-  }
 
 }

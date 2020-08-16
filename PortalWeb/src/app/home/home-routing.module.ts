@@ -25,6 +25,8 @@ import { RecargaComponent } from './pages/recarga/recarga.component';
 import { SubUsuariosComponent } from './pages/sub-usuarios/sub-usuarios.component';
 import { ConsultarSubUsuariosComponent } from './pages/consultar-sub-usuarios/consultar-sub-usuarios.component';
 import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/eliminar-sub-usuarios.component';
+import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta.component';
+import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component';
 
 const routes: Routes = [{
                           path: '',
@@ -56,7 +58,9 @@ const routes: Routes = [{
                             { path: 'recarga', component: RecargaComponent },
                             { path: 'sub-usuarios', component: SubUsuariosComponent },
                             { path: 'consultar-sub-usuarios', component: ConsultarSubUsuariosComponent },
-                            { path: 'eliminar-sub-usuarios', component: EliminarSubUsuariosComponent }
+                            { path: 'eliminar-sub-usuarios', component: EliminarSubUsuariosComponent },
+                            { path: 'ingresar-cuenta', component: IngresarCuentaComponent },
+                            { path: 'mostrar-cuentas', component: MostrarCuentasComponent }
                           ]
                         },
                         ];

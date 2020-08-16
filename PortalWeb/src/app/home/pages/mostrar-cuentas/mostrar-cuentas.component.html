@@ -1,0 +1,23 @@
+
+<!-- Datatable -->
+<div class="mt-5">
+<legend class="text-center">Consultar Cuentas</legend>
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+
+  <thead>
+    <tr>
+      <th>Numero de Cuenta</th>
+      <th>Tipo</th>
+      <th>Banco</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let operacion of misCuentas">
+          <td>{{ operacion.cuenta }}</td>
+          <td>{{ operacion.tipo }}</td>
+          <td>{{ operacion.banco }}</td>
+        </tr>
+  </tbody>
+</table>
+</div>
+<!-- End Datatable -->

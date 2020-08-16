@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
+
 @Component({
   selector: 'app-consultar-saldo',
   templateUrl: './consultar-saldo.component.html',
@@ -8,12 +9,18 @@ import { UserService } from '../../../services/user.service';
 })
 export class ConsultarSaldoComponent implements OnInit {
 
-  saldoForm = new FormGroup({
-    saldo : new FormControl('', Validators.required),
 
-  });
-  
-  public operaciones: Array <{
+  public saldo: string;
+/*   public misOperaciones: Array<any> = []; */
+   public misOperaciones: Array <{
+    fecha: string,
+    monto: string,
+    operation: string,
+    referencia: string,
+    tipoOperacion: string
+   }> = [];
+
+/*   public operaciones: Array <{
     id: number,
     monto: string,
     fecha: string,
@@ -40,44 +47,42 @@ export class ConsultarSaldoComponent implements OnInit {
       {id: 19, monto: '8000.00', fecha: '20-08-2019', concepto: 'para los viveres'},
       {id: 20, monto: '1000.00', fecha: '17-09-2019', concepto: 'recarga carmelita'},
       {id: 21, monto: '1412.00', fecha: '25-09-2019', concepto: 'abono '}
-];
+]; */
+
 dtOptions: DataTables.Settings = {};
 
   constructor(public userService: UserService) { }
-
-  saldoActual(): void{
-
-  }
 
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       columns: [
-      {title: 'ID', data: 'id'},
-      {title: 'Monto', data: 'monto'},
       {title: 'Fecha', data: 'fecha'},
-      {title: 'Concepto', data: 'concepto'},
+      {title: 'Monto', data: 'monto'},
+      {title: 'Nro de Referencia', data: 'referencia'},
+      {title: 'Tipo de Operacion', data: 'tipoOperacion'},
       ]
   };
 
-    //console.log(this.userService.getUserById(localStorage.getItem('idUsuario')));
-    this.userService.getBalancePersona(localStorage.getItem('idUsuario'))
+    // Obteniendo el Saldo
+    this.userService.getBalance(localStorage.getItem('idUsuario'))
     .subscribe(res =>{
-      console.log(res.readOperations);
+      // Asignando el Saldo
+      this.saldo = res.monto;
 
-
-      /*
-        5789 = recarga banco tarjeta
-        3789 = transferencia de saldo para persona
-        7543 = pago recibido
-        1789 = pago por paypal
-        5789 = reintegro
-        2789 = pago a comercio
-      */
-
+      // LLenando el array para mostrar
+      res.historyOperations.forEach(element => {
+        console.log(element.fecha);
+        this.misOperaciones.push({fecha: element.fecha,
+                                  monto: element.monto,
+                                  operation: element.operation ,
+                                  referencia: element.referencia,
+                                  tipoOperacion: element.tipoOperacion});
+      });
 
     });
+
 }
 
 }

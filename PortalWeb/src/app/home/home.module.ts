@@ -31,7 +31,9 @@ import { ComercioSolicitudRetiroComponent } from './comercio/comercio-solicitud-
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ConsultarSubUsuariosComponent } from './pages/consultar-sub-usuarios/consultar-sub-usuarios.component';
-import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/eliminar-sub-usuarios.component'
+import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/eliminar-sub-usuarios.component';
+import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta.component';
+import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component'
 
 
 
@@ -62,7 +64,9 @@ import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/elim
                 ComercioConsultarSolicitudesRetiroComponent,
                 ComercioSolicitudRetiroComponent,
                 ConsultarSubUsuariosComponent,
-                EliminarSubUsuariosComponent ],
+                EliminarSubUsuariosComponent,
+                IngresarCuentaComponent,
+                MostrarCuentasComponent ],
   exports: [HomeComponent, DataTablesModule] ,
   imports: [
     CommonModule,

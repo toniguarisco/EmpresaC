@@ -1,78 +1,39 @@
-<!-- Header -->
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2 align-middle py-0 mb-0 text-primary">
-      Recargar Saldo
-  </h1>
-</div>
-<!-- End Header -->
-<div class="row row-cols-1 row-cols-md-2">
-    <div class="col-md-6 mx-auto mt-5">
-        <div class="card ">
-            <div class="card-header">
-                <legend class="text-center">Por Billetera</legend>
-            </div>
-            <div class="card-body">
-                <form [formGroup]="billeteraForm" (ngSubmit)="porBilletera()">
+
+<div class="row">
+  <div class="col-md-6 mx-auto mt-5">
+      <div class="card">
+          <div class="card-body">
+              
+              <form [formGroup]="registerForm" (ngSubmit)="registrarCuenta()">
                   <fieldset>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Monto Recarga</label>
-                      <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca Monto a recargar" 
-                              formControlName="monto">
-                    </div>
+                    <legend class="text-center">Recargar Saldo</legend>
 
                     
-                    <div ngbDropdown class="d-inline-block">
-                      <button class="btn btn-outline-primary" id="sortMenu"  ngbDropdownToggle>{{selectedSortOrder}}</button>
-                      <div class="dropdown-menu" aria-labelledby="sortMenu" ngbDropdownMenu>
-                        <button class="dropdown-item" *ngFor="let sortOrder of sortOrders" (click)="ChangeSortOrder(sortOrder)" >{{sortOrder}}</button>
-                      </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Seleccione su cuenta</label>
+                      <select type="text" class="form-control" id="exampleSelect1" formControlName="cuenta">
+                         
+                            <option *ngFor="let cuenta of cuentas" [value]="cuenta">
+                              {{cuenta}}
+                            </option>
+
+                          <!-- <option>Paypal</option>
+                          <option>Stripe</option> -->
+                      </select>
                     </div>
 
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Monto</label>
+                      <input type="text" class="form-control" id="exampleInputNombre" placeholder="Numero de cuenta" 
+                              formControlName="monto" >
+                    </div>
                   
-                    <p class = "mt-3"></p>
-                    <button type="submit" class="btn btn-primary btn-large btn-block">Recargar</button>
+                   
+                    <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Registrarse</button>
                   </fieldset>
                 </form>  
-                
+              
           </div>
       </div>
   </div>
-
-
-    <div class="col-md-6 mx-auto mt-5">
-        <div class="card">
-            <div class="card-header">
-                <legend class="text-center">Por Tarjeta Externa</legend>
-            </div>
-            <div class="card-body">
-
-                <form [formGroup]="tarjetaForm" (ngSubmit)="porTarjeta()">
-                    <fieldset>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Monto Recarga</label>
-                        <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca Monto a recargar" 
-                                formControlName="monto2">
-                      </div>
-                      <div class="form-group">
-                        <label for="examplelabel">Banco</label>
-                        <input type="text" class="form-control" id="exampleInputComision" placeholder="Introduzca el banco" 
-                                formControlName="banco">
-                      </div>
-                      <div class="form-group">
-                        <label for="examplelabel">Numero de Tarjeta</label>
-                        <input type="text" class="form-control" id="exampleInputComision" placeholder="Introduzca el numero de su tarjeta" 
-                                formControlName="numeroTarjeta">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Codigo de Seguridad</label>
-                        <input type="text" class="form-control" id="exampleMonto" placeholder="Introduzca el codigo de seguridad de su tarjeta" 
-                                formControlName="codigoSeguridad">
-                      </div>
-                    <button type="submit" class="btn btn-primary btn-large btn-block">Recargar</button>
-                  </fieldset>
-                </form> 
-            </div>
-        </div>
-    </div>
 </div>
-
