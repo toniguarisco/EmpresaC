@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 
 namespace ApiRestDesarrollo.Dtos.Operation
 {
-    public class ReadOperation
+    public class HistoryOperation
     {
         public string fecha { get; set; }
         public decimal monto { get; set; }
         public string operation { get; set; }
         public string referencia { get; set; }
+        public string tipoOperacion { get; set; }
 
     }
+    
+
 }

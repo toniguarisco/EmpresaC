@@ -98,8 +98,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-
-
         public bool CreateAccount(CreateCuenta account)
         {
             var id_usuario = _context.Usuario.FirstOrDefault(e => e.IdUsuario == account.IdUsuario);
@@ -311,11 +309,30 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return null;
         }
-
-        public ReadOperationAccount GetBalance(int usuarioId)
+     
+        public HistoryOperationAccount GetBalance(int usuarioId)
         {
             List<OperacionCuenta> cuenta = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == usuarioId && p.estatus != 1 && p.estatus != 3 && p.estatus != 10).ToList();
-            List<ReadOperation> reads = new List<ReadOperation>();
+            List<HistoryOperation> reads = new List<HistoryOperation>();
+
+            static string CalcularTipoOperacion(string referencia)
+            {
+                // guardamos los primeros cuatro valores del campo de referencia para compararlo
+                // con el tipo de operacion al que corresponden
+                int identificadorTipoOperacion = (System.Convert.ToInt32(referencia.Substring(0, 4)));
+
+                return identificadorTipoOperacion switch
+                {
+                    5789 => "recarga banco tarjeta",
+                    3789 => "transferencia de saldo para persona",
+                    7543 => "pago recibido",
+                    1789 => "pago por paypal",
+                    4789 => "reintegro",
+                    2789 => "pago a comercio",
+                    _ => "no aplica",
+                };
+            }
+
             decimal saldo = 0;
 
             foreach (var item in cuenta)
@@ -331,20 +348,21 @@ namespace ApiRestDesarrollo.Business.Implementations
                     saldo = saldo - item.Monto;
                     operacion = "-";
                 }
-                ReadOperation readOperations = new ReadOperation()
+                HistoryOperation readOperations = new HistoryOperation()
                 {
                     fecha = item.Fecha.Day + "/" + item.Fecha.Month + "/" + item.Fecha.Year,
                     monto = item.Monto,
                     operation = operacion,
-                    referencia = item.Referencia
+                    referencia = item.Referencia,
+                    tipoOperacion = CalcularTipoOperacion(item.Referencia)
                 };
                 reads.Add(readOperations);
             }
-            ReadOperationAccount readOperationAccount = new ReadOperationAccount()
+            HistoryOperationAccount readOperationAccount = new HistoryOperationAccount()
             {
                 Monto = saldo,
                 FkIdUsuarioReceptor = usuarioId,
-                readOperations = reads.ToArray()
+                historyOperations = reads.ToArray()
             };
             return readOperationAccount;
         }

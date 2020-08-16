@@ -7,7 +7,8 @@ namespace ApiRestDesarrollo.Dtos
 {
     public class ModificarContraseñaModel
     {
-        public string nuevaContraseña { get; set; }
+        public string nuevaContrasena { get; set; }
+        public string ContrasenaVieja { get; set; }
         public int idUsuario { get; set; }
     }
 }
