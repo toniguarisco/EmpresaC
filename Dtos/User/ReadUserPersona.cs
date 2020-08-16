@@ -11,25 +11,17 @@ namespace ApiRestDesarrollo.Dtos.User
     {
         [MaxLength(45)]
         public string Nombre { get; set; }
-
         [MaxLength(45)]
         public string SegundoNombre { get; set; }
-
         [MaxLength(45)]
         public string Apellido { get; set; }
-
         [MaxLength(45)]
         public string SegundoApellido { get; set; }
-
-        public DateTime FechaNacimiento { get; set; }
-
-        public int FkIdUsuario { get; set; }
-
-        //ESTADO CIVIL
-
-        [MaxLength(45)]
         public string DescripcionEstadoCivil { get; set; }
+        public string usuario { get; set; }
+        public string email { get; set; }
+        public string telefono { get; set; }
+        public string direccion { get; set; }
 
-        public char CodigoEstadoCivil { get; set; }
     }
 }

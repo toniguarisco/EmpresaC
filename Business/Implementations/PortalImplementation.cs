@@ -141,8 +141,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                     SegundoNombre = source.SegundoNombre,
                     Apellido = source.Apellido,
                     SegundoApellido = source.SegundoApellido,
-                    FechaNacimiento = source.FechaNacimiento,
-                    FkIdUsuario = source.IdUsuario,
+                    //FechaNacimiento = source.FechaNacimiento,
+                    //FkIdUsuario = source.IdUsuario,
                     DescripcionEstadoCivil = src.Descripcion
                 };
                 return persona;
@@ -275,9 +275,9 @@ namespace ApiRestDesarrollo.Business.Implementations
                                  SegundoNombre = p.SegundoNombre,
                                  Apellido = p.Apellido,
                                  SegundoApellido = p.SegundoApellido,
-                                 FechaNacimiento = p.FechaNacimiento,
+                                 //FechaNacimiento = p.FechaNacimiento,
                                  DescripcionEstadoCivil = ec.Descripcion,
-                                 FkIdUsuario = p.IdUsuario
+                                 //FkIdUsuario = p.IdUsuario
                                  
                              }
                              ).OrderBy(t => t.Nombre).ToList();
