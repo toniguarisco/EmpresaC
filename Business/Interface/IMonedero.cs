@@ -3,6 +3,7 @@ using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Dtos.Payment;
+using ApiRestDesarrollo.Dtos.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,7 @@ namespace ApiRestDesarrollo.Business.Interface
         mensaje paypal(PagoDtos pagoPaypal);
         List<PagoSolicitud> pagoSolicitud(int IdUsuario);
         mensaje pagoTienda(PagoTiendaDtos pago);
+        mensaje UpdatePersona(PersonaUpdate persona);
+        
     }
 }

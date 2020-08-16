@@ -15,7 +15,7 @@ using ApiRestDesarrollo.Dtos.User;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
-    public class UsuarioImplementation: IUsuarios
+    public class UsuarioImplementation : IUsuarios
     {
         private readonly postgresContext _context;
         private readonly IMapper _mapper;
@@ -38,8 +38,8 @@ namespace ApiRestDesarrollo.Business.Implementations
             {
                 return false;
             }
-            else if (usuario.Estatus != 3) 
-            { 
+            else if (usuario.Estatus != 3)
+            {
                 return false;
             }
             usuario.Estatus = 0;
@@ -49,12 +49,32 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public ReadUserPersona GetPersona(int id)
         {
-            var query = _context.Persona.FirstOrDefault(p => p.IdUsuario == id);
-            if (query != null)
+            var Persona = (from usu in _context.Usuario
+                           from tipo in _context.TipoUsuario
+                           from p in _context.Persona
+                           
+                           where
+                           usu.IdTipoUsuario == tipo.IdTipoUsuario &&
+                           p.IdUsuario == usu.IdUsuario 
+                           
+                           && usu.IdUsuario == id &&
+                           (tipo.IdTipoUsuario == 2 || tipo.IdTipoUsuario == 3)
+                            select new ReadUserPersona
+                            {
+                                Apellido = p.Apellido,
+                                
+                                direccion = usu.Direccion,
+                                email = usu.Direccion,
+                                Nombre = p.Nombre,
+                                SegundoApellido = p.SegundoApellido,
+                                SegundoNombre = p.SegundoNombre,
+                                telefono = usu.Telefono,
+                                usuario = usu.Usuario1
+                            }).FirstOrDefault();
+
+            if (Persona != null)
             { 
-                var read = _mapper.Map<ReadUserPersona>(query);
-                read.FkIdUsuario = query.IdUsuario;
-                return read;
+                return Persona;
             }
             return null;
         }

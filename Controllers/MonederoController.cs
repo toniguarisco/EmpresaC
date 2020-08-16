@@ -35,7 +35,8 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ReadOperationAccount>> GetBalance(int usuarioId)
         {
             var saldo = _repository.GetBalance(usuarioId);
-            if (saldo != null) {
+            if (saldo != null)
+            {
                 return Ok(saldo);
             };
             return BadRequest("el id del usuario no es valido o el id de la cuenta no es valido ");
@@ -83,8 +84,20 @@ namespace ApiRestDesarrollo.Controllers
             };
             return BadRequest("el id no es valido");
         }
+
+        [HttpPost("ActualizarPersona")]//<-----------------------------------------
+        public ActionResult ActualizarPersona(PersonaUpdate persona)
+        {
+            var log = _repository.UpdatePersona(persona);
+            if (log.flag)
+            {
+                return Ok("Persona actualizada exitosamente");
+            }
+            return BadRequest(log.mesage);
+        }
+
         [HttpPost("CuentaNueva")]
-        public ActionResult AnadirCuenta (CreateCuenta cuenta)
+        public ActionResult AnadirCuenta(CreateCuenta cuenta)
         {
             //var commandItems = _repository.GetAppCommands();
             //var a = _mapper.Map<IEnumerable<ComandRead>>(commandItems);
@@ -95,6 +108,7 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest(log.mesage);
         }
+
         [HttpPost("AddSaldo")]
         public ActionResult AddSaldo(CreateOperacion operacion)
         {
@@ -151,5 +165,7 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest(log.mesage);
         }
+
+
     }
 }
