@@ -23,7 +23,7 @@ namespace ApiRestDesarrollo.Dtos
 
         [MaxLength(500)]
         public string Direccion { get; set; }
-        public string Direrazon_socialccion { get; set; }
+        public string razon_social { get; set; }
         public string nombreRepresentante { get; set; }
         public string ApellidoRepresentante { get; set; }
         

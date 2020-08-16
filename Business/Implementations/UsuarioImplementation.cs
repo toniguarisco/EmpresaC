@@ -184,7 +184,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     IdComercio = _context.Persona.Count() * 135,
                     ApellidoRepresentante = user.ApellidoRepresentante,
                     NombreRepresentante = user.nombreRepresentante,
-                    RazonSocial = user.Direrazon_socialccion
+                    RazonSocial = user.razon_social
                    
                 };
                 IList<Comercio> comercios = new List<Comercio>() { comercio };

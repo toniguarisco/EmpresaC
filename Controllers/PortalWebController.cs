@@ -205,6 +205,11 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el usuario no existe");
         
         }
-        
+
+        [HttpGet("CantidadOperacion")]
+        public ActionResult CantidadOperacion()
+        {
+            return Ok(_portal.CantidadOperacion());
+        }
     }
 }
