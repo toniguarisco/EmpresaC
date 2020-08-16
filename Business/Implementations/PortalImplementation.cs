@@ -348,5 +348,31 @@ namespace ApiRestDesarrollo.Business.Implementations
             };
             return readOperationAccount;
         }
+
+        public List<ReadListOperation> AdminGetOperation(int IdUsuario)
+        {
+            var source = _context.OperacionCuenta.FirstOrDefault(e => e.IdUsuarioReceptor == IdUsuario);
+            if (source != null)
+            {
+                GetUserById(IdUsuario);
+                var operaciones = (from oc in _context.OperacionCuenta
+                                   from u in _context.Usuario
+                                   where oc.IdUsuarioReceptor == u.IdUsuario
+                                   select new ReadListOperation
+                                   {
+                                       Fecha = oc.Fecha,
+                                       Monto = oc.Monto,
+                                       Operacion = oc.operacion,
+                                       Referencia = oc.Referencia
+                                   }
+
+                    ).OrderBy(e => e.Fecha).ToList();
+
+
+                return operaciones;
+            }
+
+            return null;
+        }
     }
 }

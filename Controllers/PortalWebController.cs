@@ -136,8 +136,7 @@ namespace ApiRestDesarrollo.Controllers
         [HttpPost("RetiroFondosComercio")]
         public ActionResult<IEnumerable<ComandRead>> RetiroFondosCommerce(CreateOperacion operacion)
         {
-            var fondos = _portal.RetiroFondosCommerce(operacion);
-            if( fondos != null)
+            if(_portal.RetiroFondosCommerce(operacion))
             {
                 return Ok(operacion);
             }
@@ -175,6 +174,17 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(saldo);
             };
             return BadRequest("el id del usuario no es valido o el id de la cuenta no es valido ");
+        }
+
+        [HttpGet("ListadoOperacionesUsuario")]
+        public ActionResult<IEnumerable<ComandRead>> AdminGetOperation(int IdUsuario)
+        {
+            var operacion = _portal.AdminGetOperation(IdUsuario);
+            if (_portal != null)
+            {
+                return Ok(operacion);
+            }
+            return BadRequest("La lista no pudo ser procesada");
         }
     }
 }
