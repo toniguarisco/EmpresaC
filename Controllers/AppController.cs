@@ -51,7 +51,6 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(_usuario.encriptacion(algo));
         }
 
-
         [HttpPost("login")]
         public ActionResult Login(LoginModel user)
         {

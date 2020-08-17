@@ -314,7 +314,12 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             if (parametro > 0) 
             {
-                parameter.Estatus = parametro; 
+                parameter.Estatus = parametro;
+                var usuario = _context.Usuario;
+                foreach (var item in usuario)
+                {
+                    item.parametro = parametro;
+                }
             }
             
             
