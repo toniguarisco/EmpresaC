@@ -129,6 +129,7 @@ namespace ApiRestDesarrollo.Controllers
             {
                 return Ok("saldo añadido exitosamente");
             }
+            else
             return BadRequest(log.mesage);
         }
 
