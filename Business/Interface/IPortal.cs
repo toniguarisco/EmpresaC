@@ -32,13 +32,17 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool RetiroFondosCommerce(CreateOperacion operacion);
 
+        List<ReadListOperation> GetListRetiroOperation(int IdUsuario, string fechaInicio, string fechaFin);
+
         UsuarioRead GetUserById(int IdUser);
 
         List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona);
 
         List<ReadUserCommerce> AdminGetUsersCommerce(int IdTipoComercio);
 
-        List<ReadListOperation> AdminGetOperation(int IdUsuario);
+        List<ReadListOperation> AdminGetOperationId(int IdUsuario);
+
+        List<ReadListOperation> AdminGetOperations(string referencia);
 
         HistoryOperationAccount GetBalance(int usuarioId);
 
@@ -52,6 +56,6 @@ namespace ApiRestDesarrollo.Business.Interface
 
         List<ReadUserPersona> ListaHijos(int idPadre);
 
-
+        void UpdateParameter(int comision, int parametro);
     }
 }

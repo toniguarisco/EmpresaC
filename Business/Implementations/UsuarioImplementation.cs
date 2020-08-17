@@ -15,7 +15,7 @@ using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Enum;
 using ApiRestDesarrollo.Dtos.Account;
-
+using Encryptar;
 namespace ApiRestDesarrollo.Business.Implementations
 {
     public class UsuarioImplementation : IUsuarios
@@ -314,7 +314,12 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             if (parametro > 0) 
             {
-                parameter.Estatus = parametro; 
+                parameter.Estatus = parametro;
+                var usuario = _context.Usuario;
+                foreach (var item in usuario)
+                {
+                    item.parametro = parametro;
+                }
             }
             
             
@@ -431,6 +436,14 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return Id;
             };
             return -1;
+        }
+
+        public string encriptacion(string secreto)
+        {
+            AESEncryption aES = new AESEncryption();
+            string clave = "clave";
+            
+            return aES.Encrypt(secreto,clave);
         }
 
         //public BotonPago BotonPago(BotonPagoParticipantes participantes)

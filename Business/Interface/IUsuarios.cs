@@ -20,7 +20,8 @@ namespace ApiRestDesarrollo.Business.Interface
         void UpdateParameter(int comision, int parametro);
         mensaje ValidacionPago(BotonPagoParticipantes participantes);
         bool RegisterComercio(CreateComercio user);
-        
+
+        string encriptacion(string secreto);
         
 
     }

@@ -42,9 +42,15 @@ namespace ApiRestDesarrollo.Controllers
                 this._configuration = configuration;
                 _context = context;
         }
-        
-        
-        
+
+
+
+        [HttpGet("clave")]
+        public ActionResult Login(string algo)
+        {
+            return Ok(_usuario.encriptacion(algo));
+        }
+
         [HttpPost("login")]
         public ActionResult Login(LoginModel user)
         {

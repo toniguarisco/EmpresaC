@@ -164,23 +164,22 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public List<ReadOperationReintegro> GetReintegros(int usuarioId)
         {
-            var query = (   from o in _context.OperacionCuenta
-                            from u in _context.Usuario
-                            from usol in _context.Usuario
-                            where
-                            o.IdUsuarioReceptor == u.IdUsuario &&
-                            u.IdUsuario == usuarioId &&
-                            o.IdCuenta == usol.IdUsuario &&
-                            o.estatus == 1
-                            select new ReadOperationReintegro
-                            {
-                                Referencia = o.Referencia,
-                                Estatus = o.estatus, 
-                                Fecha = o.Fecha,
-                                UsuarioSolicitante = usol.Usuario1,
-                            }
-                        ).OrderBy(p=>p.Fecha).ToList();
-
+            var query = (from usu in _context.Usuario
+                         from op in _context.OperacionCuenta
+                         where
+                         op.IdUsuarioReceptor == usu.IdUsuario &&
+                         op.IdUsuarioReceptor == usuarioId &&
+                         op.estatus == 1 &&
+                         !op.operacion 
+                         select new ReadOperationReintegro
+                         {
+                             Estatus = op.estatus,
+                             Fecha = op.Fecha,
+                             Monto = op.Monto,
+                             Referencia = op.Referencia,
+                             UsuarioSolicitante = usu.Usuario1
+                         }).ToList();
+            
             return query;
         }
 

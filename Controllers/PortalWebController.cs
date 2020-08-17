@@ -127,14 +127,35 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("ListadoOperacionesUsuario")]
-        public ActionResult<IEnumerable<ComandRead>> AdminGetOperation(int IdUsuario)
+        public ActionResult<IEnumerable<ComandRead>> AdminGetOperationId(int IdUsuario)
         {
             var operacion = _portal.AdminGetOperation(IdUsuario);
-            if (_portal != null)
+            if (operacion != null)
             {
                 return Ok(operacion);
             }
             return BadRequest("La lista no pudo ser procesada");
+        }
+
+        [HttpGet("ListadoOperacionesUsuario")]
+        public ActionResult<IEnumerable<ComandRead>> AdminGetOperations(string referencia)
+        {
+            var operacion = _portal.AdminGetOperations(referencia);
+            if (operacion != null)
+            {
+                return Ok(operacion);
+            }
+            return BadRequest("La lista no pudo ser procesada");
+        }
+        [HttpGet("ListaOperacionesRetiroFecha")]
+        public ActionResult<IEnumerable<ComandRead>> GetListRetiroOperation(int IdUsuario, string fechaInicio, string fechaFin)
+        {
+            var retiro = _portal.GetListRetiroOperation(IdUsuario, fechaInicio, fechaFin);
+            if (retiro != null)
+            {
+                return Ok(retiro);
+            }
+            return BadRequest("No se pudieron obtener los retiros");
         }
 
         [HttpGet("TotalRecaudoComisiones")]
@@ -234,6 +255,15 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(operacion);
             }
             return BadRequest("Los fondos no pudieron ser retirados");
+        }
+
+        [HttpPut("ParametrosAdministrador")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult ActualizarParametro(int comision, int parametro)
+        {
+            _portal.UpdateParameter(comision, parametro);
+            _context.saveChanges();
+            return Ok();
         }
     }
 }

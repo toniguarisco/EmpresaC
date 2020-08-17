@@ -5,9 +5,13 @@
 
  namespace Encryptar
 {
-    public static class AESEncryption
+    public class AESEncryption
     {
-    public static string Encrypt(string PlainText, string Password,
+        public AESEncryption()
+        {
+                
+        }
+    public string Encrypt(string PlainText, string Password,
         string Salt = "Kosher", string HashAlgorithm = "SHA1",
         int PasswordIterations = 2, string InitialVector = "OFRna73m*aze01xY",
         int KeySize = 256)
@@ -41,7 +45,7 @@
            }
     
 
-           public static string Decrypt(string CipherText, string Password,
+           public string Decrypt(string CipherText, string Password,
                string Salt = "Kosher", string HashAlgorithm = "SHA1",
                int PasswordIterations = 2, string InitialVector = "OFRna73m*aze01xY",
                int KeySize = 256)
