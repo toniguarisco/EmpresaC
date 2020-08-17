@@ -64,7 +64,7 @@ namespace ApiRestDesarrollo
                 ClockSkew = TimeSpan.Zero,
                 
             } );
-            services.AddCors();
+            
 
         }
 
@@ -92,12 +92,17 @@ namespace ApiRestDesarrollo
                 endpoints.MapControllers();
             });
             app.UseAuthentication();
-            app.UseCors(builder => builder
-                         .AllowAnyHeader()
-                         .AllowAnyMethod()
-                         .SetIsOriginAllowed((host) => true)
-                         .AllowCredentials()
-                     );
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://example.com",
+                                    "http://www.contoso.com",
+                                    "https://localhost:44375",
+                                    "https://localhost:5001",
+                                    "https://mony-ucab-app.herokuapp.com");
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
         }
 
     }
