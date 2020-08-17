@@ -78,7 +78,7 @@ export default class Forgot extends Component<Props> {
      }
     );
     let responseJson = await response.json();
-    if (responseJson == "Se envio un correo a: "+this.state.correo+"con su nueva clave"){
+    if (responseJson == "Se envio un correo a: "+this.state.correo+" con su nueva clave"){
         this.setState({
          data: null
         })

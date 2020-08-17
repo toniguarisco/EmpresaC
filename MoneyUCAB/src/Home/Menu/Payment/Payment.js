@@ -176,6 +176,7 @@ sendPaypalPayment = async() => {
 sendPaymentRequired = async() => {
 
   let _Monto = parseFloat(this.state.monto);
+  let _ID = parseInt(this.state.payID);
 
   try {
     let response = await fetch(
@@ -190,13 +191,12 @@ sendPaymentRequired = async() => {
       idUsuario: this.state.id,
       monto: _Monto,
       usuario: this.state.correoDestino,
-      cuenta: " ",
-      idPago: this.state.payID
+      idPago: _ID
       })
      }
     );
     let responseJson = await response.json();
-    if (responseJson == "transferencia exitosa"){
+    if (responseJson == "Pago Exitoso"){
         Actions.pop();
     }else{
       this.setModalVisible("Error", this.state.errorTipo2);
@@ -218,7 +218,7 @@ getPaymentData = async() => {
        'Authorization': 'Bearer '+this.state.token
       }
      }
-    );
+    ); 
     let responseJson = await response.json();
     let tempArray = [];
 
@@ -334,7 +334,7 @@ getPaymentData = async() => {
             </View>
            </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.handlePress3}>
+          <TouchableOpacity onPress={this.handlePress2}>
            <View style={styles.buttons}>
             <View style={styles.button}>
              <LinearGradient style={{paddingLeft: 80, paddingRight: 80}} start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#FFCA12', '#C39515', '#D49C48']}>
