@@ -140,8 +140,8 @@ return this.http.post<any>('api/PortalWeb/AgregarHijo', {usuarioPadreId,
     return this.http.get<any>(`api/PortalWeb/UsuarioPorId?IdUser=${id}`);
   }
 
-  recargarSaldo(fecha: string, monto: string, cuenta: string){
-    console.log('fecha -> ',fecha)
+  recargarSaldo(fecha: string, monto: number, cuenta: string){
+    console.log('fecha -> ', fecha)
     var idUsuario = parseInt(localStorage.getItem('idUsuario'), 10);
     var hora: null;
     return this.http.post<any>('api/Monedero/AddSaldo', {fecha, hora , monto, idUsuario, cuenta});

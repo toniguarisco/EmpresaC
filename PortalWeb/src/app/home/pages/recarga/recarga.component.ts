@@ -111,15 +111,26 @@ export class RecargaComponent implements OnInit {
   recargarSaldo(): void{
     console.log('recargar');
     console.log('Form -> ', this.registerForm.value);
+    let nCuenta: string;
+    this.cuentas.forEach(element => {
+      if (element.mostrar === this.registerForm.value.cuenta ) { 
+        nCuenta = element.cuenta;
+      }
+    });
 
     let fechaD: string = this.formatoDate();
-    this.userService.recargarSaldo(fechaD, this.registerForm.value.monto, this.registerForm.value.cuenta)
+    this.userService.recargarSaldo(fechaD, parseInt(this.registerForm.value.monto, 10), nCuenta)
     .subscribe(
       res => {
         alert('Recarga Exitosa');
       },
       error => {
-        alert('Recarga Fallida');
+        console.log(error);
+        if (error.error.text === 'saldo añadido exitosamente'){
+          alert('saldo añadido exitosamente');
+        }else{
+        alert('Recarga fallida');
+        }
       }
     );
   }

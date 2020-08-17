@@ -49,8 +49,7 @@ export class ConsultarSubusuariosComponent implements OnInit {
 
       console.log(res);
     // LLenando el array para mostrar
-    res.forEach(element => {
-      
+      res.forEach(element => {
       this.hijos.push({nombre: element.nombre,
                        apellido: element.apellido,
                        usuario: element.usuario ,
