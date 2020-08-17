@@ -23,4 +23,22 @@ export class ComercioService {
             subscribe(res => {});
   }
 
-}
+  getBalance( id: string): Observable<any>{
+    console.log(`api/PortalWeb/Balance?usuarioId=${id}`);
+    return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=${id}`);
+  }
+
+  getCuentas(id: string): Observable<any>{
+    return this.http.get<any>(`api/Monedero/Cuentas?usuarioId=${id}`);
+  }
+
+  retiroFondosCommerce(fecha: string, monto: number, cuenta: string){
+    console.log('fecha -> ',fecha)
+    var idUsuario = parseInt(localStorage.getItem('idUsuario'), 10);
+    var hora: null;
+    return this.http.post<any>('api/PortalWeb/RetiroFondosComercio', {fecha, hora , monto, idUsuario, cuenta});
+  }
+
+  }
+
+

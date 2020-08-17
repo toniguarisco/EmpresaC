@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { ComercioService } from 'src/app/services/comercio.service';
 @Component({
   selector: 'app-comercio-consultar-saldo',
   templateUrl: './comercio-consultar-saldo.component.html',
@@ -7,12 +8,18 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class ComercioConsultarSaldoComponent implements OnInit {
 
-  saldoForm = new FormGroup({
-    saldo : new FormControl('', Validators.required),
+  
+  public saldo: string;
+/*   public misOperaciones: Array<any> = []; */
+   public misOperaciones: Array <{
+    fecha: string,
+    monto: string,
+    operation: string,
+    referencia: string,
+    tipoOperacion: string
+   }> = [];
 
-  });
-
-  public operaciones: Array <{
+/*   public operaciones: Array <{
     id: number,
     monto: string,
     fecha: string,
@@ -39,24 +46,41 @@ export class ComercioConsultarSaldoComponent implements OnInit {
       {id: 19, monto: '8000.00', fecha: '20-08-2019', concepto: 'para los viveres'},
       {id: 20, monto: '1000.00', fecha: '17-09-2019', concepto: 'recarga carmelita'},
       {id: 21, monto: '1412.00', fecha: '25-09-2019', concepto: 'abono '}
-];
+]; */
+
 dtOptions: DataTables.Settings = {};
 
-  constructor() { }
-
-saldoActual(): void {}
+  constructor(public comercioService: ComercioService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       columns: [
-      {title: 'ID', data: 'id'},
-      {title: 'Monto', data: 'monto'},
       {title: 'Fecha', data: 'fecha'},
-      {title: 'Concepto', data: 'concepto'},
+      {title: 'Monto', data: 'monto'},
+      {title: 'Nro de Referencia', data: 'referencia'},
+      {title: 'Tipo de Operacion', data: 'tipoOperacion'},
       ]
   };
-}
 
+    // Obteniendo el Saldo
+    this.comercioService.getBalance(localStorage.getItem('idUsuario'))
+    .subscribe(res =>{
+      // Asignando el Saldo
+      this.saldo = res.monto;
+
+      // LLenando el array para mostrar
+      res.historyOperations.forEach(element => {
+        console.log(element.fecha);
+        this.misOperaciones.push({fecha: element.fecha,
+                                  monto: element.monto,
+                                  operation: element.operation ,
+                                  referencia: element.referencia,
+                                  tipoOperacion: element.tipoOperacion});
+      });
+
+    });
+
+}
 }
