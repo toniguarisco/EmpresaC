@@ -138,7 +138,7 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("ListaOperacionesRetiroFecha")]
-        public ActionResult<IEnumerable<ComandRead>> GetListRetiroOperation(int IdUsuario, DateTime fechaInicio, DateTime fechaFin)
+        public ActionResult<IEnumerable<ComandRead>> GetListRetiroOperation(int IdUsuario, string fechaInicio, string fechaFin)
         {
             var retiro = _portal.GetListRetiroOperation(IdUsuario, fechaInicio, fechaFin);
             if (retiro != null)
