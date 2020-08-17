@@ -169,7 +169,8 @@ namespace ApiRestDesarrollo.Business.Implementations
                                from usu in _context.Usuario
                                where
                                pago.IdUsuarioSolicitante == usu.IdUsuario &&
-                               pago.IdUsuarioReceptor == IdUsuario
+                               pago.IdUsuarioReceptor == IdUsuario &&
+                               pago.Estatus != "pagado"
                                select new PagoSolicitud
                                {
                                    Estatus = pago.Estatus,
@@ -474,11 +475,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return mensaje;
         }
-
-
-
-
-
 
         // ---------------------------- Metodos privados ----------------------------
 

@@ -64,7 +64,7 @@ namespace ApiRestDesarrollo.Controllers
 
             if (_usuario.recuperarContrasena(usuarioRecuperar))
             {
-                return Ok("Se envio un correo a: " + usuarioRecuperar.email + "con su nueva clave");
+                return Ok("Se envio un correo a: " + usuarioRecuperar.email + " con su nueva clave");
             }
             else
                 return BadRequest("Ocurrio un error");
@@ -86,7 +86,6 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("CreatePersona")]
-
         public ActionResult CreatePersona(CreateUserDto user)
         {
             if (_usuario.RegisterUser(user))
@@ -96,8 +95,8 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El usuario o correo ya existe");
         }
-        [HttpPost("CreateComercio")]
 
+        [HttpPost("CreateComercio")]
         public ActionResult CreatePersona(CreateComercio user)
         {
             if (_usuario.RegisterComercio(user))
@@ -107,32 +106,34 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El usuario o correo ya existe");
         }
-        
-        private IActionResult BuildToken(LoginModel user, int idUser, string tipo) 
+
+        [HttpPost("BotonPago")]
+        public ActionResult<BotonPago> BotonPago(BotonPagoParticipantes participantes)
         {
-            var Claims = new[] { 
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Usuario),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PASAREMODEARROLLOCAPAZQUIENABE"));
-            var Creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddHours(1);
-            JwtSecurityToken Token = new JwtSecurityToken(
-                                            issuer: "ucab.com",
-                                            audience: "ucab.com",
-                                            claims: Claims,
-                                            expires: expiration,
-                                            signingCredentials: Creds
-                                            ) ;
-
-            return Ok(new
+            if (TipoPersona(participantes.persona) == 1 || TipoPersona(participantes.persona) == 0)
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(Token),
-                expiration = expiration.ToString(),
-                Id = idUser,
-                tipo = tipo
-            }); ;
+                return BadRequest("El usuario no es valido ");
+            }
+            if (TipoPersona(participantes.comercio) == 2 && TipoPersona(participantes.comercio) == 0)
+            {
+                return BadRequest("El comercio no es valido ");
+            }
+            var a = _usuario.ValidacionPago(participantes);
+            if (a.flag)
+            {
+                var factura = _context.Pago.FirstOrDefault(p => p.Referencia.Equals(participantes.referencia));
+                BotonPago boton = new BotonPago()
+                {
+                    comercio = participantes.comercio,
+                    persona = participantes.persona,
+                    referencia = participantes.referencia,
+                    estatus = factura.Estatus,
+                    fecha = DateTime.Now,
+                    monto = factura.Monto
+                };
+                return Ok(boton);
+            }
+            return BadRequest(a.mesage);
         }
 
         [HttpPut("EstadoUsuario")]
@@ -155,34 +156,7 @@ namespace ApiRestDesarrollo.Controllers
             return Ok();
         }
 
-        [HttpPost("BotonPago")]
-        public ActionResult<BotonPago> BotonPago(BotonPagoParticipantes participantes)
-        {
-            if (TipoPersona(participantes.persona) == 1 || TipoPersona(participantes.persona) == 0)
-            {
-                return BadRequest("El usuario no es valido ");
-            }
-            if (TipoPersona(participantes.comercio) == 2 && TipoPersona(participantes.comercio) == 0)
-            {
-                return BadRequest("El comercio no es valido ");
-            }
-            var a = _usuario.ValidacionPago(participantes);
-            if (a.flag) 
-            {
-                var factura = _context.Pago.FirstOrDefault(p => p.Referencia.Equals(participantes.referencia));
-                BotonPago boton = new BotonPago() { 
-                    comercio = participantes.comercio,
-                    persona = participantes.persona,
-                    referencia = participantes.referencia,
-                    estatus = factura.Estatus,
-                    fecha = DateTime.Now,
-                    monto = factura.Monto
-                };
-                return Ok(boton);
-            }
-            return BadRequest(a.mesage);
-        }
-
+       
         private int TipoPersona(string persona)
         {
             var usuarios = (from usu in _context.Usuario
@@ -197,6 +171,32 @@ namespace ApiRestDesarrollo.Controllers
 
             return usuarios.tipo;
 
+        }
+        private IActionResult BuildToken(LoginModel user, int idUser, string tipo)
+        {
+            var Claims = new[] {
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Usuario),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PASAREMODEARROLLOCAPAZQUIENABE"));
+            var Creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiration = DateTime.UtcNow.AddHours(1);
+            JwtSecurityToken Token = new JwtSecurityToken(
+                                            issuer: "ucab.com",
+                                            audience: "ucab.com",
+                                            claims: Claims,
+                                            expires: expiration,
+                                            signingCredentials: Creds
+                                            );
+
+            return Ok(new
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(Token),
+                expiration = expiration.ToString(),
+                Id = idUser,
+                tipo = tipo
+            }); ;
         }
 
     }
