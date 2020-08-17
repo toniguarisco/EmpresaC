@@ -178,11 +178,11 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("El id padre no existe");
         }
 
-        [HttpGet("ListaOperaciones")]
-        public ActionResult<DatosOperacion> TotalOperaciones()
-        {
-            return Ok(_portal.TotalOperaciones());
-        }
+        //[HttpGet("ListaOperaciones")]
+        //public ActionResult<DatosOperacion> TotalOperaciones()
+        //{
+        //    return Ok(_portal.TotalOperaciones());
+        //}
 
 
         [HttpPost("AgregarHijo")]
@@ -253,13 +253,13 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("Los fondos no pudieron ser retirados");
         }
 
-        [HttpPut("ParametrosAdministrador")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult ActualizarParametro(int comision, int parametro)
-        {
-            _portal.UpdateParameter(comision, parametro);
-            _context.saveChanges();
-            return Ok();
-        }
+        //[HttpPut("ParametrosAdministrador")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //public ActionResult ActualizarParametro(int comision, int parametro)
+        //{
+        //    _portal.UpdateParameter(comision, parametro);
+        //    _context.saveChanges();
+        //    return Ok();
+        //}
     }
 }

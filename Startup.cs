@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -29,7 +30,7 @@ namespace ApiRestDesarrollo
         {
             Configuration = configuration;
         }
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
        
         
@@ -60,9 +61,10 @@ namespace ApiRestDesarrollo
                 ValidIssuer = "ucab.com",
                 ValidAudience = "ucab.com",
                 IssuerSigningKey = new SymmetricSecurityKey(llave),
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.Zero,
+                
             } );
-
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +91,7 @@ namespace ApiRestDesarrollo
                 endpoints.MapControllers();
             });
             app.UseAuthentication();
+            app.UseCors();
         }
     }
 }
