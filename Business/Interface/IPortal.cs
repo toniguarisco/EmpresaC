@@ -50,6 +50,7 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool RegistrarHijos(UsuarioHijo hijo);
 
+        List<ReadUserPersona> ListaHijos(int idPadre);
 
 
     }

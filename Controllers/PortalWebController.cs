@@ -212,6 +212,16 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(_portal.CantidadOperacion());
         }
 
+        [HttpGet("Hijos")]
+        public ActionResult<List<ReadUserPersona>> ListaHijos(int IdPadre)
+        {
+            var hijos = _portal.ListaHijos(IdPadre);
+            if (hijos != null) { 
+                return Ok(hijos);
+            }
+            return BadRequest("El id padre no existe");
+        }
+
         [HttpPost("AgregarHijo")]
         public ActionResult<IEnumerable<ComandRead>> AgregarHijo(UsuarioHijo hijo)
         {
@@ -224,5 +234,6 @@ namespace ApiRestDesarrollo.Controllers
             };
             return BadRequest("usuario no valido o no existe");
         }
+
     }
 }

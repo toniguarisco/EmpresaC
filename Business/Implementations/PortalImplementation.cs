@@ -561,5 +561,33 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return false;
         }
+        public List<ReadUserPersona> ListaHijos(int idPadre)
+        {
+            var Persona = (from usu in _context.Usuario
+                           from p in _context.Persona
+                           where
+                           usu.IdUsuario == p.IdUsuario
+                           && usu.NumIdentificacion == idPadre
+                           //&& usu.IdTipoUsuario == 2 
+                           select new ReadUserPersona
+                           {
+                               Apellido = p.Apellido,
+                               direccion = usu.Direccion,
+                               email = usu.Direccion,
+                               Nombre = p.Nombre,
+                               SegundoApellido = p.SegundoApellido,
+                               SegundoNombre = p.SegundoNombre,
+                               telefono = usu.Telefono,
+                               usuario = usu.Usuario1
+                           }).ToList();
+
+            if (Persona != null)
+            {
+                return Persona;
+            }
+            return null;
+        }
+
     }
+
 }

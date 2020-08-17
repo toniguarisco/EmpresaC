@@ -75,12 +75,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-        //public IEnumerable<Usuario> GetAllUsuario()
-        //{
-        //    var a = _context.Usuario.ToList();
-        //    return a;
-        //}
-
+        
         public TokenValidate Login(LoginModel login)
         {
             var query = (from usu in _context.Usuario
@@ -226,6 +221,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 return false;
 
         }
+        
         public bool actualizarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
             var password = _context.Contrasena.FirstOrDefault(p => p.IdUsuario == contraseñaModificar.idUsuario && p.Contrasena1 == contraseñaModificar.ContrasenaVieja);
@@ -238,6 +234,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             return false;
         }
+        
         private bool buscarCorreo(string email) // se verifica que el correo exista en la base de datos
         {
             var a = _context.Usuario.FirstOrDefault(p => p.Email.Contains(email));
@@ -247,6 +244,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             else
                 return false;
         }
+        
         private void modificarContarseña(string email, int nuevaContrasena) // metodo que inserta la nueva contraseña en la base de datos
         {
             var usuario = _context.Usuario.FirstOrDefault(p => p.Email == email).IdUsuario;
@@ -260,6 +258,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             
 
         }
+        
         private void EnviarCorreoContrasena(int contrasenaNueva, string correo) // metodo que envia el correo al usuario con su contraseña
         {
 
@@ -299,6 +298,7 @@ namespace ApiRestDesarrollo.Business.Implementations
 
 
         }
+        
         private int GenerarNuevaContrasena() // metodo que general la nueva contraseña
         {
             Random rd = new Random(DateTime.Now.Millisecond);

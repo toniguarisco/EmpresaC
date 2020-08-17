@@ -32,6 +32,5 @@ namespace ApiRestDesarrollo.Dtos.Account
         //CONTRASENA
         public string Contrasena { get; set; }
 
-
     }
 }
