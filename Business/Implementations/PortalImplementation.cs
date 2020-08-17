@@ -308,6 +308,39 @@ namespace ApiRestDesarrollo.Business.Implementations
             return false;
         }
 
+        public List<ReadListOperation> GetListRetiroOperation(int IdUsuario, string fechaInicio, string fechaFin)
+        {
+            string referencia = "10789" ;
+            var source = _context.OperacionCuenta.FirstOrDefault(e => e.IdUsuarioReceptor == IdUsuario);
+            var src = _context.OperacionCuenta.FirstOrDefault(e => e.Referencia.StartsWith(referencia));
+            DateTime.Now.ToString("MM/dd/yyyy");
+            var fi = DateTime.Parse(fechaInicio); 
+            var ff = DateTime.Parse(fechaFin);
+            if ((source != null)&&(src !=null))
+            {
+                GetUserById(IdUsuario);
+                var operaciones = (from oc in _context.OperacionCuenta
+                                   from u in _context.Usuario
+                                   where oc.IdUsuarioReceptor == u.IdUsuario &&
+                                   (fi <= oc.Fecha) && (oc.Fecha <= ff)
+                                   select new ReadListOperation
+                                   {
+                                       Fecha = oc.Fecha,
+                                       Monto = oc.Monto,
+                                       Operacion = oc.operacion,
+                                       Referencia = oc.Referencia
+                                   }
+                                   
+
+                    ).OrderBy(e => e.Fecha).ToList();
+
+
+                return operaciones;
+            }
+
+            return null;
+        }
+
         public List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona)
         {
             var source = _context.Usuario.FirstOrDefault(e => e.IdTipoUsuario == IdTipoPersona);
