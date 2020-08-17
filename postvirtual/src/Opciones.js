@@ -31,6 +31,7 @@ export default class Configuration extends Component<Props> {
       nombrerep: "",
       apellidorep: "",
       correo: this.props.correo,
+      token: this.props.token,
       id: this.props.id,
       title:"",
       button:"",
@@ -75,6 +76,7 @@ export default class Configuration extends Component<Props> {
         headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+this.state.token
        },
       body: JSON.stringify({
         idUsuario: this.state.id,
@@ -87,7 +89,7 @@ export default class Configuration extends Component<Props> {
         })
        })
      let responseJson = await response.json();
-     if (responseJson == "Envio Exitoso"){
+     if (responseJson.statusCode == 200){
          Actions.pop();
      }else{
        this.setModalVisible("Error", this.state.errorTipo2);
@@ -123,20 +125,19 @@ export default class Configuration extends Component<Props> {
        }
       );
       let responseJson = await response.json();
-      this.setState({
-        usuario: responseJson.nombreUsuario, 
-        telefono: responseJson.telefono, 
-        direccion: responseJson.direccion,
-        nombrerep: responseJson.nombreRepresentante,
-        apellidorep: responseJson.apellidoRepresentante
-      })
+        this.setState({
+          usuario: responseJson.nombreUsuario, 
+          telefono: responseJson.telefono, 
+          direccion: responseJson.direccion,
+          nombrerep: responseJson.nombreRepresentante,
+          apellidorep: responseJson.apellidoRepresentante});
     }catch (error) {
      this.setModalVisible(this.state.error, this.state.errorTipo);
     }
   }
 
 
-componentWillMount(){
+ componentWillMount(){
 
   this.getUserData(this.state.correo);
 
@@ -146,6 +147,17 @@ componentWillMount(){
     errorTipo: "Algún campo está vacío.",
   })
 }
+
+componentDidMount() {
+  this.interval = setInterval(() => {
+    this.getUserData(this.state.correo);
+  }, 2000);
+}
+
+componentWillUnmount() {
+  clearInterval(this.interval);
+}
+
 
  setModalVisible = (Text1, Text2) => {
     this.setState({
@@ -228,6 +240,7 @@ componentWillMount(){
                 onChangeText={this.handleapellidoRepChange}
                 value={this.state.apellidorep} />
           </View>       
+          <View style={styles.inputContainer}>
           <TouchableOpacity onPress={this.handleCambio}>
            <View style={styles.buttons}>
             <View style={styles.button}>
@@ -239,6 +252,8 @@ componentWillMount(){
             </View>
            </View>
           </TouchableOpacity>
+          </View>
+          <View style={styles.inputContainer}>
           <TouchableOpacity onPress={this.handlePress}>
            <View style={styles.buttons}>
             <View style={styles.button}>
@@ -250,6 +265,7 @@ componentWillMount(){
             </View>
            </View>
           </TouchableOpacity>
+          </View>
           <Modal
            animationType="slide"
            transparent={false}

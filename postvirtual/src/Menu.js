@@ -21,7 +21,8 @@ export default class Menu extends Component<Props>{
   constructor(props){
     super(props);
     this.state = {
-      id: this.props.id,
+	  id: this.props.id,
+	  token: this.props.token,
       correo: this.props.correo,
       contraseña: this.props.contraseña,
       charts: this.props.chartState,
@@ -40,24 +41,24 @@ export default class Menu extends Component<Props>{
 
  handlePerfil = () =>{
   this.props.onHandle();
-  Actions.opciones({title:"Perfil", correo: this.state.correo, id: this.state.id});
+  Actions.cambioclave({title:"Cambiar Contraseña", correo: this.state.correo, id: this.state.id, token: this.state.token});
   }
 
  handlePago = () =>{
      this.props.onHandle();
-     Actions.pago({title:"Solicitar pago", correo: this.state.correo, id: this.state.id});
+     Actions.pago({title:"Solicitar pago", correo: this.state.correo, id: this.state.id, token: this.state.token});
   }
 
  handleReintegro = () =>{
      this.props.onHandle();
-     Actions.reintegro({title:"Reintegros", correo: this.state.correo, id: this.state.id});
+     Actions.reintegro({title:"Reintegros", correo: this.state.correo, id: this.state.id, token: this.state.token});
   }
 
  componentWillMount(){
  		this.setState({
      option1: "SOLICITAR PAGO",
      option2: "REINTEGROS",
- 		 option3: "PERFIL",
+ 		 option3: "CLAVE DE ACCESO",
  		 option4: "SALIR"
  		})
  }

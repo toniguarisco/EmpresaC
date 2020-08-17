@@ -35,6 +35,7 @@ export default class Configuration extends Component<Props> {
       fecha: "",
       correo: this.props.correo,
       id: this.props.id,
+      token: this.props.token,
       payref:"",
       title:"",
       button:"",
@@ -57,15 +58,16 @@ export default class Configuration extends Component<Props> {
          headers: {
          Accept: 'application/json',
          'Content-Type': 'application/json',
+         'Authorization': 'Bearer '+this.state.token
         },
         body: JSON.stringify({
-          //: this.state.payref,
-          //: this.state.estatus
+          refReintegro: this.state.payref,
+          newEstatus: this.state.estatus
           })
        }
       );
       let responseJson = await response.json();
-      if (responseJson == "Reintegro Exitoso"){
+      if (responseJson.statusCode == 200){
           Actions.pop();
       }else{
         this.setModalVisible("Error", this.state.errorTipo2);
@@ -76,7 +78,6 @@ export default class Configuration extends Component<Props> {
     }
   }
   
-
   getUserData = async(correo) => {
     try {
       let response = await fetch(
@@ -85,6 +86,7 @@ export default class Configuration extends Component<Props> {
          headers: {
          Accept: 'application/json',
          'Content-Type': 'application/json',
+         'Authorization': 'Bearer '+this.state.token
         }
        }
       );
@@ -106,6 +108,79 @@ export default class Configuration extends Component<Props> {
      this.setModalVisible(this.state.error, this.state.errorTipo);
     }
   }
+
+  /*getUserData = async(correo) => {
+    try {
+      let response = await fetch(
+        'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/Reintegros?usuarioId='+this.state.id,{
+         method: 'GET',
+         headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': 'Bearer '+this.state.token
+        }
+       }
+      );
+      let responseJson = await response.json();
+      let tempArray = [];
+      let estado = "";
+      responseJson.map((item)=>{
+        if (item.estatus == 1){
+          estado = "En espera"
+      }
+      if (item.estatus == 2){
+        estado = "ACEPTADO"
+      }
+      if (item.estatus == 3){
+        estado = "DENEGADO"
+      }
+        let arrayObject = [ item.fecha, item.usuarioSolicitante, item.monto, item.referencia, estado ];
+        tempArray.push(arrayObject);
+      })
+      this.setState({
+        tableData: tempArray
+      })
+    }catch (error) {
+     this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
+  } */
+
+  /*getUserData = async(correo) => {
+    try {
+      let response = await fetch(
+        'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/Reintegros?usuarioId='+this.state.id,{
+         method: 'GET',
+         headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': 'Bearer '+this.state.token
+        }
+       }
+      );
+      let responseJson = await response.json();
+      let tempArray = [];
+      let estado = "";
+      responseJson.map((item)=>{
+        if (item.estatus == 1){
+            estado = "En espera"
+        }
+        if (item.estatus == 2){
+          estado = "ACEPTADO"
+        }
+        if (item.estatus == 1){
+          estado = "DENEGADO"
+        }
+        let arrayObject = [ item.fecha, item.usuarioSolicitante, item.monto, item.referencia, estado ];
+        tempArray.push(arrayObject);
+      })
+  
+      this.setState({
+        tableData: tempArray
+      })
+    }catch (error) {
+     this.setModalVisible(this.state.error, this.state.errorTipo);
+    }
+  }*/
 
   handlePayRef= (Text) =>{
     this.setState({
@@ -136,7 +211,7 @@ export default class Configuration extends Component<Props> {
    }
  componentWillMount(){
 
-  this.getUserData(this.state.correo);
+  this.getUserData();
 
     this.setState({
       title: "SOLICITUDES DE REINTEGRO",

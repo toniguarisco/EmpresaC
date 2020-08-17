@@ -29,6 +29,7 @@ export default class Home extends Component<Props> {
     super(props);
     this.state = {
       id: this.props.id,
+      token: this.props.token,
       correo: this.props.correo,
       contreseña: this.props.contraseña,
       isOpen: false,
@@ -66,6 +67,7 @@ export default class Home extends Component<Props> {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+this.state.token
       }
      }
     );
@@ -124,7 +126,7 @@ componentWillUnmount() {
 
     return (
       <View style={styles.home}>
-       <SideMenu menu={<Menu id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} />} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
+       <SideMenu menu={<Menu token={this.state.token} id={this.state.id} correo={this.state.correo} contraseña={this.state.contraseña} data={this.state.data} data2={this.state.data2} data3={this.state.data} onHandle={this.handleSideMenu} />} isOpen={this.state.isOpen} onChange={(isOpen)=>this.updateMenu(isOpen)} >
         <View style={styles.header}>
           <Barra onHandle={this.handleSideMenu}/>
         </View> 

@@ -29,6 +29,7 @@ export default class Configuration extends Component<Props> {
       monto: "",
       correo: this.props.correo,
       id: this.props.id,
+      token: this.props.token,
       referencia: "",
       title:"",
       placeholder:"",
@@ -55,14 +56,15 @@ export default class Configuration extends Component<Props> {
   }
 
   handlePress = () =>{
-  if ((this.state.correoDestino!="")&&(this.state.referencia!="")&&(this.state.monto!="")){
-   Actions.pop();
+  if ((this.state.correoDestino!="")&&(this.state.monto!="")){
+   this.sendRequest();
   }else{
     this.setModalVisible(this.state.error, this.state.errorTipo);
   }
  }
 
  sendRequest = async(correo) => {
+  let _Monto = parseFloat(this.state.monto);
   try {
     let response = await fetch(
       'http://ec2-18-234-178-93.compute-1.amazonaws.com/api/PostVirtual/SolicitarPago',{
@@ -70,16 +72,17 @@ export default class Configuration extends Component<Props> {
        headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+this.state.token
       },
       body: JSON.stringify({
-        montog: this.state.monto,
+        montog: _Monto,
         userr: this.state.correoDestino,
         users: this.state.correo
         })
      }
     );
     let responseJson = await response.json();
-    if (responseJson == "Solicitud Exitosa"){
+    if (responseJson.estatusPago == "En proceso"){
         Actions.pop();
     }else{
       this.setModalVisible("Error", this.state.errorTipo2);
@@ -93,11 +96,13 @@ export default class Configuration extends Component<Props> {
  componentWillMount(){
     this.setState({
       title: "SOLICITAR PAGO",
-      placeholder: "Correo del usuario a solicitar",
+      placeholder: "Usuario a solicitar",
       placeholder2: "Monto",
       button: "ENVIAR",
       error: "Error",
       errorTipo: "Algún campo está vacío.",
+      errorTipo2: "Ha ocurrido un error",
+      errorTipo3: "Verifique que esté conectado a una red WiFi o que tenga los datos móviles activado.",
       subtitle: "Ingrese los datos para realizar la solicitud."
     })
  }
