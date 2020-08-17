@@ -127,17 +127,6 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpGet("ListadoOperacionesUsuario")]
-        public ActionResult<IEnumerable<ComandRead>> AdminGetOperationId(int IdUsuario)
-        {
-            var operacion = _portal.AdminGetOperation(IdUsuario);
-            if (operacion != null)
-            {
-                return Ok(operacion);
-            }
-            return BadRequest("La lista no pudo ser procesada");
-        }
-
-        [HttpGet("ListadoOperacionesUsuario")]
         public ActionResult<IEnumerable<ComandRead>> AdminGetOperations(string referencia)
         {
             var operacion = _portal.AdminGetOperations(referencia);
@@ -188,6 +177,13 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("El id padre no existe");
         }
+
+        [HttpGet("ListaOperaciones")]
+        public ActionResult<DatosOperacion> TotalOperaciones()
+        {
+            return Ok(_portal.TotalOperaciones());
+        }
+
 
         [HttpPost("AgregarHijo")]
         public ActionResult<IEnumerable<ComandRead>> AgregarHijo(UsuarioHijo hijo)
