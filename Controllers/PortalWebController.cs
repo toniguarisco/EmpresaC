@@ -126,16 +126,16 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("el id del usuario no es valido o el id de la cuenta no es valido ");
         }
 
-        [HttpGet("ListadoOperacionesUsuario")]
-        public ActionResult<IEnumerable<ComandRead>> AdminGetOperations(string referencia)
-        {
-            var operacion = _portal.AdminGetOperations(referencia);
-            if (operacion != null)
-            {
-                return Ok(operacion);
-            }
-            return BadRequest("La lista no pudo ser procesada");
-        }
+        //[HttpGet("ListadoOperacionesUsuario")]
+        //public ActionResult<IEnumerable<ComandRead>> AdminGetOperations(string referencia)
+        //{
+        //    var operacion = _portal.AdminGetOperations(referencia);
+        //    if (operacion != null)
+        //    {
+        //        return Ok(operacion);
+        //    }
+        //    return BadRequest("La lista no pudo ser procesada");
+        //}
         [HttpGet("ListaOperacionesRetiroFecha")]
         public ActionResult<IEnumerable<ComandRead>> GetListRetiroOperation(int IdUsuario, string fechaInicio, string fechaFin)
         {
