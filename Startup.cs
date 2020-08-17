@@ -65,6 +65,7 @@ namespace ApiRestDesarrollo
                 
             } );
             services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,7 +92,13 @@ namespace ApiRestDesarrollo
                 endpoints.MapControllers();
             });
             app.UseAuthentication();
-            app.UseCors();
+            app.UseCors(builder => builder
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .SetIsOriginAllowed((host) => true)
+                         .AllowCredentials()
+                     );
         }
+
     }
 }
