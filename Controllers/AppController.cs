@@ -58,7 +58,6 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("recuperarContaseña")]
-       
         public ActionResult RecuperarContaseña(RecuperarModel usuarioRecuperar)
         {
 
@@ -72,7 +71,6 @@ namespace ApiRestDesarrollo.Controllers
         }
 
         [HttpPost("modificarContraseña")]
-        
         public ActionResult ModificarContraseña(ModificarContraseñaModel contraseñaModificar)
         {
 

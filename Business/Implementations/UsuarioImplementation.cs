@@ -75,7 +75,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-        
         public TokenValidate Login(LoginModel login)
         {
             var query = (from usu in _context.Usuario
@@ -248,7 +247,7 @@ namespace ApiRestDesarrollo.Business.Implementations
         private void modificarContarseña(string email, int nuevaContrasena) // metodo que inserta la nueva contraseña en la base de datos
         {
             var usuario = _context.Usuario.FirstOrDefault(p => p.Email == email).IdUsuario;
-            if (usuario > 0)
+            if (usuario >= 0)
             {
                 var password = _context.Contrasena.FirstOrDefault(p=>p.IdUsuario == usuario);
                 password.Contrasena1 = nuevaContrasena.ToString();
@@ -433,8 +432,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             };
             return -1;
         }
-
-        
 
         //public BotonPago BotonPago(BotonPagoParticipantes participantes)
         //{
