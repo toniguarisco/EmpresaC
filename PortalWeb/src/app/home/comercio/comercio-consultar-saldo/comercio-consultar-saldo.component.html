@@ -1,51 +1,57 @@
 <!-- Header -->
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2 align-middle py-0 mb-0 text-primary">
-        Consultar Saldo
-    </h1>
+  <h1 class="h2 align-middle py-0 mb-0 text-primary">
+      Consultar Saldo
+  </h1>
 </div>
 <!-- End Header -->
 
-
-  <div class="col-md-6 mx-auto mt-5">
-      <div class="card ">
-          <div class="card-header">
-            <legend class="text-center">Saldo Disponible</legend>
-          </div>
-          <div class="card-body">
-              <form [formGroup]="saldoForm" (ngSubmit)="saldoActual()">
-                <fieldset>
-            
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Su saldo actual es de</label>
-                    <input type="text" class="form-control" id="exampleMonto" placeholder="50050" 
-                            formControlName="saldo">
-                  </div>
-                </fieldset>
-              </form>  
-              
+<div class="col-md-6 mx-auto mt-5">
+    <div class="card ">
+        <div class="card-header">
+          <legend class="text-center">Saldo Disponible</legend>
         </div>
-    </div>
+        <div class="card-body">
+            <!-- <form [formGroup]="saldoForm" (ngSubmit)="saldoActual()">
+              <fieldset>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Su saldo actual es de</label>
+                  <strong>{{saldo}}</strong>
+                  <input type="text" class="form-control" id="exampleMonto" placeholder="50050" 
+                          formControlName="saldo">
+                </div>
+              </fieldset>
+            </form>   -->
+            <label for="exampleInputPassword1">Su saldo actual es de:</label>
+            <br>
+            <div class="text-center">
+            <label><strong>{{this.saldo}}</strong></label>
+          </div>
+      </div>
+  </div>
 </div>
 
 <!-- Datatable -->
+<div class="mt-5">
+<legend class="text-center">Historial de Operaciones</legend>
 <table datatable [dtOptions]="dtOptions" class="row-border hover">
-  <legend class="text-center">Historial de Operaciones</legend>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Monto</th>
-        <th>Fecha</th>
-        <th>Concepto</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let operacion of operaciones">
-            <td>{{ operacion.id }}</td>
-            <td>{{ operacion.monto }}</td>
-            <td>{{ operacion.fecha }}</td>
-            <td>{{ operacion.concepto }}</td>
-          </tr>
-    </tbody>
-  </table>
-  <!-- End Datatable -->
+
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Monto</th>
+      <th>Nro de Referencia</th>
+      <th>Tipo de Operacion</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let operacion of misOperaciones">
+          <td>{{ operacion.fecha }}</td>
+          <td>{{ operacion.monto }}</td>
+          <td>{{ operacion.referencia }}</td>
+          <td>{{ operacion.tipoOperacion }}</td>
+        </tr>
+  </tbody>
+</table>
+</div>
+<!-- End Datatable -->
