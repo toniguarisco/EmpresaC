@@ -77,6 +77,7 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ComandRead>> SolicitarPago(SolicitarPago pago)
         {
             var solicitud = _repository.SolicitarPago(pago);
+            var prueba = pago.ToString();
             if (solicitud != null)
             {
                 return Ok(solicitud);
