@@ -164,25 +164,35 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         public List<ReadOperationReintegro> GetReintegros(int usuarioId)
         {
-            var query = (from usu in _context.Usuario
-                         from op in _context.OperacionCuenta
-                         where
-                         op.IdUsuarioReceptor == usu.IdUsuario &&
-                         op.IdUsuarioReceptor == usuarioId &&
-                         op.estatus == 1 &&
-                         !op.operacion 
-                         select new ReadOperationReintegro
-                         {
-                             Estatus = op.estatus,
-                             Fecha = op.Fecha,
-                             Monto = op.Monto,
-                             Referencia = op.Referencia,
-                             UsuarioSolicitante = usu.Usuario1
-                         }).ToList();
-            
-            return query;
+            var referencia = referencias(usuarioId);
+            var reintegro = _context.OperacionCuenta.Where(p=>p.estatus == 1 && p.operacion == false);
+            List<ReadOperationReintegro> lista = new List<ReadOperationReintegro>();
+            var usuarios = _context.Usuario;
+            foreach (var item in referencia)
+            {
+                var aux = reintegro.FirstOrDefault(p=>p.Referencia == item);
+                ReadOperationReintegro read = new ReadOperationReintegro() { 
+                Referencia = aux.Referencia,
+                Estatus = aux.estatus,
+                Fecha = aux.Fecha,
+                Monto = aux.Monto,
+                UsuarioSolicitante = usuarios.FirstOrDefault(p=>p.IdUsuario == aux.IdUsuarioReceptor).Usuario1
+                };
+                lista.Add(read);
+            }
+            return lista;
         }
 
+        private List<string> referencias(int id) 
+        {
+            var comercio = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == id && p.estatus == 1);
+            List<string> referencia = new List<string>();
+            foreach (var item in comercio) 
+            {
+                referencia.Add(item.Referencia);
+            }
+            return referencia;
+        }
         public DevolverUsuario GetUsuario(int usuarioId)
         {
             
