@@ -57,5 +57,7 @@ namespace ApiRestDesarrollo.Business.Interface
         List<ReadUserPersona> ListaHijos(int idPadre);
 
         void UpdateParameter(int comision, int parametro);
+
+        List<DatosOperacion> TotalOperaciones();
     }
 }

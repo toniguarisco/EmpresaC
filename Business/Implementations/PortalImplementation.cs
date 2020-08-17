@@ -57,11 +57,17 @@ namespace ApiRestDesarrollo.Business.Implementations
                 case 1789:
                     return "pago por paypal";
 
+                case 1078:
+                    return "retiro de fondos";
+
                 case 4789:
                     return "reintegro";
 
                 case 2789:
                     return "pago a comercio";
+
+                case 9876:
+                    return "operacion fallida";
 
                 default:
                     return "no aplica";
@@ -298,7 +304,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                     operacion = false,
                     IdUsuarioReceptor = createOperacion.idUSuario,
                     IdOperacionCuenta = refid  ,
-                    Referencia = "10789" + refid , 
+                    Referencia = "1078" + refid , 
                     estatus = 0
                 };
                 _context.Add(operacionCuenta);
@@ -540,7 +546,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             var lista = _context.OperacionCuenta.OrderByDescending(p=> p.Referencia);
 
             List<string> referencias = new List<string>()
-            {"7543","5789","4789","3789","2789","1789" };
+            {"9876","7543","5789","4789","3789","2789","1789", "1078" };
 
             int cont = 0;
             decimal montoacum = 0;
@@ -659,6 +665,33 @@ namespace ApiRestDesarrollo.Business.Implementations
 
 
         }
+
+        public List<DatosOperacion> TotalOperaciones()
+        {
+            ;
+
+            var operaciones = _context.OperacionCuenta;
+            List<DatosOperacion> ListaOperaciones = new List<DatosOperacion>();
+
+            foreach (var item in operaciones)
+            {
+                DatosOperacion datos = new DatosOperacion()
+                {
+                    Fecha = item.Fecha,
+                    Hora = item.Hora,
+                    Monto = item.Monto,
+                    Referencia = item.Referencia,
+                    tipoOperacion = CalcularTipoOperacion(item.Referencia)
+
+                };
+
+                ListaOperaciones.Add(datos);
+
+            }
+
+            return ListaOperaciones;
+        }
     }
+
 
 }
