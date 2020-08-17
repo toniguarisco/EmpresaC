@@ -29,6 +29,8 @@ import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta
 import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component';
 import { CrearSubusuarioComponent } from './pages/crear-subusuario/crear-subusuario.component';
 import { ConsultarSubusuariosComponent } from './pages/consultar-subusuarios/consultar-subusuarios.component';
+import { CambioPasswordComponent } from './pages/cambio-password/cambio-password.component';
+import { EncriptacionComponent } from './pages/encriptacion/encriptacion.component';
 
 const routes: Routes = [{
                           path: '',
@@ -65,6 +67,8 @@ const routes: Routes = [{
                             { path: 'mostrar-cuentas', component: MostrarCuentasComponent },
                             { path: 'crear-subusuario', component: CrearSubusuarioComponent },
                             { path: 'consultar-subusuarios', component: ConsultarSubusuariosComponent },
+                            { path: 'cambio-password', component: CambioPasswordComponent },
+                            { path: 'encriptacion', component: EncriptacionComponent },
                           ]
                         },
                         ];

@@ -20,7 +20,7 @@ import { AdminRecaudoComisionComponent } from './admin/admin-recaudo-comision/ad
 import { AdminOperacionesFallidasComponent } from './admin/admin-operaciones-fallidas/admin-operaciones-fallidas.component';
 import { AdminOperacionesCobroComponent } from './admin/admin-operaciones-cobro/admin-operaciones-cobro.component';
 import { AdminOperacionesRetiroComponent } from './admin/admin-operaciones-retiro/admin-operaciones-retiro.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { AdminModificarUsuarioComponent } from './admin/admin-modificar-usuario/admin-modificar-usuario.component';
 import { ComercioDashboardComponent } from './comercio/comercio-dashboard/comercio-dashboard.component';
@@ -38,6 +38,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from '../interceptors/interceptor.service';
 import { CrearSubusuarioComponent } from './pages/crear-subusuario/crear-subusuario.component';
 import { ConsultarSubusuariosComponent } from './pages/consultar-subusuarios/consultar-subusuarios.component';
+import { CambioPasswordComponent } from './pages/cambio-password/cambio-password.component';
+import { EncriptacionComponent } from './pages/encriptacion/encriptacion.component';
 
 
 
@@ -72,7 +74,9 @@ import { ConsultarSubusuariosComponent } from './pages/consultar-subusuarios/con
                 IngresarCuentaComponent,
                 MostrarCuentasComponent,
                 CrearSubusuarioComponent,
-                ConsultarSubusuariosComponent ],
+                ConsultarSubusuariosComponent,
+                CambioPasswordComponent,
+                EncriptacionComponent, ],
   exports: [HomeComponent, DataTablesModule] ,
   imports: [
     CommonModule,

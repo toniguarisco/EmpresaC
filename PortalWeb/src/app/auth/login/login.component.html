@@ -11,29 +11,17 @@
                  <form [formGroup]="loginForm" (ngSubmit)="login()">
                     <fieldset>
                       <legend class="text-center">Login</legend>
-                      <!-- <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="email@example.com">
-                        </div>
-                      </div> -->
+ 
                       <div class="form-group">
                         <label for="exampleInputEmail1">Usuario</label>
                         <input type="text" class="form-control" id="exampleInputUsername"  placeholder="Ingrese Usuario"
                                 formControlName="username">
                                 
-                                <!-- <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.email" class="cross-validation-error-message alert alert-danger">
-                                  Correo is invalido.
-                                </span> -->
-                       <!--  <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo con nadie mas</small> -->
-                      </div>
+                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Contraseña</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
                                 formControlName="password">
-                               <!--  <span *ngIf="(password.dirty || email.touched) && email.invalid && email.errors.email" class="cross-validation-error-message alert alert-danger">
-                                  Correo is invalido.
-                                </span> -->
                       </div>
                      
                       <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Iniciar Sesion</button>
@@ -41,10 +29,9 @@
                   </form>
                   <div class="form-group mt-3">
                     <p>No tienes cuenta aun?<a [routerLink]="['/registroPersona']" routerLinkActive="router-link-active" > Registrate</a></p>
-                    <p>Olvidaste tu usuario?<a [routerLink]="['/']" routerLinkActive="router-link-active" > Recuperar Usuario</a></p>
-                    <p>Olvidaste tu contraseña?<a [routerLink]="['/']" routerLinkActive="router-link-active" > Recuperar contraseña</a></p>
+                    <p>Olvidaste tu contraseña?<a [routerLink]="['/recuperacion-password']" routerLinkActive="router-link-active" > Recuperar contraseña</a></p>
                   </div>
-                  <button type="button" class="btn btn-dark text-White" (click)="fakeLogin()" >Fake Login</button>
+                 
             </div>
         </div>
     </div>

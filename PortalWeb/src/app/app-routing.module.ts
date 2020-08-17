@@ -24,7 +24,8 @@ const routes: Routes = [
   { 
     path: 'registroComercio', 
     loadChildren: () => import('./auth/registro-comercio/registro-comercio.module').then(m => m.RegistroComercioModule) 
-  }
+  },
+  { path: 'recuperacion-password', loadChildren: () => import('./auth/recuperacion-password/recuperacion-password.module').then(m => m.RecuperacionPasswordModule) }
   
 ];
 

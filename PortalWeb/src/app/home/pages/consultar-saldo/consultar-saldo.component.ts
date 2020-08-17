@@ -16,8 +16,7 @@ export class ConsultarSaldoComponent implements OnInit {
     fecha: string,
     monto: string,
     operation: string,
-    referencia: string,
-    tipoOperacion: string
+    referencia: string
    }> = [];
 
 /*   public operaciones: Array <{
@@ -61,7 +60,6 @@ dtOptions: DataTables.Settings = {};
       {title: 'Fecha', data: 'fecha'},
       {title: 'Monto', data: 'monto'},
       {title: 'Nro de Referencia', data: 'referencia'},
-      {title: 'Tipo de Operacion', data: 'tipoOperacion'},
       ]
   };
 
@@ -78,7 +76,7 @@ dtOptions: DataTables.Settings = {};
                                   monto: element.monto,
                                   operation: element.operation ,
                                   referencia: element.referencia,
-                                  tipoOperacion: element.tipoOperacion});
+                                  });
       });
 
     });

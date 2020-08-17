@@ -74,5 +74,9 @@ login(usuario, clave): Observable <any> {
   getToken(){
     return localStorage.getItem('token');
   }
-  
+
+  recuperarPassword(email: string){
+    return this.http.post<any>('/api/App/recuperarContaseña', { email });
+  }
+  // https://localhost:44361/api/App/recuperarContaseña
 }

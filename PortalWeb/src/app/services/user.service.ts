@@ -10,9 +10,7 @@ import { TokenInterceptorService } from './token-interceptor.service';
 })
 export class UserService {
 
-
-
-  constructor(private http: HttpClient) { }
+constructor(private http: HttpClient) { }
 
   registrarPersona(usuario: string,
                   email: string,
@@ -119,8 +117,9 @@ return this.http.post<any>('api/PortalWeb/AgregarHijo', {usuarioPadreId,
 } */
 
   getBalance( id: string): Observable<any>{
-    return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=${id}`);
+    return this.http.get<any>(`api/Monedero/Balance?usuarioId=${id}`);
   }
+  // https://localhost:44361/api/Monedero/Balance?usuarioId=0
 
   registrarCuenta(cuenta: string, banco: string, tipo: string): Observable <any> {
 
@@ -153,4 +152,10 @@ return this.http.post<any>('api/PortalWeb/AgregarHijo', {usuarioPadreId,
   }
   // https://localhost:44361/api/PortalWeb/Hijos?IdPadre=0
 
+  cambiarPassword(nuevaContrasena:string, contrasenaVieja:string): Observable <any> {
+
+    var idUsuario = parseInt(localStorage.getItem('idUsuario'), 10);
+    return this.http.post<any>('api/App/modificarContraseña', {nuevaContrasena, contrasenaVieja, idUsuario});
+  }
+  // https://localhost:44361/api/App/modificarContraseña
 }
