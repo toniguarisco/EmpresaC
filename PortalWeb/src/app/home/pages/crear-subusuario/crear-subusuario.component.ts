@@ -1,32 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,FormControl, Validators, } from '@angular/forms';
+import { FormGroup, FormControl, Validators, } from '@angular/forms';
 import { BsDatepickerModule, BsDatepickerConfig, DateFormatter } from 'ngx-bootstrap/datepicker';
-import { UserService } from '../../services/user.service';
-
+import { UserService } from '../../../services/user.service';
 @Component({
-  selector: 'app-registro-persona',
-  templateUrl: './registro-persona.component.html',
-  styleUrls: ['./registro-persona.component.scss'],
-
+  selector: 'app-crear-subusuario',
+  templateUrl: './crear-subusuario.component.html',
+  styleUrls: ['./crear-subusuario.component.scss']
 })
-export class RegistroPersonaComponent implements OnInit {
+export class CrearSubusuarioComponent implements OnInit {
   datePickerConfig : Partial<BsDatepickerConfig>;
 
   registerForm = new FormGroup({
-    usuario : new FormControl('ricardoPersona', Validators.required),
+    usuario : new FormControl('ricardoHijo', Validators.required),
     email : new FormControl('bastvai@gmail.com', [Validators.required, Validators.email]),
     password : new FormControl('1234', [Validators.required]),
-    nombre : new FormControl('Ricardo', Validators.required),
-    segundoNombre : new FormControl('Alejandro', Validators.required),
-    apellido: new FormControl('Bastardo', Validators.required),
-    segundoApellido: new FormControl('Rodruiguez', Validators.required),
+    nombre : new FormControl('Ricardo2', Validators.required),
+    segundoNombre : new FormControl('Alejandro2', Validators.required),
+    apellido: new FormControl('Bastardo2', Validators.required),
+    segundoApellido: new FormControl('Rodruiguez2', Validators.required),
     fechaNacimiento : new FormControl(null, Validators.required),
     telefono : new FormControl('04149334665', [Validators.required, Validators.pattern('^[0-9]*$')]),
     direccion : new FormControl('Caricuao', Validators.required)
 
   });
-
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService) { 
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-blue',
@@ -36,26 +33,12 @@ export class RegistroPersonaComponent implements OnInit {
         /* minDate : new Date(2018,0,1),
         maxDate : new Date(2018,11,31), */
       });
-   }
-
-  ngOnInit(): void {}
-
-/* formatDate(){
-  let day = this.registerForm.value.fechaNacimiento.getDate();
-  let month = this.registerForm.value.fechaNacimiento.getMonth() + 1;
-  const year = this.registerForm.value.fechaNacimiento.getFullYear();
-
-  if (day < 10) {
-    day = `0${day}`;
   }
-  if (month < 10) {
-    month = `0${month}`;
+
+  ngOnInit(): void {
   }
-  return (`${day}/${month}/${year}`);
-} */
 
-
-
+  
   formatoDate(fecha: Date){
     // Con formato
     let dia: string;
@@ -105,7 +88,6 @@ export class RegistroPersonaComponent implements OnInit {
     return (`${year}-${mes}-${dia}T${hora}:${minutos}:${segundos}.${mlsegundos}Z`.toString());
   }
 
-
   registrarPersona(){
     console.log('registrar');
     console.log('Form -> ', this.registerForm.value);
@@ -114,7 +96,7 @@ export class RegistroPersonaComponent implements OnInit {
     let fechaNac = this.formatoDate(this.registerForm.value.fechaNacimiento);
     let fechaRegistro =  this.formatoDate(new Date());
 
-    this.userService.registrarPersona(this.registerForm.value.usuario,
+    this.userService.registrarHijo(this.registerForm.value.usuario,
                                       this.registerForm.value.email,
                                       this.registerForm.value.password,
                                       this.registerForm.value.nombre,
@@ -126,12 +108,22 @@ export class RegistroPersonaComponent implements OnInit {
                                       this.registerForm.value.direccion,
                                       fechaRegistro)
     .subscribe(
-      res =>{
-        alert('Persona Registrada con exito');
+      res => {
+        console.log(res);
+        alert('Sub Usuario Registrado con exito');
       },
       error => {
-        alert('Persona no pudo ser regitrada');
+        console.log(error);
+        console.log('error.headers.status ->', error.headers.status);
+        console.log('error.error.text ->', error.error.text);
+
+        if (error.error.text === 'usuario registrado exitosamente'){
+          alert('Sub Usuario Registrado con exito');
+        }else{
+        alert('Fallo en el registro de Sub Usuario');
+        }
       });
 
   }
+
 }

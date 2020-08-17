@@ -36,6 +36,8 @@ import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta
 import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from '../interceptors/interceptor.service';
+import { CrearSubusuarioComponent } from './pages/crear-subusuario/crear-subusuario.component';
+import { ConsultarSubusuariosComponent } from './pages/consultar-subusuarios/consultar-subusuarios.component';
 
 
 
@@ -68,7 +70,9 @@ import { InterceptorService } from '../interceptors/interceptor.service';
                 ConsultarSubUsuariosComponent,
                 EliminarSubUsuariosComponent,
                 IngresarCuentaComponent,
-                MostrarCuentasComponent ],
+                MostrarCuentasComponent,
+                CrearSubusuarioComponent,
+                ConsultarSubusuariosComponent ],
   exports: [HomeComponent, DataTablesModule] ,
   imports: [
     CommonModule,

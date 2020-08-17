@@ -39,6 +39,7 @@
     <thead>
       <tr>
         <th>Fecha</th>
+        <th>Fecha</th>
         <th>Monto</th>
         <th>Nro de Referencia</th>
         <th>Tipo de Operacion</th>
@@ -47,7 +48,7 @@
     <tbody>
         <tr *ngFor="let operacion of misOperaciones">
             <td>{{ operacion.fecha }}</td>
-            <td>{{ operacion.monto }}</td>
+            <td>{{ operacion.operation }} {{ operacion.monto }}</td>
             <td>{{ operacion.referencia }}</td>
             <td>{{ operacion.tipoOperacion }}</td>
           </tr>

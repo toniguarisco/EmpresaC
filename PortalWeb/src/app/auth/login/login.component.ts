@@ -15,15 +15,11 @@ import { isObject } from 'ngx-bootstrap/chronos/utils/type-checks';
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    username: new FormControl('gabriella', [Validators.required]),
-    password: new FormControl(12345678, [Validators.required, Validators.minLength(2)])
+    username: new FormControl('ricardoPersona', [Validators.required]),
+    password: new FormControl(1234, [Validators.required, Validators.minLength(2)])
   });
-/* 
-  gabriella -> persona
-  dexter-bit -> comercio
-  toniguarisco -> Admin
-  
- */  hasError: boolean;
+
+  hasError: boolean;
 
   private fakeUser =  {
                 id_usuario: '1',

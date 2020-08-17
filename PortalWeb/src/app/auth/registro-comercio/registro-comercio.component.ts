@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,FormControl, Validators, } from '@angular/forms';
-import { BsDatepickerModule, BsDatepickerConfig, DateFormatter } from 'ngx-bootstrap/datepicker';
+import { FormGroup, FormControl, Validators, } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 

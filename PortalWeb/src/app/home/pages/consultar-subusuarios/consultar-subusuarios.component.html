@@ -1,0 +1,26 @@
+<!-- Datatable -->
+<div class="mt-5">
+    <legend class="text-center">Mis Sub-Usuarios</legend>
+    <table datatable [dtOptions]="dtOptions" class="row-border hover">
+    
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Telefono</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let hijo of hijos">
+                <td>{{ hijo.nombre }}</td>
+                <td>{{ hijo.apellido }}</td>
+                <td>{{ hijo.usuario }}</td>
+                <td>{{ hijo.email }}</td>
+                <td>{{ hijo.telefono }}</td>
+              </tr>
+        </tbody>
+      </table>
+    </div>
+      <!-- End Datatable -->

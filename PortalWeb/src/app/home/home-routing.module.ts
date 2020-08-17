@@ -27,12 +27,14 @@ import { ConsultarSubUsuariosComponent } from './pages/consultar-sub-usuarios/co
 import { EliminarSubUsuariosComponent } from './pages/eliminar-sub-usuarios/eliminar-sub-usuarios.component';
 import { IngresarCuentaComponent } from './pages/ingresar-cuenta/ingresar-cuenta.component';
 import { MostrarCuentasComponent } from './pages/mostrar-cuentas/mostrar-cuentas.component';
+import { CrearSubusuarioComponent } from './pages/crear-subusuario/crear-subusuario.component';
+import { ConsultarSubusuariosComponent } from './pages/consultar-subusuarios/consultar-subusuarios.component';
 
 const routes: Routes = [{
                           path: '',
                           component: HomeComponent,
                           children: [
-                        
+
                             /* ADMIN */
                             { path: 'admin-dashboard', component: AdminDashboardComponent },
                             { path: 'admin-cantidad-operaciones', component: AdminCantidadOperacionesComponent },
@@ -56,11 +58,13 @@ const routes: Routes = [{
                             { path: 'consultar-saldo', component: ConsultarSaldoComponent },
                             { path: 'dashboard', component: DashboardComponent },
                             { path: 'recarga', component: RecargaComponent },
-                            { path: 'sub-usuarios', component: SubUsuariosComponent },
-                            { path: 'consultar-sub-usuarios', component: ConsultarSubUsuariosComponent },
+                           /*  { path: 'sub-usuarios', component: SubUsuariosComponent }, */
+                           /*  { path: 'consultar-sub-usuarios', component: ConsultarSubUsuariosComponent }, */
                             { path: 'eliminar-sub-usuarios', component: EliminarSubUsuariosComponent },
                             { path: 'ingresar-cuenta', component: IngresarCuentaComponent },
-                            { path: 'mostrar-cuentas', component: MostrarCuentasComponent }
+                            { path: 'mostrar-cuentas', component: MostrarCuentasComponent },
+                            { path: 'crear-subusuario', component: CrearSubusuarioComponent },
+                            { path: 'consultar-subusuarios', component: ConsultarSubusuariosComponent },
                           ]
                         },
                         ];

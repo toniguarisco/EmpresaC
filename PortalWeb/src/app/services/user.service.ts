@@ -69,8 +69,56 @@ export class UserService {
    // https://localhost:44361/api/App/CreatePersona
   }
 
+  registrarHijo(usuario: string,
+                email: string,
+                contrasena: string,
+                nombre: string,
+                segundoNombre: string,
+                apelllido: string,
+                segundoApelllido: string,
+                fechaNacimiento: string,
+                telefono: string,
+                direccion: string,
+                fechaRegistro: string){
+
+let numIdentificacion = 0;
+let usuarioPadreId = parseInt(localStorage.getItem('idUsuario'), 10);
+
+
+return this.http.post<any>('api/PortalWeb/AgregarHijo', {usuarioPadreId,
+                                                    usuario ,
+                                                    fechaRegistro ,
+                                                    numIdentificacion ,
+                                                    email ,
+                                                    telefono ,
+                                                    direccion ,
+                                                    nombre ,
+                                                    segundoNombre ,
+                                                    apelllido ,
+                                                    segundoApelllido ,
+                                                    fechaNacimiento ,
+                                                    contrasena});
+  // https://localhost:44361/api/PortalWeb/AgregarHijo
+}
+
+
+  /* {
+  "usuarioPadreId": 0,
+  "usuario": "string",
+  "fechaRegistro": "2020-08-17T00:37:20.735Z",
+  "numIdentificacion": 0,
+  "email": "string",
+  "telefono": "string",
+  "direccion": "string",
+  "nombre": "string",
+  "segundoNombre": "string",
+  "apelllido": "string",
+  "segundoApelllido": "string",
+  "fechaNacimiento": "2020-08-17T00:37:20.735Z",
+  "contrasena": "string"
+} */
+
   getBalance( id: string): Observable<any>{
-    console.log(`api/PortalWeb/Balance?usuarioId=${id}`);
     return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=${id}`);
   }
 
@@ -99,5 +147,10 @@ export class UserService {
     return this.http.post<any>('api/Monedero/AddSaldo', {fecha, hora , monto, idUsuario, cuenta});
     // https://localhost:44361/api/Monedero/AddSaldo
   }
+
+  getHijos( id: string): Observable<any>{
+    return this.http.get<any>(`api/PortalWeb/Hijos?IdPadre=${id}`);
+  }
+  // https://localhost:44361/api/PortalWeb/Hijos?IdPadre=0
 
 }

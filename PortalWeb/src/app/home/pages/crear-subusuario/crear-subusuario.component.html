@@ -1,9 +1,9 @@
 
 <div class="row">
-    <div class="col-md-6 mx-auto mt-5">
+    <div class="col-md-8 mx-auto mt-4">
         <div class="card">
           <div class="card-header text-Primary">
-            <legend class="text-center ">Registro Comercio</legend> 
+            <legend class="text-center ">Registrar Sub Usuario</legend> 
           </div>
             <div class="card-body">
                 
@@ -77,15 +77,11 @@
                                 formControlName="direccion">
                       </div>
 
-                      <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Registrarse</button>
+                      <button type="submit"  [disabled]="!registerForm.valid" class="btn btn-primary btn-large btn-block">Registrar Sub Usuario</button>
                       <!-- <button type="submit"  class="btn btn-primary btn-large btn-block">Registrarse</button> -->
                     </fieldset>
                   </form>  
 
-                  <div class="form-group mt-3">
-                    <p>Ya tienes una cuenta?<a [routerLink]="['/login']" routerLinkActive="router-link-active" > Login</a></p>
-                    <p>Deseo registrarme como<a [routerLink]="['/registroComercio']" routerLinkActive="router-link-active" > Comercio</a></p>
-                  </div>
             </div>
         </div>
     </div>
