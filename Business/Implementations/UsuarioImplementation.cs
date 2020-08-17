@@ -15,7 +15,7 @@ using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Enum;
 using ApiRestDesarrollo.Dtos.Account;
-
+using Encryptar;
 namespace ApiRestDesarrollo.Business.Implementations
 {
     public class UsuarioImplementation : IUsuarios
@@ -75,7 +75,6 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
-        
         public TokenValidate Login(LoginModel login)
         {
             var query = (from usu in _context.Usuario
@@ -248,7 +247,7 @@ namespace ApiRestDesarrollo.Business.Implementations
         private void modificarContarseña(string email, int nuevaContrasena) // metodo que inserta la nueva contraseña en la base de datos
         {
             var usuario = _context.Usuario.FirstOrDefault(p => p.Email == email).IdUsuario;
-            if (usuario > 0)
+            if (usuario >= 0)
             {
                 var password = _context.Contrasena.FirstOrDefault(p=>p.IdUsuario == usuario);
                 password.Contrasena1 = nuevaContrasena.ToString();
@@ -315,7 +314,12 @@ namespace ApiRestDesarrollo.Business.Implementations
             }
             if (parametro > 0) 
             {
-                parameter.Estatus = parametro; 
+                parameter.Estatus = parametro;
+                var usuario = _context.Usuario;
+                foreach (var item in usuario)
+                {
+                    item.parametro = parametro;
+                }
             }
             
             
@@ -434,7 +438,13 @@ namespace ApiRestDesarrollo.Business.Implementations
             return -1;
         }
 
-        
+        public string encriptacion(string secreto)
+        {
+            AESEncryption aES = new AESEncryption();
+            string clave = "clave";
+            
+            return aES.Encrypt(secreto,clave);
+        }
 
         //public BotonPago BotonPago(BotonPagoParticipantes participantes)
         //{

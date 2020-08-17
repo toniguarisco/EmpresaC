@@ -212,35 +212,34 @@ namespace ApiRestDesarrollo.Business.Implementations
 
         }
 
-        public bool ActualizarEstatusReintegro(string refreintegro, 
-                                                    string newestatus)
+        public bool ActualizarEstatusReintegro(reintegroId reintegroParametro)
         {
-            var id_reintegro = _context.OperacionCuenta.Where(src => src.Referencia.Equals(refreintegro));
+            var id_reintegro = _context.OperacionCuenta.Where(src => src.Referencia.Equals(reintegroParametro.RefReintegro));
             
             if (id_reintegro != null) 
             {
                 var reintegro = id_reintegro.FirstOrDefault(src => src.operacion == false);
-                if (newestatus == "ACEPTAR") {
+                if (reintegroParametro.newEstatus== "ACEPTAR") {
                     reintegro.estatus = 2;
                     reintegro.operacion = !reintegro.operacion;
-                } else if (newestatus == "DENEGAR"){
+                } else if (reintegroParametro.newEstatus == "DENEGAR"){
                     reintegro.estatus = 3;
                 } else{
                 return false;
                 };
                 
                 var afectado = id_reintegro.FirstOrDefault(src => src.operacion == true);
-                if (newestatus == "ACEPTAR") {
+                if (reintegroParametro.newEstatus == "ACEPTAR") {
                     afectado.estatus = 2;
                     afectado.operacion = !afectado.operacion;
-                } else if (newestatus == "DENEGAR"){
+                } else if (reintegroParametro.newEstatus== "DENEGAR"){
                     afectado.estatus = 3;
                 } else{
                 return false;
                 };
                 
-                _context.Add(afectado);
-                _context.Add(reintegro);
+                //_context.Add(afectado);
+                //_context.Add(reintegro);
                 _context.SaveChanges();
                 return true;
             }

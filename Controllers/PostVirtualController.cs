@@ -2,6 +2,7 @@
 using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
 using ApiRestDesarrollo.Dtos.Account;
+using ApiRestDesarrollo.Dtos.Refund;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,31 +17,28 @@ namespace ApiRestDesarrollo.Controllers
 {
     [Route("api/PostVirtual")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostController : ControllerBase
     {
         private readonly IPost _repository;
         private readonly IMapper _mapper;
 
 
-        public PostController(IPost repository,
-                                  IMapper mapper)
+        public PostController(IPost repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        [HttpPost("actualizarperfil")]
-        public ActionResult actualizarPerfil(PerfilModel usuarioPerfil)
+        [HttpGet("UsuarioDatos")]
+        public ActionResult<IEnumerable<ComandRead>> GetUsuario(int usuarioId)
         {
-
-            if (_repository.actualizarPerfil(usuarioPerfil))
+            var datosUsuario = _repository.GetUsuario(usuarioId);
+            if (datosUsuario != null)
             {
-                return Ok();
-            }
-            else
-                return BadRequest("Ocurrio un error");
-
+                return Ok(datosUsuario);
+            };
+            return BadRequest("el id del usuario no es valido");
         }
 
         [HttpGet("Balance")]
@@ -51,6 +49,17 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(saldo);
             };
             return BadRequest("el id del usuario no es valido o el id de la cuenta no es valido ");
+        }
+
+        [HttpGet("Reintegros")]
+        public ActionResult<IEnumerable<ComandRead>> GetReintegros(int usuarioId)
+        {
+            var reintegros = _repository.GetReintegros(usuarioId);
+            if (reintegros != null)
+            {
+                return Ok(reintegros);
+            };
+            return BadRequest("el id del usuario no es valido");
         }
 
         [HttpGet("Cuentas")]
@@ -68,6 +77,7 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ComandRead>> SolicitarPago(SolicitarPago pago)
         {
             var solicitud = _repository.SolicitarPago(pago);
+            var prueba = pago.ToString();
             if (solicitud != null)
             {
                 return Ok(solicitud);
@@ -75,30 +85,23 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("datos invalidos");
         }
 
-        [HttpGet("Reintegros")]
-        public ActionResult<IEnumerable<ComandRead>> GetReintegros(int usuarioId)
+        [HttpPost("actualizarperfil")]
+        public ActionResult actualizarPerfil(PerfilModel usuarioPerfil)
         {
-            var reintegros = _repository.GetReintegros(usuarioId);
-            if (reintegros != null) {
-                return Ok(reintegros);
-            };
-            return BadRequest("el id del usuario no es valido");
-        }
-        [HttpGet("UsuarioDatos")]
-        public ActionResult<IEnumerable<ComandRead>> GetUsuario(int usuarioId)
-        {
-            var datosUsuario = _repository.GetUsuario(usuarioId);
-            if (datosUsuario != null)
+
+            if (_repository.actualizarPerfil(usuarioPerfil))
             {
-                return Ok(datosUsuario);
-            };
-            return BadRequest("el id del usuario no es valido");
+                return Ok();
+            }
+            else
+                return BadRequest("Ocurrio un error");
+
         }
 
         [HttpPost("ActualizarReintegro")]
-        public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(string RefReintegro, string newEstatus)
+        public ActionResult<IEnumerable<ComandRead>> ActualizarEstatusReintegro(reintegroId reintegro)
         {
-            var actualizar_reintegro = _repository.ActualizarEstatusReintegro(RefReintegro, newEstatus);
+            var actualizar_reintegro = _repository.ActualizarEstatusReintegro(reintegro);
             if (actualizar_reintegro != false)
             {
                 return Ok(actualizar_reintegro);
