@@ -32,6 +32,8 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool RetiroFondosCommerce(CreateOperacion operacion);
 
+        List<ReadListOperation> GetListRetiroOperation(int IdUsuario, DateTime fechaInicio, DateTime fechaFin);
+
         UsuarioRead GetUserById(int IdUser);
 
         List<ReadUserPersona> AdminGetUsersPersona(int IdTipoPersona);

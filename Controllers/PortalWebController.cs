@@ -184,11 +184,22 @@ namespace ApiRestDesarrollo.Controllers
         public ActionResult<IEnumerable<ComandRead>> AdminGetOperation(int IdUsuario)
         {
             var operacion = _portal.AdminGetOperation(IdUsuario);
-            if (_portal != null)
+            if (operacion != null)
             {
                 return Ok(operacion);
             }
             return BadRequest("La lista no pudo ser procesada");
+        }
+
+        [HttpGet("ListaOperacionesRetiroFecha")]
+        public ActionResult<IEnumerable<ComandRead>> GetListRetiroOperation(int IdUsuario, DateTime fechaInicio, DateTime fechaFin)
+        {
+            var retiro = _portal.GetListRetiroOperation(IdUsuario, fechaInicio, fechaFin);
+            if (retiro != null)
+            {
+                return Ok(retiro);
+            }
+            return BadRequest("No se pudieron obtener los retiros");
         }
 
         [HttpGet("TotalRecaudoComisiones")]
