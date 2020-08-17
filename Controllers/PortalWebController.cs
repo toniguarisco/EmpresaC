@@ -47,30 +47,7 @@ namespace ApiRestDesarrollo.Controllers
             return Ok(a);
         }
 
-        [HttpPost("IngresarPersona")]
-        public ActionResult UpdateUserPerson(UpdateUserPersona person)
-        {
-            if (_portal.UpdateUserPerson(person))
-            {
-                _context.SaveChanges();
-                return Ok();
-                
-            }
-            return BadRequest("El usuario no es de tipo persona");
-        }
-
-
-        [HttpPost("IngresarComercio")]
-        public ActionResult UpdateUserCommerce(UpdateUserCommerce commerce)
-        {
-            if (_portal.UpdateUserCommerce(commerce))
-            {
-                _context.SaveChanges();
-                return Ok();
-
-            }
-            return BadRequest("El usuario no es de tipo comercio");
-        }
+        
 
         [HttpGet("ObtenerComercioId")]
         public ActionResult<IEnumerable<ComandRead>> GetCommerceById(int IdCommerce)
@@ -94,27 +71,6 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("No hay una persona con el id ingresado");
         }
         
-        [HttpPost("IngresarCuenta")]
-        public ActionResult CreateAccount(CreateCuenta account)
-        {
-
-            if (_portal.CreateAccount(account))
-            {
-                return Ok(account);
-            }
-            return BadRequest("No se pudo ingresar la cuenta o el usuario ya tiene asociado la cuenta");
-        }
-
-        [HttpPost("AñadirTarjeta")]
-        public ActionResult AddCard(CreateCard card)
-        {
-            if (_portal.AddCard(card))
-            {
-                return Ok(card);
-            }
-            return BadRequest("Error al ingresar los datos");
-        }
-
         [HttpGet("ListadoTarjetas")]
         public ActionResult<IEnumerable<ComandRead>> GetUserCard(int IdUser)
         {
@@ -135,16 +91,6 @@ namespace ApiRestDesarrollo.Controllers
                 return Ok(user);
             }
             return BadRequest("No se pudo listar las tarjetas asociadas al usuario");
-        }
-
-        [HttpPost("RetiroFondosComercio")]
-        public ActionResult<IEnumerable<ComandRead>> RetiroFondosCommerce(CreateOperacion operacion)
-        {
-            if(_portal.RetiroFondosCommerce(operacion))
-            {
-                return Ok(operacion);
-            }
-            return BadRequest("Los fondos no pudieron ser retirados");
         }
 
         [HttpGet("AdminListadoPersona")]
@@ -235,5 +181,59 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("usuario no valido o no existe");
         }
 
+        [HttpPost("IngresarCuenta")]
+        public ActionResult CreateAccount(CreateCuenta account)
+        {
+
+            if (_portal.CreateAccount(account))
+            {
+                return Ok(account);
+            }
+            return BadRequest("No se pudo ingresar la cuenta o el usuario ya tiene asociado la cuenta");
+        }
+
+        [HttpPost("AñadirTarjeta")]
+        public ActionResult AddCard(CreateCard card)
+        {
+            if (_portal.AddCard(card))
+            {
+                return Ok(card);
+            }
+            return BadRequest("Error al ingresar los datos");
+        }
+
+        [HttpPost("IngresarPersona")]
+        public ActionResult UpdateUserPerson(UpdateUserPersona person)
+        {
+            if (_portal.UpdateUserPerson(person))
+            {
+                _context.SaveChanges();
+                return Ok();
+
+            }
+            return BadRequest("El usuario no es de tipo persona");
+        }
+
+        [HttpPost("IngresarComercio")]
+        public ActionResult UpdateUserCommerce(UpdateUserCommerce commerce)
+        {
+            if (_portal.UpdateUserCommerce(commerce))
+            {
+                _context.SaveChanges();
+                return Ok();
+
+            }
+            return BadRequest("El usuario no es de tipo comercio");
+        }
+
+        [HttpPost("RetiroFondosComercio")]
+        public ActionResult<IEnumerable<ComandRead>> RetiroFondosCommerce(CreateOperacion operacion)
+        {
+            if (_portal.RetiroFondosCommerce(operacion))
+            {
+                return Ok(operacion);
+            }
+            return BadRequest("Los fondos no pudieron ser retirados");
+        }
     }
 }
