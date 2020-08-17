@@ -188,7 +188,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             if (IsPersona(pago.IdUsuario) && IsPersona(_context.Usuario.FirstOrDefault(p=> p.Usuario1.Equals(pago.Usuario)).IdUsuario))
             {
                 var par = Convert.ToDecimal(_context.Usuario.FirstOrDefault(p => p.IdUsuario == pago.IdUsuario).parametro);
-                var sal = SaldoDia(pago.IdUsuario);
+                var sal = pago.monto;
                 if ( sal >= par ) 
                 {
                     mensaje.mesage = "Cantidad maxima de transferencia alcanzada";
@@ -558,25 +558,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             return false;
         }
 
-        private decimal SaldoDia(int idUsuario) 
-        {
-            var date = DateTime.Now.Date;
-            var saldo = _context.OperacionCuenta.Where(p => p.IdUsuarioReceptor == idUsuario).ToList(); // && p.Fecha == date ).ToList(); 
-            return saldoLista(saldo);
-        }
-
-        private decimal saldoLista(List<OperacionCuenta> list) 
-        {
-            decimal total = 0;
-            foreach (var item in list)
-            {
-                if (item.operacion) 
-                { 
-                total = item.Monto + total;
-                }
-            }
-            return total;
-        }
+       
 
         
     }
