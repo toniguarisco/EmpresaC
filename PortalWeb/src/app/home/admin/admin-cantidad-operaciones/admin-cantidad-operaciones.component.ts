@@ -12,30 +12,16 @@ export class AdminCantidadOperacionesComponent implements OnInit {
     saldo : new FormControl('', Validators.required),
 
   });
-  
+  // referencia: "57898775", monto: 222, tipoOperacion: "recarga banco tarjeta", cantidadOperacion: 1}
   public saldo: string;
   /*   public misOperaciones: Array<any> = []; */
      public misOperaciones: Array <{
-      fecha: string,
+      cantidadOperacion: string,
       monto: string,
-      operation: string,
       referencia: string,
       tipoOperacion: string
      }> = [];
-     
-  public operaciones: Array <{
-    id: number,
-    tipo: string,
-    total: string,
 
-       }> = [
-      {id: 0, tipo: 'Pagos', total: '240340'},
-      {id: 1, tipo: 'Recargas', total: '150600'},
-      {id: 2, tipo: 'Reintegros', total: '8900'},
-      {id: 3, tipo: 'Retiro de fondos', total: '12030'},
-      {id: 4, tipo: 'Cierre de cajas', total: '5440'},
-      {id: 5, tipo: 'Operaicones fallidas', total: '1213'}
-];
 dtOptions: DataTables.Settings = {};
 
   constructor(private adminService: AdminService) { }
@@ -56,12 +42,19 @@ dtOptions: DataTables.Settings = {};
     .subscribe(
       res => {
         console.log('respuesta de cantidad de operacion', res );
+        res.forEach( element => {
+        this.misOperaciones.push({cantidadOperacion: element.cantidadOperacion,
+                                   monto: element.monto,
+                                   referencia: element.referencia,
+                                   tipoOperacion: element.tipoOperacion});
+        });
+     
      },
       error => {
         console.log('error de cantidad de operacion', error );
     }
   )
-    this.adminService.getBalance(localStorage.getItem('idUsuario'))
+   /*  this.adminService.getBalance(localStorage.getItem('idUsuario'))
     .subscribe(res => {
  
       // Asignando el Saldo
@@ -82,7 +75,7 @@ dtOptions: DataTables.Settings = {};
       console.log('de nuevo por error');
       console.log('error; ->',error);
     }
-    );
+    ); */
 
   
   }

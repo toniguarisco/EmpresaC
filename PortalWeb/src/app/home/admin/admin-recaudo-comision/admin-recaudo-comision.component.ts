@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { AdminService } from '../../../services/admin.service';
 
 @Component({
   selector: 'app-admin-recaudo-comision',
@@ -7,18 +8,43 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
   styleUrls: ['./admin-recaudo-comision.component.scss']
 })
 export class AdminRecaudoComisionComponent implements OnInit {
-  parametrosForm = new FormGroup({
-    NombreEmpresa : new FormControl('', Validators.required),
-    TotalComisiones : new FormControl('', [Validators.required]),
-  });
 
-  comisionForm = new FormGroup({
-    TotalTotalComisiones : new FormControl('', Validators.required)
-  });
+  public total: number;
+  public misRecaudos: Array <{
+    usuario: string,
+    monto: number,
 
-  constructor() { }
+   }> = [];
+
+
+  dtOptions: DataTables.Settings = {};
+
+  constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      columns: [
+      {title: 'Comercio', data: 'usuario'},
+      {title: 'Monto por Recaudos', data: 'monto'},
+      ]
+  };
+    this.adminService.getTotalRecaudos()
+    .subscribe(
+      res => {
+        console.log('res total recaudos =>', res);
+        this.total = res.totalComision;
+        res.readComisiones.forEach(element =>{
+          this.misRecaudos.push({usuario: element.usuario, monto : element.monto});
+        });
+        console.log( this.misRecaudos);
+      },
+      error => {
+        console.log('error total recaudos =>', error);
+      }
+    )
   }
 
   consultarTotalEmpresa(): void{

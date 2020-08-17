@@ -11,7 +11,7 @@ export class AdminService {
 
   
   getBalance( id: string): Observable<any>{
-    return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=405`);
+    return this.http.get<any>(`api/PortalWeb/Balance?usuarioId=0`);
   }
   // https://localhost:44361/api/PortalWeb/Balance?usuarioId=0
 
@@ -21,6 +21,14 @@ export class AdminService {
   }
 
   // https://localhost:44361/api/PortalWeb/CantidadOperacion
+
+
+
+  getTotalRecaudos( ): Observable<any>{
+    return this.http.get<any>(`api/PortalWeb/TotalRecaudoComisiones`);
+  }
+  // https://localhost:44361/api/PortalWeb/TotalRecaudoComisiones
+  
 /* 
 
   configuracionParametros(){}

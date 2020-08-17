@@ -1,60 +1,42 @@
 <!-- Header -->
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2 align-middle py-0 mb-0 text-primary">
-        Monto Recaudado en Comisiones
+        Recaudo de Comisiones por Empresas
     </h1>
-  </div>
-  <!-- End Header -->
-  <div class="row row-cols-1 row-cols-md-2">
-      <div class="col-md-6 mx-auto mt-5">
-          <div class="card ">
-              <div class="card-header">
-                  <legend class="text-center">Monto por empresa</legend>
-              </div>
-              <div class="card-body">
-                  <form [formGroup]="parametrosForm" (ngSubmit)="consultarTotalEmpresa()">
-                      <fieldset>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Nombre de Empresa</label>
-                          <input type="text" class="form-control" id="exampleNombreEmpresa" placeholder="Introduzca Nombre de Empresa" 
-                                  formControlName="NombreEmpresa">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Total comisiones recaudadas</label>
-                          <input type="text" class="form-control" id="exampleTotalComisiones" placeholder="300" 
-                                  formControlName="TotalComisiones">
-                        </div> 
-             
-                        <button type="submit" class="btn btn-primary btn-large btn-block">Buscar</button>
-                      </fieldset>
-                    </form>  
-                   
-              </div>
+</div>
+<!-- End Header -->
+
+  <div class="col-md-6 mx-auto mt-5">
+      <div class="card ">
+          <div class="card-header">
+            <legend class="text-center">Total Recaudado</legend>
           </div>
-      </div>
-  
-  
-      <div class="col-md-6 mx-auto mt-5">
-          <div class="card">
-              <div class="card-header">
-                  <legend class="text-center">Monto total</legend>
-              </div>
-              <div class="card-body">
-  
-                  <form [formGroup]="comisionForm" (ngSubmit)="consultarTotalTotal()">
-                      <fieldset>
-                       <!--  <legend class="text-center">Monto total</legend> -->
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Monto total recaudado en comisiones de todas las empresas</label>
-                          <input type="text" class="form-control" id="exampleInputComision" placeholder="34500" 
-                                  formControlName="TotalTotalComisiones">
-                        </div>
-                      <button type="submit" class="btn btn-primary btn-large btn-block">Buscar</button>
-                    </fieldset>
-                  </form> 
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  
+          <div class="card-body">
+              <br>
+              <div class="text-center">
+              <label><strong>{{this.total}}</strong></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Datatable -->
+<div class="mt-5">
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+
+    <thead>
+      <tr>
+        <th>Comercio</th>
+        <th>Monto por Recaudos</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let operacion of this.misRecaudos">
+            <td>{{ operacion.usuario }}</td>
+            <td>{{ operacion.monto }}</td>
+            <td></td>
+          </tr>
+    </tbody>
+  </table>
+</div>
+  <!-- End Datatable -->
