@@ -211,5 +211,18 @@ namespace ApiRestDesarrollo.Controllers
         {
             return Ok(_portal.CantidadOperacion());
         }
+
+        [HttpPost("AgregarHijo")]
+        public ActionResult<IEnumerable<ComandRead>> AgregarHijo(UsuarioHijo hijo)
+        {
+            var padre = _context.Usuario.FirstOrDefault(p=>p.IdUsuario == hijo.UsuarioPadreId);
+            
+            if (padre != null)
+            {
+                var usuario = _portal.RegistrarHijos(hijo);
+                return Ok("usuario registrado exitosamente");
+            };
+            return BadRequest("usuario no valido o no existe");
+        }
     }
 }

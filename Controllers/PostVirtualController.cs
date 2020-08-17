@@ -1,6 +1,7 @@
 ﻿using ApiRestDesarrollo.Business.Interface;
 using ApiRestDesarrollo.Data;
 using ApiRestDesarrollo.Dtos;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -105,6 +106,6 @@ namespace ApiRestDesarrollo.Controllers
             return BadRequest("no existe esa solicitud de reintegro");
         }
 
-
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ApiRestDesarrollo.Dtos;
+using ApiRestDesarrollo.Dtos.Account;
 using ApiRestDesarrollo.Dtos.User;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace ApiRestDesarrollo.Business.Interface
 {
     public interface IUsuarios
     {
-        void CreateUsuario(CreateUserDto usuario);
+        
         bool RegisterUser(CreateUserDto usuario);
         TokenValidate Login(LoginModel login);
         bool recuperarContrasena(RecuperarModel usuarioRecuperar);
@@ -19,6 +20,8 @@ namespace ApiRestDesarrollo.Business.Interface
         void UpdateParameter(int comision, int parametro);
         mensaje ValidacionPago(BotonPagoParticipantes participantes);
         bool RegisterComercio(CreateComercio user);
+       
+        
 
     }
 }

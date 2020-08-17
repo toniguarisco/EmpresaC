@@ -14,6 +14,7 @@ using System.Net.Mail;
 using ApiRestDesarrollo.Dtos.User;
 using ApiRestDesarrollo.Dtos.Operation;
 using ApiRestDesarrollo.Enum;
+using ApiRestDesarrollo.Dtos.Account;
 
 namespace ApiRestDesarrollo.Business.Implementations
 {
@@ -29,10 +30,7 @@ namespace ApiRestDesarrollo.Business.Implementations
             _mapper = mapper;
         }
 
-        public void CreateUsuario(CreateUserDto usuario)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public bool DesbloquearUsuario(string usuario1)
         {
@@ -144,7 +142,7 @@ namespace ApiRestDesarrollo.Business.Implementations
                 Email = user.Email,
                 Usuario1 = user.Usuario,
                 FechaRegistro = user.FechaRegistro,
-                NumIdentificacion = user.NumIdentificacion,
+                NumIdentificacion = 0,
                 Telefono = user.Telefono,
                 Direccion = user.Direccion,
                 Contrasena = contrasenas,
@@ -435,6 +433,8 @@ namespace ApiRestDesarrollo.Business.Implementations
             };
             return -1;
         }
+
+        
 
         //public BotonPago BotonPago(BotonPagoParticipantes participantes)
         //{

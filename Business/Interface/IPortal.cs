@@ -48,7 +48,7 @@ namespace ApiRestDesarrollo.Business.Interface
 
         bool BloqueoOperaciones (int cambiarEstado, string UsuarioId);
 
-
+        bool RegistrarHijos(UsuarioHijo hijo);
 
 
 
