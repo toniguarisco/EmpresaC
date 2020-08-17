@@ -474,7 +474,7 @@ namespace ApiRestDesarrollo.Business.Implementations
            
         }
 
-        public List<ReadListOperation> AdminGetOperation(int IdUsuario)
+        public List<ReadListOperation> AdminGetOperationId(int IdUsuario)
         {
             var source = _context.OperacionCuenta.FirstOrDefault(e => e.IdUsuarioReceptor == IdUsuario);
             if (source != null)
@@ -500,6 +500,24 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
+        public List<ReadListOperation> AdminGetOperations(string referencia)
+        {
+            var src = _context.OperacionCuenta.FirstOrDefault(e => e.Referencia.StartsWith(referencia));
+            if (src != null)
+            {
+                var operaciones = (from oc in _context.OperacionCuenta
+                                   where oc.Referencia == referencia
+                                   select new ReadListOperation
+                                   {
+                                       Fecha = oc.Fecha,
+                                       Monto = oc.Monto,
+                                       Operacion = oc.operacion,
+                                       Referencia = oc.Referencia
+                                   }
+                        ).OrderBy(t => t.Referencia).ToList();
+            }
+            return null;
+        }
         public bool BloqueoOperaciones (int cambiarEstado,string UsuarioId)
         {
             var usuario = _context.Usuario.FirstOrDefault(p => p.Usuario1.Equals(UsuarioId));
