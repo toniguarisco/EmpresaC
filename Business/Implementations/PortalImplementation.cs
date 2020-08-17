@@ -621,6 +621,26 @@ namespace ApiRestDesarrollo.Business.Implementations
             return null;
         }
 
+        public void UpdateParameter(int comision, int parametro)
+        {
+            Parametro parameter = _context.Parametro.FirstOrDefault(p => p.IdParametro == 0);
+            if (comision > 0)
+            {
+                parameter.comision = comision;
+            }
+            if (parametro > 0)
+            {
+                parameter.Estatus = parametro;
+                var usuario = _context.Usuario;
+                foreach (var item in usuario)
+                {
+                    item.parametro = parametro;
+                }
+            }
+
+
+
+        }
     }
 
 }

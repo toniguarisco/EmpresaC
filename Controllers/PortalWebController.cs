@@ -246,5 +246,14 @@ namespace ApiRestDesarrollo.Controllers
             }
             return BadRequest("Los fondos no pudieron ser retirados");
         }
+
+        [HttpPut("ParametrosAdministrador")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult ActualizarParametro(int comision, int parametro)
+        {
+            _portal.UpdateParameter(comision, parametro);
+            _context.saveChanges();
+            return Ok();
+        }
     }
 }
